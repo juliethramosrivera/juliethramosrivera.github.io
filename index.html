@@ -754,6 +754,60 @@ nav {
 }
 
 /* ── RESPONSIVE ── */
+  /* ══ PANEL 6: PROJECTS ══ */
+#p6 { background: var(--navy-mid); overflow: hidden; }
+#p6 .p6-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(232,160,32,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,160,32,0.03) 1px, transparent 1px); background-size: 60px 60px; animation: gridDrift 20s linear infinite; pointer-events: none; }
+@keyframes gridDrift { 0% { transform: translate(0,0); } 100% { transform: translate(60px,60px); } }
+#p6 .p6-orb { position: absolute; right: -10vw; top: 50%; transform: translateY(-50%); width: 50vw; height: 50vw; border-radius: 50%; background: radial-gradient(circle at 40% 40%, rgba(232,160,32,0.06) 0%, rgba(78,205,196,0.04) 45%, transparent 70%); animation: breathe 6s ease-in-out infinite; pointer-events: none; }
+.p6-label { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+.p6-label::after { content: ''; width: 60px; height: 1px; background: var(--gold); opacity: 0.4; }
+.p6-title { font-family: 'DM Serif Display', serif; font-size: clamp(2.2rem, 4vw, 3.5rem); line-height: 1.05; margin-bottom: 1rem; }
+.p6-title em { font-style: italic; color: var(--gold); }
+.p6-subtitle { font-family: 'Syne', sans-serif; font-size: 0.9rem; color: var(--white-dim); max-width: 500px; line-height: 1.75; margin-bottom: 2.5rem; }
+.p6-filters { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.p6-filter { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 16px; border: 1px solid rgba(232,160,32,0.2); background: transparent; color: var(--white-dim); cursor: pointer; transition: all 0.2s; }
+.p6-filter:hover, .p6-filter.active { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+.p6-grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1px; background: rgba(232,160,32,0.06); }
+.p6-card { background: var(--navy); position: relative; overflow: hidden; transition: background 0.3s; }
+.p6-card:hover { background: var(--navy-light); }
+.p6-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transform-origin: left; transition: transform 0.5s ease; }
+.p6-card:hover::before { transform: scaleX(1); }
+.accent-planned::before { background: linear-gradient(90deg, #8B6FD4, transparent); }
+.p6-card-body { padding: 2.5rem; }
+.p6-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 4px 12px; margin-bottom: 1.2rem; }
+.p6-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: pulse 2s ease-in-out infinite; }
+.badge-planned { color: #8B6FD4; background: rgba(139,111,212,0.1); border: 1px solid rgba(139,111,212,0.22); }
+.p6-cat { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white-dim); margin-bottom: 0.5rem; }
+.p6-card-title { font-family: 'DM Serif Display', serif; font-size: 1.3rem; line-height: 1.15; color: var(--white); margin-bottom: 0.75rem; }
+.p6-card-desc { font-family: 'Syne', sans-serif; font-size: 0.82rem; color: var(--white-dim); line-height: 1.8; margin-bottom: 1.5rem; }
+.p6-chips-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+.p6-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
+.p6-chip { font-size: 0.6rem; padding: 4px 10px; border: 1px solid rgba(232,160,32,0.2); color: var(--gold); background: var(--gold-dim); }
+.p6-chip.teal { border-color: rgba(78,205,196,0.2); color: var(--teal); background: rgba(78,205,196,0.06); }
+.p6-sql { background: #040C17; border: 1px solid rgba(240,237,230,0.06); padding: 1.2rem 1.4rem; margin-bottom: 1.5rem; position: relative; overflow: hidden; }
+.p6-sql::before { content: 'SQL · PREVIEW'; position: absolute; top: 10px; right: 12px; font-size: 0.52rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.12); }
+.p6-sql code { font-family: 'DM Mono', monospace; font-size: 0.7rem; line-height: 1.9; display: block; white-space: pre; overflow-x: auto; }
+.kw { color: #7EB8F7; } .fn { color: var(--teal); } .cm { color: #3A5268; font-style: italic; } .st { color: var(--gold-light); } .nu { color: #F0A0C0; }
+.p6-sql-overlay { position: absolute; inset: 0; background: rgba(4,12,23,0.82); backdrop-filter: blur(4px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; }
+.p6-sql-overlay-icon { font-size: 1rem; color: #8B6FD4; opacity: 0.45; }
+.p6-sql-overlay p { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: #8B6FD4; opacity: 0.7; }
+.p6-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.4rem; }
+.p6-progress-label { font-size: 0.58rem; color: var(--white-dim); white-space: nowrap; }
+.p6-progress-track { flex: 1; height: 2px; background: rgba(240,237,230,0.08); }
+.p6-progress-fill { height: 100%; background: linear-gradient(90deg, #8B6FD4, rgba(139,111,212,0.25)); width: 0; transition: width 1.4s ease 0.6s; }
+.p6-progress-pct { font-size: 0.58rem; color: #8B6FD4; width: 26px; text-align: right; }
+.p6-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1.2rem; border-top: 1px solid var(--white-ghost); }
+.p6-card-meta { font-size: 0.58rem; color: var(--white-dim); }
+.p6-card-link { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: gap 0.2s, color 0.2s; }
+.p6-card-link:hover { gap: 10px; color: var(--white); }
+.p6-ghost { background: transparent; padding: 2.5rem; display: flex; flex-direction: column; gap: 0.75rem; min-height: 200px; justify-content: center; }
+.p6-ghost-cat { font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(232,160,32,0.2); }
+.p6-ghost-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: rgba(240,237,230,0.12); }
+.p6-ghost-line { width: 24px; height: 2px; background: rgba(232,160,32,0.12); }
+.p6-ghost-note { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(240,237,230,0.12); }
+.p6-footnote { margin-top: 3.5rem; display: flex; align-items: center; gap: 1.5rem; }
+.p6-footnote-line { flex: 1; height: 1px; background: rgba(232,160,32,0.1); }
+.p6-footnote-text { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-dim); white-space: nowrap; }
 @media (max-width: 900px) {
   .identity-layout { grid-template-columns: 1fr; gap: 3rem; }
   .punch-cards { grid-template-columns: 1fr; }
@@ -774,6 +828,7 @@ nav {
   <div class="nav-pip" data-label="Impact" data-target="p3"></div>
   <div class="nav-pip" data-label="Builder" data-target="p4"></div>
   <div class="nav-pip" data-label="Connect" data-target="p5"></div>
+  <div class="nav-pip" data-label="Projects" data-target="p6"></div>
 </nav>
 
 <!-- ══ PANEL 1: COLD OPEN ══ -->
@@ -794,6 +849,99 @@ nav {
   <div class="scroll-hint">
     <span>Scroll</span>
     <div class="scroll-arrow"></div>
+  </div>
+</section>
+  <!-- ══ PANEL 6: PROJECTS ══ -->
+<section class="panel" id="p6">
+  <div class="p6-grid"></div>
+  <div class="p6-orb"></div>
+  <div class="reveal">
+    <div class="p6-label">06 — Projects</div>
+    <h2 class="p6-title">The Work, <em>Documented.</em></h2>
+    <p class="p6-subtitle">Real queries. Real frameworks. Each card is a living artifact — built as the skill is built, documented as the logic unfolds.</p>
+  </div>
+  <div class="p6-filters reveal delay-1">
+    <button class="p6-filter active">All</button>
+    <button class="p6-filter">SQL</button>
+    <button class="p6-filter">Financial Modeling</button>
+    <button class="p6-filter">Architecture</button>
+  </div>
+  <div class="p6-grid-cards reveal delay-2">
+    <div class="p6-card accent-planned">
+      <div class="p6-card-body">
+        <div class="p6-badge badge-planned">Planned</div>
+        <p class="p6-cat">SQL · Finance Operations</p>
+        <h3 class="p6-card-title">Revenue Reconciliation Query</h3>
+        <p class="p6-card-desc">Every month, reported revenue and actual deposits diverge. This query identifies the delta — surfacing timing gaps, duplicate entries, and missed accruals between the GL and source transactions.</p>
+        <p class="p6-chips-label">Core Logic</p>
+        <div class="p6-chips">
+          <span class="p6-chip">CTEs</span>
+          <span class="p6-chip">LEFT JOIN</span>
+          <span class="p6-chip">CASE WHEN</span>
+          <span class="p6-chip teal">Variance flagging</span>
+          <span class="p6-chip">Date bucketing</span>
+          <span class="p6-chip teal">Dedup via ROW_NUMBER</span>
+        </div>
+        <div class="p6-sql">
+          <code>
+<span class="cm">-- Revenue Reconciliation · v0.1 (planned)</span>
+<span class="kw">WITH</span> <span class="st">gl_actuals</span> <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> transaction_date,
+    <span class="fn">SUM</span>(amount) <span class="kw">AS</span> <span class="st">gl_total</span>, account_code
+  <span class="kw">FROM</span> general_ledger
+  <span class="kw">WHERE</span> account_type = <span class="st">'REVENUE'</span>
+  <span class="kw">GROUP BY</span> <span class="nu">1</span>, <span class="nu">3</span>
+),
+<span class="st">source_txns</span> <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> deposit_date,
+    <span class="fn">SUM</span>(net_amount) <span class="kw">AS</span> <span class="st">src_total</span>, ledger_code
+  <span class="kw">FROM</span> source_transactions
+  <span class="kw">WHERE</span> status != <span class="st">'VOID'</span>
+  <span class="kw">GROUP BY</span> <span class="nu">1</span>, <span class="nu">3</span>
+)
+<span class="kw">SELECT</span> g.transaction_date, g.gl_total, s.src_total,
+  g.gl_total - <span class="fn">COALESCE</span>(s.src_total,<span class="nu">0</span>) <span class="kw">AS</span> <span class="st">variance</span>,
+  <span class="kw">CASE WHEN</span> <span class="fn">ABS</span>(g.gl_total - s.src_total) > <span class="nu">500</span>
+    <span class="kw">THEN</span> <span class="st">'FLAG'</span> <span class="kw">ELSE</span> <span class="st">'OK'</span> <span class="kw">END</span> <span class="kw">AS</span> <span class="st">status</span>
+<span class="kw">FROM</span> <span class="st">gl_actuals</span> g
+<span class="kw">LEFT JOIN</span> <span class="st">source_txns</span> s
+  <span class="kw">ON</span> g.account_code = s.ledger_code
+  <span class="kw">AND</span> g.transaction_date = s.deposit_date
+<span class="kw">ORDER BY</span> <span class="fn">ABS</span>(variance) <span class="kw">DESC</span>;
+          </code>
+          <div class="p6-sql-overlay">
+            <span class="p6-sql-overlay-icon">◈</span>
+            <p>Query in development</p>
+          </div>
+        </div>
+        <div class="p6-progress-row">
+          <span class="p6-progress-label">Progress</span>
+          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="10%"></div></div>
+          <span class="p6-progress-pct">10%</span>
+        </div>
+        <div class="p6-card-footer">
+          <span class="p6-card-meta">SQL training track · Q1 2025</span>
+          <a href="#" class="p6-card-link">Follow progress →</a>
+        </div>
+      </div>
+    </div>
+    <div class="p6-ghost">
+      <span class="p6-ghost-cat">SQL · Cohort Analysis</span>
+      <p class="p6-ghost-title">Churn Analysis by Cohort</p>
+      <div class="p6-ghost-line"></div>
+      <span class="p6-ghost-note">Coming as SQL training advances</span>
+    </div>
+    <div class="p6-ghost">
+      <span class="p6-ghost-cat">Financial Modeling</span>
+      <p class="p6-ghost-title">Cash Runway Model</p>
+      <div class="p6-ghost-line"></div>
+      <span class="p6-ghost-note">Anonymized case study · in design</span>
+    </div>
+  </div>
+  <div class="p6-footnote reveal delay-3">
+    <div class="p6-footnote-line"></div>
+    <span class="p6-footnote-text">Updated as work is built · All frameworks anonymized</span>
+    <div class="p6-footnote-line"></div>
   </div>
 </section>
 
@@ -1079,7 +1227,7 @@ const panelObserver = new IntersectionObserver(entries => {
       pips.forEach(p => p.classList.toggle('active', p.dataset.target === id));
     }
   });
-}, { threshold: 0.5 });
+}, { threshold: 0.3 });
 
 panels.forEach(p => panelObserver.observe(p));
 
@@ -1120,6 +1268,16 @@ const countObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.5 });
 
 countEls.forEach(el => countObserver.observe(el));
+  // Projects progress bar
+const p6El = document.getElementById('p6');
+if (p6El) {
+  new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.querySelectorAll('.p6-progress-fill').forEach(b => b.style.width = b.dataset.width); });
+  }, { threshold: 0.3 }).observe(p6El);
+}
+document.querySelectorAll('.p6-filter').forEach(btn => {
+  btn.addEventListener('click', () => { document.querySelectorAll('.p6-filter').forEach(b => b.classList.remove('active')); btn.classList.add('active'); });
+});
 </script>
 </body>
 </html>
