@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Julieth Ramos Rivera — Head of Finance</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #06101C;
+  --navy-mid: #0B1B2E;
+  --navy-light: #112238;
+  --gold: #E8A020;
+  --gold-light: #F5BE5A;
+  --gold-dim: rgba(232,160,32,0.12);
+  --teal: #4ECDC4;
+  --white: #F0EDE6;
+  --white-dim: rgba(240,237,230,0.55);
+  --white-ghost: rgba(240,237,230,0.07);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--navy);
+  color: var(--white);
+  font-family: 'DM Mono', monospace;
+  overflow-x: hidden;
+}
+
+/* ── NOISE ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── GRID BG ── */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(232,160,32,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,160,32,0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── PROGRESS ── */
+#progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--teal));
+  z-index: 1000;
+  box-shadow: 0 0 12px var(--gold);
+  transition: width 0.15s;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 50%;
+  right: 2.5rem;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.nav-pip {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(232,160,32,0.4);
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.nav-pip::before {
+  content: attr(data-label);
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.nav-pip:hover::before, .nav-pip.active::before { opacity: 1; }
+.nav-pip.active { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 8px var(--gold); }
+.nav-pip:hover { border-color: var(--gold); }
+
+/* ── PANELS ── */
+.panel {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 10vw;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── PANEL 1: COLD OPEN ── */
+#p1 {
+  background: var(--navy);
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.chaos-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  animation: chaosIn 1s ease forwards 0.3s;
+}
+
+@keyframes chaosIn { to { opacity: 1; } }
+
+.chaos-num {
+  position: absolute;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(232,160,32,0.18);
+  animation: floatNum linear infinite;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes floatNum {
+  0% { transform: translateY(0) scaleX(1); opacity: 0.3; }
+  50% { opacity: 0.8; scaleX(-1); }
+  100% { transform: translateY(-100vh) scaleX(-1); opacity: 0; }
+}
+
+.glitch-lines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(232,160,32,0.015) 2px,
+    rgba(232,160,32,0.015) 4px
+  );
+  pointer-events: none;
+}
+
+.cold-open-text {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards 1.2s;
+}
+
+.cold-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 1s;
+}
+
+.cold-headline {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  line-height: 1.3;
+  color: var(--white-dim);
+  max-width: 700px;
+  margin: 0 auto 3rem;
+}
+
+.cold-headline strong {
+  color: var(--white);
+  display: block;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards 2.5s;
+}
+
+.scroll-hint span {
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.scroll-arrow {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* ── PANEL 2: IDENTITY ── */
+#p2 { background: var(--navy-mid); }
+
+.identity-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.identity-left {}
+
+.identity-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.identity-tag::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.identity-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 0.95;
+  margin-bottom: 2rem;
+}
+
+.identity-name em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.identity-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  margin-bottom: 2.5rem;
+  border-left: 2px solid var(--gold);
+  padding-left: 1rem;
+  line-height: 2;
+}
+
+.identity-origin {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--white-dim);
+  line-height: 1.5;
+}
+
+.identity-origin strong { color: var(--white); font-style: normal; }
+
+.identity-right {}
+
+/* World nodes */
+.world-map {
+  position: relative;
+  width: 100%;
+  height: 340px;
+}
+
+.world-map svg {
+  width: 100%;
+  height: 100%;
+}
+
+.node-label {
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  fill: var(--white-dim);
+  text-transform: uppercase;
+}
+
+.node-circle {
+  fill: var(--navy);
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  animation: nodePulse 2s ease-in-out infinite;
+}
+
+@keyframes nodePulse {
+  0%,100% { r: 5; opacity: 0.8; }
+  50% { r: 7; opacity: 1; }
+}
+
+.connection-line {
+  stroke: rgba(232,160,32,0.3);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  animation: dashMove 3s linear infinite;
+}
+
+@keyframes dashMove { to { stroke-dashoffset: -32; } }
+
+.stats-row {
+  display: flex;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.stat {
+  border-left: 1px solid rgba(232,160,32,0.3);
+  padding-left: 1.2rem;
+}
+
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--white-dim);
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+/* ── PANEL 3: PUNCHES ── */
+#p3 { background: var(--navy); }
+
+.punches-header {
+  margin-bottom: 4rem;
+}
+
+.punches-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.punches-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.punches-title em { font-style: italic; color: var(--gold); }
+
+.punch-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(232,160,32,0.08);
+}
+
+.punch-card {
+  background: var(--navy);
+  padding: 3rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+  cursor: default;
+}
+
+.punch-card:hover { background: var(--navy-light); }
+
+.punch-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s ease;
+}
+
+.punch-card:hover::before { transform: scaleX(1); }
+
+.punch-num {
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  opacity: 0.6;
+  margin-bottom: 2rem;
+}
+
+.punch-icon-line {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.punch-before-after {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.punch-before {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.2rem;
+  color: rgba(240,237,230,0.25);
+  text-decoration: line-through;
+  text-decoration-color: rgba(232,160,32,0.4);
+}
+
+.punch-arrow { color: var(--gold); font-size: 1rem; }
+
+.punch-after {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.8rem;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.punch-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+
+.punch-body {
+  font-size: 0.72rem;
+  color: var(--white-dim);
+  line-height: 1.8;
+}
+
+/* Counter animation */
+.count-up {
+  display: inline-block;
+}
+
+/* ── PANEL 4: BUILDER ── */
+#p4 { background: var(--navy-mid); }
+
+.builder-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.builder-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--teal);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.builder-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.15;
+  margin-bottom: 2rem;
+}
+
+.builder-title em { font-style: italic; color: var(--gold); }
+
+.builder-body {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  color: var(--white-dim);
+  line-height: 1.9;
+  margin-bottom: 2.5rem;
+}
+
+.builder-body strong { color: var(--white); }
+
+.builder-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.stack-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(232,160,32,0.3);
+  color: var(--gold);
+  padding: 0.4rem 0.8rem;
+  transition: all 0.2s;
+}
+
+.stack-tag:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+}
+
+/* Pipeline diagram */
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pipe-node {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  border: 1px solid rgba(232,160,32,0.1);
+  background: var(--navy);
+  position: relative;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.pipe-node:hover {
+  border-color: rgba(232,160,32,0.4);
+  background: var(--navy-light);
+}
+
+.pipe-node:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 2.5rem;
+  width: 1px;
+  height: 12px;
+  background: var(--gold);
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.pipe-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(232,160,32,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.pipe-info {}
+
+.pipe-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.pipe-detail {
+  font-size: 0.65rem;
+  color: var(--white-dim);
+  letter-spacing: 0.05em;
+}
+
+.pipe-tools {
+  margin-left: auto;
+  font-size: 0.55rem;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── PANEL 5: CLOSE ── */
+#p5 {
+  background: var(--navy);
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.close-orb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  height: 60vw;
+  max-width: 700px;
+  max-height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,160,32,0.07) 0%, transparent 65%);
+  animation: breathe 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes breathe {
+  0%,100% { transform: translate(-50%,-50%) scale(1); }
+  50% { transform: translate(-50%,-50%) scale(1.08); }
+}
+
+.close-inner { position: relative; z-index: 2; }
+
+.close-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+  opacity: 0.7;
+}
+
+.close-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(4rem, 10vw, 9rem);
+  line-height: 0.9;
+  margin-bottom: 2rem;
+}
+
+.close-name em { font-style: italic; color: var(--gold); }
+
+.close-roles {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+  margin-bottom: 3rem;
+  line-height: 2.5;
+}
+
+.close-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0 auto 3rem;
+  opacity: 0.4;
+}
+
+.close-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.close-link {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.close-link:hover { color: var(--gold-light); }
+
+.close-location {
+  font-size: 0.65rem;
+  color: var(--white-dim);
+  letter-spacing: 0.1em;
+}
+
+.close-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 3rem;
+  padding: 1rem 2rem;
+  border: 1px solid rgba(232,160,32,0.4);
+  color: var(--gold);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.close-cta:hover {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+}
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .identity-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .punch-cards { grid-template-columns: 1fr; }
+  .builder-layout { grid-template-columns: 1fr; gap: 3rem; }
+  nav { right: 1rem; }
+  .panel { padding: 5rem 6vw; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div id="progress"></div>
+
+<nav id="mainNav">
+  <div class="nav-pip active" data-label="Intro" data-target="p1"></div>
+  <div class="nav-pip" data-label="Identity" data-target="p2"></div>
+  <div class="nav-pip" data-label="Impact" data-target="p3"></div>
+  <div class="nav-pip" data-label="Builder" data-target="p4"></div>
+  <div class="nav-pip" data-label="Connect" data-target="p5"></div>
+</nav>
+
+<!-- ══ PANEL 1: COLD OPEN ══ -->
+<section class="panel" id="p1">
+  <div class="chaos-field" id="chaosField">
+    <div class="glitch-lines"></div>
+  </div>
+  <div class="cold-open-text">
+    <div class="cold-tag">Head of Finance · Strategic Finance Leader</div>
+    <p class="cold-headline">
+      Most companies are drowning in financial data —<br>
+      <strong>and starving for insight.</strong>
+    </p>
+    <div style="font-size:0.7rem; letter-spacing:0.15em; color:var(--gold); opacity:0.6; animation: fadeUp 1s ease forwards 2s; opacity:0;">
+      ↓ &nbsp; scroll to meet the architect
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ══ PANEL 2: IDENTITY ══ -->
+<section class="panel" id="p2">
+  <div class="identity-layout">
+    <div class="identity-left">
+      <div class="identity-tag reveal">Origin Story</div>
+      <h1 class="identity-name reveal delay-1">
+        Julieth<br><em>Ramos</em><br>Rivera
+      </h1>
+      <div class="identity-title reveal delay-2">
+        Head of Finance<br>
+        Systems Architect<br>
+        Strategic Finance Leader
+      </div>
+      <p class="identity-origin reveal delay-3">
+        <strong>Born in Colombia.</strong><br>
+        Built for the world.
+      </p>
+      <div class="stats-row reveal delay-4">
+        <div class="stat">
+          <div class="stat-num">15+</div>
+          <div class="stat-label">Years</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">7</div>
+          <div class="stat-label">Countries</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Continents</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="identity-right reveal-right">
+      <!-- SVG world node map -->
+      <div class="world-map">
+        <svg viewBox="0 0 480 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Connection lines -->
+          <line class="connection-line" x1="140" y1="240" x2="200" y2="140"/><!-- COL→USA -->
+          <line class="connection-line" x1="200" y1="140" x2="300" y2="110"/><!-- USA→GER -->
+          <line class="connection-line" x1="300" y1="110" x2="280" y2="120"/><!-- GER→POR -->
+          <line class="connection-line" x1="300" y1="110" x2="340" y2="105"/><!-- GER→ESP -->
+          <line class="connection-line" x1="200" y1="140" x2="180" y2="250"/><!-- USA→BRA -->
+          <line class="connection-line" x1="340" y1="105" x2="410" y2="155"/><!-- ESP→PHI -->
+          <line class="connection-line" x1="300" y1="110" x2="410" y2="155"/><!-- GER→PHI -->
+          <!-- Hub ring -->
+          <circle cx="240" cy="170" r="55" stroke="rgba(232,160,32,0.06)" stroke-width="1" stroke-dasharray="4 4"/>
+          <circle cx="240" cy="170" r="90" stroke="rgba(232,160,32,0.04)" stroke-width="1" stroke-dasharray="6 6"/>
+          <!-- Colombia -->
+          <circle class="node-circle" cx="140" cy="240" r="5"/>
+          <text class="node-label" x="148" y="244">Colombia</text>
+          <!-- USA -->
+          <circle class="node-circle" cx="200" cy="140" r="7" style="animation-delay:0.3s"/>
+          <text class="node-label" x="208" y="144">USA</text>
+          <!-- Germany -->
+          <circle class="node-circle" cx="300" cy="110" r="5" style="animation-delay:0.6s"/>
+          <text class="node-label" x="308" y="114">Germany</text>
+          <!-- Portugal -->
+          <circle class="node-circle" cx="278" cy="122" r="4" style="animation-delay:0.8s"/>
+          <text class="node-label" x="252" y="136">Portugal</text>
+          <!-- Spain -->
+          <circle class="node-circle" cx="340" cy="105" r="4" style="animation-delay:1s"/>
+          <text class="node-label" x="348" y="109">Spain</text>
+          <!-- Brazil -->
+          <circle class="node-circle" cx="180" cy="258" r="5" style="animation-delay:1.2s"/>
+          <text class="node-label" x="188" y="262">Brazil</text>
+          <!-- Philippines -->
+          <circle class="node-circle" cx="415" cy="158" r="4" style="animation-delay:1.4s"/>
+          <text class="node-label" x="392" y="148">Philippines</text>
+          <!-- Central hub -->
+          <circle cx="240" cy="170" r="8" fill="var(--gold)" opacity="0.8"/>
+          <circle cx="240" cy="170" r="14" stroke="var(--gold)" stroke-width="1" opacity="0.3" fill="none"/>
+          <text class="node-label" x="248" y="174" fill="rgba(232,160,32,0.8)">HUB</text>
+        </svg>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1rem;">
+        <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">USD</span>
+        <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">EUR</span>
+        <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">COP</span>
+        <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">BRL</span>
+        <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">PEN</span>
+        <span style="font-size:0.6rem; letter-spacing:0.15em; color:var(--white-dim); padding:0.3rem 0.7rem;">Multi-currency. Multi-continent.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PANEL 3: PROOF / PUNCHES ══ -->
+<section class="panel" id="p3">
+  <div class="punches-header">
+    <div class="punches-label reveal">The Work</div>
+    <h2 class="punches-title reveal delay-1">
+      Systems integration.<br><em>Real results.</em>
+    </h2>
+  </div>
+
+  <div class="punch-cards">
+    <div class="punch-card reveal delay-2">
+      <div class="punch-num">01 — Close Cycle</div>
+      <span class="punch-icon-line">⚡</span>
+      <div class="punch-before-after">
+        <span class="punch-before">10d</span>
+        <span class="punch-arrow">→</span>
+        <span class="punch-after"><span class="count-up" data-target="4" data-suffix="d">0d</span></span>
+      </div>
+      <div class="punch-title">Month-End Close</div>
+      <div class="punch-body">
+        Integrated QBO, Stripe, HubSpot, and SQL into a unified financial engine — replacing manual spreadsheets, eliminating reconciliation errors, and cutting the close cycle by 60%.
+      </div>
+    </div>
+    <div class="punch-card reveal delay-3">
+      <div class="punch-num">02 — Cash Runway</div>
+      <span class="punch-icon-line">💰</span>
+      <div class="punch-before-after">
+        <span class="punch-before">2mo</span>
+        <span class="punch-arrow">→</span>
+        <span class="punch-after"><span class="count-up" data-target="6" data-suffix="mo">0mo</span></span>
+      </div>
+      <div class="punch-title">Cash Runway Extended</div>
+      <div class="punch-body">
+        Centralized payroll and transaction flows across 8 countries. Automated pipelines for cash visibility — tripling the runway through optimized spend and capital reallocation.
+      </div>
+    </div>
+    <div class="punch-card reveal delay-4">
+      <div class="punch-num">03 — Strategic Insight</div>
+      <span class="punch-icon-line">🧠</span>
+      <div class="punch-before-after">
+        <span class="punch-before" style="font-size:1.4rem;">Noise</span>
+        <span class="punch-arrow">→</span>
+        <span class="punch-after" style="font-size:1.8rem;">Signal</span>
+      </div>
+      <div class="punch-title">CFO-Level Intelligence</div>
+      <div class="punch-body">
+        Deal- and transaction-level analysis of NRR, GRR, churn, CAC/LTV, and product usage — reshaping pricing strategy, retention models, and capital allocation decisions.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PANEL 4: BUILDER / ARCHITECT ══ -->
+<section class="panel" id="p4">
+  <div class="builder-layout">
+    <div>
+      <div class="builder-label reveal">The Architect</div>
+      <h2 class="builder-title reveal delay-1">
+        When the tools<br>didn't exist —<br><em>she built them.</em>
+      </h2>
+      <p class="builder-body reveal delay-2">
+        Founder of <strong>The Monthly CFO</strong> — an AI-enabled financial advisory platform for operators who need clarity, not complexity. Automated pipelines that turn fragmented data into decision-ready intelligence in under 5 minutes.
+      </p>
+      <div class="builder-stack reveal delay-3">
+        <span class="stack-tag">SQL / MySQL</span>
+        <span class="stack-tag">Power BI</span>
+        <span class="stack-tag">Runway AI</span>
+        <span class="stack-tag">Airtable</span>
+        <span class="stack-tag">Softr</span>
+        <span class="stack-tag">Make / n8n</span>
+        <span class="stack-tag">Sage Intacct</span>
+        <span class="stack-tag">QBO</span>
+        <span class="stack-tag">Stripe</span>
+        <span class="stack-tag">HubSpot</span>
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Power Query</span>
+      </div>
+    </div>
+
+    <div class="reveal-right delay-2">
+      <div style="font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--teal); margin-bottom:1.5rem;">Automated Financial Pipeline</div>
+      <div class="pipeline">
+        <div class="pipe-node">
+          <div class="pipe-icon">📥</div>
+          <div class="pipe-info">
+            <div class="pipe-name">Data Ingest</div>
+            <div class="pipe-detail">Stripe · QBO · HubSpot · Payroll</div>
+          </div>
+          <div class="pipe-tools">Raw Data</div>
+        </div>
+        <div class="pipe-node">
+          <div class="pipe-icon">⚙️</div>
+          <div class="pipe-info">
+            <div class="pipe-name">Logic Engine</div>
+            <div class="pipe-detail">SQL · Make · n8n · Power Query</div>
+          </div>
+          <div class="pipe-tools">Transform</div>
+        </div>
+        <div class="pipe-node">
+          <div class="pipe-icon">📊</div>
+          <div class="pipe-info">
+            <div class="pipe-name">Intelligence Layer</div>
+            <div class="pipe-detail">ARR · NRR · CAC/LTV · Runway · Churn</div>
+          </div>
+          <div class="pipe-tools">Model</div>
+        </div>
+        <div class="pipe-node">
+          <div class="pipe-icon">🎯</div>
+          <div class="pipe-info">
+            <div class="pipe-name">Decision-Ready Output</div>
+            <div class="pipe-detail">1-page CFO summary · Board decks · Alerts</div>
+          </div>
+          <div class="pipe-tools">Deliver</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PANEL 5: CLOSE ══ -->
+<section class="panel" id="p5">
+  <div class="close-orb"></div>
+  <div class="close-inner">
+    <div class="close-tag reveal">Ready for what's next</div>
+    <h2 class="close-name reveal delay-1">
+      Julieth<br><em>Ramos</em><br>Rivera
+    </h2>
+    <div class="close-roles reveal delay-2">
+      Head of Finance · Systems Architect · Strategic Partner
+    </div>
+    <div class="close-divider reveal delay-3"></div>
+    <div class="close-contact reveal delay-4">
+      <a class="close-link" href="https://linkedin.com/in/juliethramosrivera" target="_blank">
+        linkedin.com/in/juliethramosrivera
+      </a>
+      <span class="close-link">juliethramos.jr@gmail.com</span>
+      <span class="close-location">Providence, RI · Open to remote &amp; hybrid</span>
+    </div>
+    <a class="close-cta reveal delay-5" href="https://linkedin.com/in/juliethramosrivera" target="_blank">
+      <span>Let's connect</span>
+      <span>→</span>
+    </a>
+  </div>
+</section>
+
+<script>
+// ── CHAOS NUMBERS ──
+const chaosField = document.getElementById('chaosField');
+const nums = ['$12,482', '34d', 'ARR', '#REF!', 'NaN', '₂₃.₄%', 'Q3', 'COGS', '—', '$0', 'ERR', 'MRR', '??', '∞', 'CAC', 'NRR'];
+for (let i = 0; i < 40; i++) {
+  const el = document.createElement('div');
+  el.className = 'chaos-num';
+  el.textContent = nums[Math.floor(Math.random() * nums.length)];
+  el.style.left = Math.random() * 100 + 'vw';
+  el.style.top = Math.random() * 100 + 'vh';
+  el.style.animationDuration = (6 + Math.random() * 12) + 's';
+  el.style.animationDelay = (Math.random() * 8) + 's';
+  el.style.fontSize = (0.5 + Math.random() * 0.8) + 'rem';
+  chaosField.appendChild(el);
+}
+
+// ── PROGRESS BAR ──
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const pct = d.scrollTop / (d.scrollHeight - d.clientHeight) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── NAV PIPS ──
+const panels = document.querySelectorAll('.panel');
+const pips = document.querySelectorAll('.nav-pip');
+
+pips.forEach(pip => {
+  pip.addEventListener('click', () => {
+    document.getElementById(pip.dataset.target).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+const panelObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      pips.forEach(p => p.classList.toggle('active', p.dataset.target === id));
+    }
+  });
+}, { threshold: 0.5 });
+
+panels.forEach(p => panelObserver.observe(p));
+
+// ── SCROLL REVEAL ──
+const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.15 });
+
+reveals.forEach(el => revealObserver.observe(el));
+
+// ── COUNT UP ANIMATION ──
+function animateCount(el) {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  let current = 0;
+  const duration = 1200;
+  const steps = 40;
+  const increment = target / steps;
+  const interval = duration / steps;
+  const timer = setInterval(() => {
+    current = Math.min(current + increment, target);
+    el.textContent = Math.round(current) + suffix;
+    if (current >= target) clearInterval(timer);
+  }, interval);
+}
+
+const countEls = document.querySelectorAll('.count-up');
+const countObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCount(entry.target);
+      countObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+countEls.forEach(el => countObserver.observe(el));
+</script>
+</body>
+</html>
