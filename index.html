@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -145,7 +146,7 @@ nav {
 
 @keyframes floatNum {
   0% { transform: translateY(0) scaleX(1); opacity: 0.3; }
-  50% { opacity: 0.8; scaleX(-1); }
+  50% { opacity: 0.8; }
   100% { transform: translateY(-100vh) scaleX(-1); opacity: 0; }
 }
 
@@ -232,8 +233,6 @@ nav {
   align-items: center;
 }
 
-.identity-left {}
-
 .identity-tag {
   font-size: 0.6rem;
   letter-spacing: 0.3em;
@@ -259,10 +258,7 @@ nav {
   margin-bottom: 2rem;
 }
 
-.identity-name em {
-  font-style: italic;
-  color: var(--gold);
-}
+.identity-name em { font-style: italic; color: var(--gold); }
 
 .identity-title {
   font-family: 'Syne', sans-serif;
@@ -287,19 +283,13 @@ nav {
 
 .identity-origin strong { color: var(--white); font-style: normal; }
 
-.identity-right {}
-
-/* World nodes */
 .world-map {
   position: relative;
   width: 100%;
   height: 340px;
 }
 
-.world-map svg {
-  width: 100%;
-  height: 100%;
-}
+.world-map svg { width: 100%; height: 100%; }
 
 .node-label {
   font-size: 0.55rem;
@@ -358,9 +348,7 @@ nav {
 /* ── PANEL 3: PUNCHES ── */
 #p3 { background: var(--navy); }
 
-.punches-header {
-  margin-bottom: 4rem;
-}
+.punches-header { margin-bottom: 4rem; }
 
 .punches-label {
   font-size: 0.6rem;
@@ -461,10 +449,7 @@ nav {
   line-height: 1.8;
 }
 
-/* Counter animation */
-.count-up {
-  display: inline-block;
-}
+.count-up { display: inline-block; }
 
 /* ── PANEL 4: BUILDER ── */
 #p4 { background: var(--navy-mid); }
@@ -519,17 +504,9 @@ nav {
   transition: all 0.2s;
 }
 
-.stack-tag:hover {
-  background: var(--gold-dim);
-  border-color: var(--gold);
-}
+.stack-tag:hover { background: var(--gold-dim); border-color: var(--gold); }
 
-/* Pipeline diagram */
-.pipeline {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
+.pipeline { display: flex; flex-direction: column; gap: 0; }
 
 .pipe-node {
   display: flex;
@@ -542,59 +519,31 @@ nav {
   transition: border-color 0.3s, background 0.3s;
 }
 
-.pipe-node:hover {
-  border-color: rgba(232,160,32,0.4);
-  background: var(--navy-light);
-}
+.pipe-node:hover { border-color: rgba(232,160,32,0.4); background: var(--navy-light); }
 
 .pipe-node:not(:last-child)::after {
   content: '';
   position: absolute;
-  bottom: -12px;
-  left: 2.5rem;
-  width: 1px;
-  height: 12px;
+  bottom: -12px; left: 2.5rem;
+  width: 1px; height: 12px;
   background: var(--gold);
   opacity: 0.4;
   z-index: 1;
 }
 
 .pipe-icon {
-  width: 36px;
-  height: 36px;
+  width: 36px; height: 36px;
   border-radius: 4px;
   background: var(--gold-dim);
   border: 1px solid rgba(232,160,32,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   font-size: 1rem;
   flex-shrink: 0;
 }
 
-.pipe-info {}
-
-.pipe-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  margin-bottom: 0.2rem;
-}
-
-.pipe-detail {
-  font-size: 0.65rem;
-  color: var(--white-dim);
-  letter-spacing: 0.05em;
-}
-
-.pipe-tools {
-  margin-left: auto;
-  font-size: 0.55rem;
-  color: var(--teal);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
+.pipe-name { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.2rem; }
+.pipe-detail { font-size: 0.65rem; color: var(--white-dim); letter-spacing: 0.05em; }
+.pipe-tools { margin-left: auto; font-size: 0.55rem; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
 
 /* ── PANEL 5: CLOSE ── */
 #p5 {
@@ -607,13 +556,10 @@ nav {
 
 .close-orb {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-  width: 60vw;
-  height: 60vw;
-  max-width: 700px;
-  max-height: 700px;
+  width: 60vw; height: 60vw;
+  max-width: 700px; max-height: 700px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(232,160,32,0.07) 0%, transparent 65%);
   animation: breathe 5s ease-in-out infinite;
@@ -627,134 +573,25 @@ nav {
 
 .close-inner { position: relative; z-index: 2; }
 
-.close-tag {
-  font-size: 0.6rem;
-  letter-spacing: 0.35em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 3rem;
-  opacity: 0.7;
-}
+.close-tag { font-size: 0.6rem; letter-spacing: 0.35em; color: var(--gold); text-transform: uppercase; margin-bottom: 3rem; opacity: 0.7; }
 
-.close-name {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(4rem, 10vw, 9rem);
-  line-height: 0.9;
-  margin-bottom: 2rem;
-}
-
+.close-name { font-family: 'DM Serif Display', serif; font-size: clamp(4rem, 10vw, 9rem); line-height: 0.9; margin-bottom: 2rem; }
 .close-name em { font-style: italic; color: var(--gold); }
 
-.close-roles {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(0.7rem, 1.2vw, 0.9rem);
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--white-dim);
-  margin-bottom: 3rem;
-  line-height: 2.5;
-}
+.close-roles { font-family: 'Syne', sans-serif; font-size: clamp(0.7rem, 1.2vw, 0.9rem); font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--white-dim); margin-bottom: 3rem; line-height: 2.5; }
 
-.close-divider {
-  width: 60px;
-  height: 1px;
-  background: var(--gold);
-  margin: 0 auto 3rem;
-  opacity: 0.4;
-}
+.close-divider { width: 60px; height: 1px; background: var(--gold); margin: 0 auto 3rem; opacity: 0.4; }
 
-.close-contact {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  align-items: center;
-}
+.close-contact { display: flex; flex-direction: column; gap: 0.75rem; align-items: center; }
 
-.close-link {
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  color: var(--gold);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
+.close-link { font-size: 0.75rem; letter-spacing: 0.15em; color: var(--gold); text-decoration: none; transition: color 0.2s; }
 .close-link:hover { color: var(--gold-light); }
+.close-location { font-size: 0.65rem; color: var(--white-dim); letter-spacing: 0.1em; }
 
-.close-location {
-  font-size: 0.65rem;
-  color: var(--white-dim);
-  letter-spacing: 0.1em;
-}
+.close-cta { display: inline-flex; align-items: center; gap: 0.75rem; margin-top: 3rem; padding: 1rem 2rem; border: 1px solid rgba(232,160,32,0.4); color: var(--gold); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; transition: all 0.3s; }
+.close-cta:hover { background: var(--gold-dim); border-color: var(--gold); }
 
-.close-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 3rem;
-  padding: 1rem 2rem;
-  border: 1px solid rgba(232,160,32,0.4);
-  color: var(--gold);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.3s;
-}
-
-.close-cta:hover {
-  background: var(--gold-dim);
-  border-color: var(--gold);
-}
-
-/* ── SCROLL ANIMATIONS ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-32px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.reveal-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-right {
-  opacity: 0;
-  transform: translateX(32px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.reveal-right.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.delay-1 { transition-delay: 0.1s; }
-.delay-2 { transition-delay: 0.2s; }
-.delay-3 { transition-delay: 0.3s; }
-.delay-4 { transition-delay: 0.4s; }
-.delay-5 { transition-delay: 0.5s; }
-.delay-6 { transition-delay: 0.6s; }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ── RESPONSIVE ── */
-  /* ══ PANEL 6: PROJECTS ══ */
+/* ══ PANEL 6: PROJECTS ══ */
 #p6 { background: var(--navy-mid); overflow: hidden; }
 #p6 .p6-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(232,160,32,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,160,32,0.03) 1px, transparent 1px); background-size: 60px 60px; animation: gridDrift 20s linear infinite; pointer-events: none; }
 @keyframes gridDrift { 0% { transform: translate(0,0); } 100% { transform: translate(60px,60px); } }
@@ -808,10 +645,32 @@ nav {
 .p6-footnote { margin-top: 3.5rem; display: flex; align-items: center; gap: 1.5rem; }
 .p6-footnote-line { flex: 1; height: 1px; background: rgba(232,160,32,0.1); }
 .p6-footnote-text { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-dim); white-space: nowrap; }
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-left { opacity: 0; transform: translateX(-32px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right { opacity: 0; transform: translateX(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+.delay-6 { transition-delay: 0.6s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .identity-layout { grid-template-columns: 1fr; gap: 3rem; }
   .punch-cards { grid-template-columns: 1fr; }
   .builder-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .p6-grid-cards { grid-template-columns: 1fr; }
   nav { right: 1rem; }
   .panel { padding: 5rem 6vw; }
 }
@@ -823,12 +682,12 @@ nav {
 <div id="progress"></div>
 
 <nav id="mainNav">
-  <div class="nav-pip active" data-label="Intro" data-target="p1"></div>
-  <div class="nav-pip" data-label="Identity" data-target="p2"></div>
-  <div class="nav-pip" data-label="Impact" data-target="p3"></div>
-  <div class="nav-pip" data-label="Builder" data-target="p4"></div>
-  <div class="nav-pip" data-label="Connect" data-target="p5"></div>
-  <div class="nav-pip" data-label="Projects" data-target="p6"></div>
+  <div class="nav-pip active" data-label="Intro"    data-target="p1"></div>
+  <div class="nav-pip"        data-label="Identity" data-target="p2"></div>
+  <div class="nav-pip"        data-label="Impact"   data-target="p3"></div>
+  <div class="nav-pip"        data-label="Builder"  data-target="p4"></div>
+  <div class="nav-pip"        data-label="Connect"  data-target="p5"></div>
+  <div class="nav-pip"        data-label="Projects" data-target="p6"></div>
 </nav>
 
 <!-- ══ PANEL 1: COLD OPEN ══ -->
@@ -842,7 +701,7 @@ nav {
       Most companies are drowning in financial data —<br>
       <strong>and starving for insight.</strong>
     </p>
-    <div style="font-size:0.7rem; letter-spacing:0.15em; color:var(--gold); opacity:0.6; animation: fadeUp 1s ease forwards 2s; opacity:0;">
+    <div style="font-size:0.7rem; letter-spacing:0.15em; color:var(--gold); animation: fadeUp 1s ease forwards 2s;">
       ↓ &nbsp; scroll to meet the architect
     </div>
   </div>
@@ -850,62 +709,43 @@ nav {
     <span>Scroll</span>
     <div class="scroll-arrow"></div>
   </div>
+</section>
 
 <!-- ══ PANEL 2: IDENTITY ══ -->
 <section class="panel" id="p2">
   <div class="identity-layout">
     <div class="identity-left">
       <div class="identity-tag reveal">Origin Story</div>
-      <h1 class="identity-name reveal delay-1">
-        Julieth<br><em>Ramos</em><br>Rivera
-      </h1>
+      <h1 class="identity-name reveal delay-1">Julieth<br><em>Ramos</em><br>Rivera</h1>
       <div class="identity-title reveal delay-2">
-        Head of Finance<br>
-        Systems Architect<br>
-        Strategic Finance Leader
+        Head of Finance<br>Systems Architect<br>Strategic Finance Leader
       </div>
       <p class="identity-origin reveal delay-3">
-        <strong>Born in Colombia.</strong><br>
-        Built for the world.
+        <strong>Born in Colombia.</strong><br>Built for the world.
       </p>
       <div class="stats-row reveal delay-4">
-        <div class="stat">
-          <div class="stat-num">15+</div>
-          <div class="stat-label">Years</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">9</div>
-          <div class="stat-label">Countries</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">3</div>
-          <div class="stat-label">Continents</div>
-        </div>
+        <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Years</div></div>
+        <div class="stat"><div class="stat-num">9</div><div class="stat-label">Countries</div></div>
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Continents</div></div>
       </div>
     </div>
-
     <div class="identity-right reveal-right">
-      <!-- SVG world node map -->
       <div class="world-map">
         <svg viewBox="0 0 480 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Connection lines -->
-          <line class="connection-line" x1="140" y1="240" x2="200" y2="140"/><!-- COL→USA -->
-          <line class="connection-line" x1="200" y1="140" x2="300" y2="110"/><!-- USA→GER -->
-          <line class="connection-line" x1="300" y1="110" x2="280" y2="120"/><!-- GER→POR -->
-          <line class="connection-line" x1="300" y1="110" x2="340" y2="105"/><!-- GER→ESP -->
-          <line class="connection-line" x1="200" y1="140" x2="180" y2="250"/><!-- USA→BRA -->
-          <line class="connection-line" x1="340" y1="105" x2="410" y2="155"/><!-- ESP→PHI -->
-          <line class="connection-line" x1="300" y1="110" x2="410" y2="155"/><!-- GER→PHI -->
-          <line class="connection-line" x1="200" y1="140" x2="160" y2="100"/><!-- USA→CAN -->
-          <line class="connection-line" x1="200" y1="140" x2="155" y2="180"/><!-- USA→MEX -->
-          <line class="connection-line" x1="300" y1="110" x2="320" y2="80"/><!-- GER→UK -->
-          <!-- Hub ring -->
+          <line class="connection-line" x1="140" y1="240" x2="200" y2="140"/>
+          <line class="connection-line" x1="200" y1="140" x2="300" y2="110"/>
+          <line class="connection-line" x1="300" y1="110" x2="280" y2="120"/>
+          <line class="connection-line" x1="300" y1="110" x2="340" y2="105"/>
+          <line class="connection-line" x1="200" y1="140" x2="180" y2="250"/>
+          <line class="connection-line" x1="340" y1="105" x2="410" y2="155"/>
+          <line class="connection-line" x1="300" y1="110" x2="410" y2="155"/>
+          <line class="connection-line" x1="200" y1="140" x2="160" y2="100"/>
+          <line class="connection-line" x1="200" y1="140" x2="155" y2="180"/>
+          <line class="connection-line" x1="300" y1="110" x2="320" y2="80"/>
           <circle cx="240" cy="170" r="55" stroke="rgba(232,160,32,0.06)" stroke-width="1" stroke-dasharray="4 4"/>
           <circle cx="240" cy="170" r="90" stroke="rgba(232,160,32,0.04)" stroke-width="1" stroke-dasharray="6 6"/>
-          <!-- Colombia -->
           <circle class="node-circle" cx="140" cy="240" r="5"/>
           <text class="node-label" x="148" y="244">Colombia</text>
-          <!-- USA -->
           <circle class="node-circle" cx="200" cy="140" r="7" style="animation-delay:0.3s"/>
           <text class="node-label" x="208" y="144">USA</text>
           <circle class="node-circle" cx="160" cy="100" r="4" style="animation-delay:0.4s"/>
@@ -914,28 +754,21 @@ nav {
           <text class="node-label" x="163" y="186">Mexico</text>
           <circle class="node-circle" cx="320" cy="78" r="4" style="animation-delay:0.7s"/>
           <text class="node-label" x="328" y="82">UK</text>
-          <!-- Germany -->
           <circle class="node-circle" cx="300" cy="110" r="5" style="animation-delay:0.6s"/>
           <text class="node-label" x="308" y="114">Germany</text>
-          <!-- Portugal -->
           <circle class="node-circle" cx="278" cy="122" r="4" style="animation-delay:0.8s"/>
           <text class="node-label" x="252" y="136">Portugal</text>
-          <!-- Spain -->
           <circle class="node-circle" cx="340" cy="105" r="4" style="animation-delay:1s"/>
           <text class="node-label" x="348" y="109">Spain</text>
-          <!-- Brazil -->
           <circle class="node-circle" cx="180" cy="258" r="5" style="animation-delay:1.2s"/>
           <text class="node-label" x="188" y="262">Brazil</text>
-          <!-- Philippines -->
           <circle class="node-circle" cx="415" cy="158" r="4" style="animation-delay:1.4s"/>
           <text class="node-label" x="392" y="148">Philippines</text>
-          <!-- Central hub -->
           <circle cx="240" cy="170" r="8" fill="var(--gold)" opacity="0.8"/>
           <circle cx="240" cy="170" r="14" stroke="var(--gold)" stroke-width="1" opacity="0.3" fill="none"/>
           <text class="node-label" x="248" y="174" fill="rgba(232,160,32,0.8)">HUB</text>
         </svg>
       </div>
-
       <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1rem;">
         <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">USD</span>
         <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">EUR</span>
@@ -952,11 +785,8 @@ nav {
 <section class="panel" id="p3">
   <div class="punches-header">
     <div class="punches-label reveal">The Work</div>
-    <h2 class="punches-title reveal delay-1">
-      Systems integration.<br><em>Real results.</em>
-    </h2>
+    <h2 class="punches-title reveal delay-1">Systems integration.<br><em>Real results.</em></h2>
   </div>
-
   <div class="punch-cards">
     <div class="punch-card reveal delay-2">
       <div class="punch-num">01 — Close Cycle</div>
@@ -967,9 +797,7 @@ nav {
         <span class="punch-after"><span class="count-up" data-target="4" data-suffix="d">0d</span></span>
       </div>
       <div class="punch-title">Month-End Close</div>
-      <div class="punch-body">
-        Integrated QBO, Stripe, HubSpot, and SQL into a unified financial engine — replacing manual spreadsheets, eliminating reconciliation errors, and cutting the close cycle by 60%.
-      </div>
+      <div class="punch-body">Integrated QBO, Stripe, HubSpot, and SQL into a unified financial engine — replacing manual spreadsheets, eliminating reconciliation errors, and cutting the close cycle by 60%.</div>
     </div>
     <div class="punch-card reveal delay-3">
       <div class="punch-num">02 — Cash Runway</div>
@@ -980,9 +808,7 @@ nav {
         <span class="punch-after"><span class="count-up" data-target="6" data-suffix="mo">0mo</span></span>
       </div>
       <div class="punch-title">Cash Runway Extended</div>
-      <div class="punch-body">
-        Centralized payroll and transaction flows across 8 countries. Automated pipelines for cash visibility — tripling the runway through optimized spend and capital reallocation.
-      </div>
+      <div class="punch-body">Centralized payroll and transaction flows across 8 countries. Automated pipelines for cash visibility — tripling the runway through optimized spend and capital reallocation.</div>
     </div>
     <div class="punch-card reveal delay-4">
       <div class="punch-num">03 — Strategic Insight</div>
@@ -993,9 +819,7 @@ nav {
         <span class="punch-after" style="font-size:1.8rem;">Signal</span>
       </div>
       <div class="punch-title">CFO-Level Intelligence</div>
-      <div class="punch-body">
-        Deal- and transaction-level analysis of NRR, GRR, churn, CAC/LTV, and product usage — reshaping pricing strategy, retention models, and capital allocation decisions.
-      </div>
+      <div class="punch-body">Deal- and transaction-level analysis of NRR, GRR, churn, CAC/LTV, and product usage — reshaping pricing strategy, retention models, and capital allocation decisions.</div>
     </div>
   </div>
 </section>
@@ -1005,12 +829,8 @@ nav {
   <div class="builder-layout">
     <div>
       <div class="builder-label reveal">The Architect</div>
-      <h2 class="builder-title reveal delay-1">
-        When the tools<br>didn't exist —<br><em>she built them.</em>
-      </h2>
-      <p class="builder-body reveal delay-2">
-        Founder of <strong>The Monthly CFO</strong> — an AI-enabled financial advisory platform for operators who need clarity, not complexity. Automated pipelines that turn fragmented data into decision-ready intelligence in under 5 minutes.
-      </p>
+      <h2 class="builder-title reveal delay-1">When the tools<br>didn't exist —<br><em>she built them.</em></h2>
+      <p class="builder-body reveal delay-2">Founder of <strong>The Monthly CFO</strong> — an AI-enabled financial advisory platform for operators who need clarity, not complexity. Automated pipelines that turn fragmented data into decision-ready intelligence in under 5 minutes.</p>
       <div class="builder-stack reveal delay-3">
         <span class="stack-tag">SQL / MySQL</span>
         <span class="stack-tag">Power BI</span>
@@ -1026,40 +846,27 @@ nav {
         <span class="stack-tag">Power Query</span>
       </div>
     </div>
-
     <div class="reveal-right delay-2">
       <div style="font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--teal); margin-bottom:1.5rem;">Automated Financial Pipeline</div>
       <div class="pipeline">
         <div class="pipe-node">
           <div class="pipe-icon">📥</div>
-          <div class="pipe-info">
-            <div class="pipe-name">Data Ingest</div>
-            <div class="pipe-detail">Stripe · QBO · HubSpot · Payroll</div>
-          </div>
+          <div class="pipe-info"><div class="pipe-name">Data Ingest</div><div class="pipe-detail">Stripe · QBO · HubSpot · Payroll</div></div>
           <div class="pipe-tools">Raw Data</div>
         </div>
         <div class="pipe-node">
           <div class="pipe-icon">⚙️</div>
-          <div class="pipe-info">
-            <div class="pipe-name">Logic Engine</div>
-            <div class="pipe-detail">SQL · Make · n8n · Power Query</div>
-          </div>
+          <div class="pipe-info"><div class="pipe-name">Logic Engine</div><div class="pipe-detail">SQL · Make · n8n · Power Query</div></div>
           <div class="pipe-tools">Transform</div>
         </div>
         <div class="pipe-node">
           <div class="pipe-icon">📊</div>
-          <div class="pipe-info">
-            <div class="pipe-name">Intelligence Layer</div>
-            <div class="pipe-detail">ARR · NRR · CAC/LTV · Runway · Churn</div>
-          </div>
+          <div class="pipe-info"><div class="pipe-name">Intelligence Layer</div><div class="pipe-detail">ARR · NRR · CAC/LTV · Runway · Churn</div></div>
           <div class="pipe-tools">Model</div>
         </div>
         <div class="pipe-node">
           <div class="pipe-icon">🎯</div>
-          <div class="pipe-info">
-            <div class="pipe-name">Decision-Ready Output</div>
-            <div class="pipe-detail">1-page CFO summary · Board decks · Alerts</div>
-          </div>
+          <div class="pipe-info"><div class="pipe-name">Decision-Ready Output</div><div class="pipe-detail">1-page CFO summary · Board decks · Alerts</div></div>
           <div class="pipe-tools">Deliver</div>
         </div>
       </div>
@@ -1072,28 +879,21 @@ nav {
   <div class="close-orb"></div>
   <div class="close-inner">
     <div class="close-tag reveal">Ready for what's next</div>
-    <h2 class="close-name reveal delay-1">
-      Julieth<br><em>Ramos</em><br>Rivera
-    </h2>
-    <div class="close-roles reveal delay-2">
-      Head of Finance · Systems Architect · Strategic Partner
-    </div>
+    <h2 class="close-name reveal delay-1">Julieth<br><em>Ramos</em><br>Rivera</h2>
+    <div class="close-roles reveal delay-2">Head of Finance · Systems Architect · Strategic Partner</div>
     <div class="close-divider reveal delay-3"></div>
     <div class="close-contact reveal delay-4">
-      <a class="close-link" href="https://linkedin.com/in/juliethramosrivera" target="_blank">
-        linkedin.com/in/juliethramosrivera
-      </a>
+      <a class="close-link" href="https://linkedin.com/in/juliethramosrivera" target="_blank">linkedin.com/in/juliethramosrivera</a>
       <span class="close-link">juliethramos.jr@gmail.com</span>
-      <span class="close-location"> Global operator · Open to remote &amp; hybrid (US - LATAM) · </span>
+      <span class="close-location">Global operator · Open to remote &amp; hybrid (US - LATAM)</span>
     </div>
     <a class="close-cta reveal delay-5" href="https://linkedin.com/in/juliethramosrivera" target="_blank">
-      <span>Let's connect</span>
-      <span>→</span>
+      <span>Let's connect</span><span>→</span>
     </a>
   </div>
 </section>
-  </section>
-  <!-- ══ PANEL 6: PROJECTS ══ -->
+
+<!-- ══ PANEL 6: PROJECTS ══ -->
 <section class="panel" id="p6">
   <div class="p6-grid"></div>
   <div class="p6-orb"></div>
@@ -1187,7 +987,6 @@ nav {
   </div>
 </section>
 
-
 <script>
 // ── CHAOS NUMBERS ──
 const chaosField = document.getElementById('chaosField');
@@ -1247,15 +1046,13 @@ function animateCount(el) {
   const target = parseInt(el.dataset.target);
   const suffix = el.dataset.suffix || '';
   let current = 0;
-  const duration = 1200;
   const steps = 40;
   const increment = target / steps;
-  const interval = duration / steps;
   const timer = setInterval(() => {
     current = Math.min(current + increment, target);
     el.textContent = Math.round(current) + suffix;
     if (current >= target) clearInterval(timer);
-  }, interval);
+  }, 1200 / steps);
 }
 
 const countEls = document.querySelectorAll('.count-up');
@@ -1269,15 +1066,23 @@ const countObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.5 });
 
 countEls.forEach(el => countObserver.observe(el));
-  // Projects progress bar
+
+// ── PROJECTS PROGRESS BAR ──
 const p6El = document.getElementById('p6');
 if (p6El) {
   new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.querySelectorAll('.p6-progress-fill').forEach(b => b.style.width = b.dataset.width); });
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.querySelectorAll('.p6-progress-fill').forEach(b => b.style.width = b.dataset.width);
+    });
   }, { threshold: 0.3 }).observe(p6El);
 }
+
+// ── PROJECTS FILTER TABS ──
 document.querySelectorAll('.p6-filter').forEach(btn => {
-  btn.addEventListener('click', () => { document.querySelectorAll('.p6-filter').forEach(b => b.classList.remove('active')); btn.classList.add('active'); });
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.p6-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
 });
 </script>
 </body>
