@@ -850,100 +850,6 @@ nav {
     <span>Scroll</span>
     <div class="scroll-arrow"></div>
   </div>
-</section>
-  <!-- ══ PANEL 6: PROJECTS ══ -->
-<section class="panel" id="p6">
-  <div class="p6-grid"></div>
-  <div class="p6-orb"></div>
-  <div class="reveal">
-    <div class="p6-label">06 — Projects</div>
-    <h2 class="p6-title">The Work, <em>Documented.</em></h2>
-    <p class="p6-subtitle">Real queries. Real frameworks. Each card is a living artifact — built as the skill is built, documented as the logic unfolds.</p>
-  </div>
-  <div class="p6-filters reveal delay-1">
-    <button class="p6-filter active">All</button>
-    <button class="p6-filter">SQL</button>
-    <button class="p6-filter">Financial Modeling</button>
-    <button class="p6-filter">Architecture</button>
-  </div>
-  <div class="p6-grid-cards reveal delay-2">
-    <div class="p6-card accent-planned">
-      <div class="p6-card-body">
-        <div class="p6-badge badge-planned">Planned</div>
-        <p class="p6-cat">SQL · Finance Operations</p>
-        <h3 class="p6-card-title">Revenue Reconciliation Query</h3>
-        <p class="p6-card-desc">Every month, reported revenue and actual deposits diverge. This query identifies the delta — surfacing timing gaps, duplicate entries, and missed accruals between the GL and source transactions.</p>
-        <p class="p6-chips-label">Core Logic</p>
-        <div class="p6-chips">
-          <span class="p6-chip">CTEs</span>
-          <span class="p6-chip">LEFT JOIN</span>
-          <span class="p6-chip">CASE WHEN</span>
-          <span class="p6-chip teal">Variance flagging</span>
-          <span class="p6-chip">Date bucketing</span>
-          <span class="p6-chip teal">Dedup via ROW_NUMBER</span>
-        </div>
-        <div class="p6-sql">
-          <code>
-<span class="cm">-- Revenue Reconciliation · v0.1 (planned)</span>
-<span class="kw">WITH</span> <span class="st">gl_actuals</span> <span class="kw">AS</span> (
-  <span class="kw">SELECT</span> transaction_date,
-    <span class="fn">SUM</span>(amount) <span class="kw">AS</span> <span class="st">gl_total</span>, account_code
-  <span class="kw">FROM</span> general_ledger
-  <span class="kw">WHERE</span> account_type = <span class="st">'REVENUE'</span>
-  <span class="kw">GROUP BY</span> <span class="nu">1</span>, <span class="nu">3</span>
-),
-<span class="st">source_txns</span> <span class="kw">AS</span> (
-  <span class="kw">SELECT</span> deposit_date,
-    <span class="fn">SUM</span>(net_amount) <span class="kw">AS</span> <span class="st">src_total</span>, ledger_code
-  <span class="kw">FROM</span> source_transactions
-  <span class="kw">WHERE</span> status != <span class="st">'VOID'</span>
-  <span class="kw">GROUP BY</span> <span class="nu">1</span>, <span class="nu">3</span>
-)
-<span class="kw">SELECT</span> g.transaction_date, g.gl_total, s.src_total,
-  g.gl_total - <span class="fn">COALESCE</span>(s.src_total,<span class="nu">0</span>) <span class="kw">AS</span> <span class="st">variance</span>,
-  <span class="kw">CASE WHEN</span> <span class="fn">ABS</span>(g.gl_total - s.src_total) > <span class="nu">500</span>
-    <span class="kw">THEN</span> <span class="st">'FLAG'</span> <span class="kw">ELSE</span> <span class="st">'OK'</span> <span class="kw">END</span> <span class="kw">AS</span> <span class="st">status</span>
-<span class="kw">FROM</span> <span class="st">gl_actuals</span> g
-<span class="kw">LEFT JOIN</span> <span class="st">source_txns</span> s
-  <span class="kw">ON</span> g.account_code = s.ledger_code
-  <span class="kw">AND</span> g.transaction_date = s.deposit_date
-<span class="kw">ORDER BY</span> <span class="fn">ABS</span>(variance) <span class="kw">DESC</span>;
-          </code>
-          <div class="p6-sql-overlay">
-            <span class="p6-sql-overlay-icon">◈</span>
-            <p>Query in development</p>
-          </div>
-        </div>
-        <div class="p6-progress-row">
-          <span class="p6-progress-label">Progress</span>
-          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="10%"></div></div>
-          <span class="p6-progress-pct">10%</span>
-        </div>
-        <div class="p6-card-footer">
-          <span class="p6-card-meta">SQL training track · Q1 2025</span>
-          <a href="#" class="p6-card-link">Follow progress →</a>
-        </div>
-      </div>
-    </div>
-    <div class="p6-ghost">
-      <span class="p6-ghost-cat">SQL · Cohort Analysis</span>
-      <p class="p6-ghost-title">Churn Analysis by Cohort</p>
-      <div class="p6-ghost-line"></div>
-      <span class="p6-ghost-note">Coming as SQL training advances</span>
-    </div>
-    <div class="p6-ghost">
-      <span class="p6-ghost-cat">Financial Modeling</span>
-      <p class="p6-ghost-title">Cash Runway Model</p>
-      <div class="p6-ghost-line"></div>
-      <span class="p6-ghost-note">Anonymized case study · in design</span>
-    </div>
-  </div>
-  <div class="p6-footnote reveal delay-3">
-    <div class="p6-footnote-line"></div>
-    <span class="p6-footnote-text">Updated as work is built · All frameworks anonymized</span>
-    <div class="p6-footnote-line"></div>
-  </div>
-</section>
 
 <!-- ══ PANEL 2: IDENTITY ══ -->
 <section class="panel" id="p2">
@@ -1186,6 +1092,101 @@ nav {
     </a>
   </div>
 </section>
+  </section>
+  <!-- ══ PANEL 6: PROJECTS ══ -->
+<section class="panel" id="p6">
+  <div class="p6-grid"></div>
+  <div class="p6-orb"></div>
+  <div class="reveal">
+    <div class="p6-label">06 — Projects</div>
+    <h2 class="p6-title">The Work, <em>Documented.</em></h2>
+    <p class="p6-subtitle">Real queries. Real frameworks. Each card is a living artifact — built as the skill is built, documented as the logic unfolds.</p>
+  </div>
+  <div class="p6-filters reveal delay-1">
+    <button class="p6-filter active">All</button>
+    <button class="p6-filter">SQL</button>
+    <button class="p6-filter">Financial Modeling</button>
+    <button class="p6-filter">Architecture</button>
+  </div>
+  <div class="p6-grid-cards reveal delay-2">
+    <div class="p6-card accent-planned">
+      <div class="p6-card-body">
+        <div class="p6-badge badge-planned">Planned</div>
+        <p class="p6-cat">SQL · Finance Operations</p>
+        <h3 class="p6-card-title">Revenue Reconciliation Query</h3>
+        <p class="p6-card-desc">Every month, reported revenue and actual deposits diverge. This query identifies the delta — surfacing timing gaps, duplicate entries, and missed accruals between the GL and source transactions.</p>
+        <p class="p6-chips-label">Core Logic</p>
+        <div class="p6-chips">
+          <span class="p6-chip">CTEs</span>
+          <span class="p6-chip">LEFT JOIN</span>
+          <span class="p6-chip">CASE WHEN</span>
+          <span class="p6-chip teal">Variance flagging</span>
+          <span class="p6-chip">Date bucketing</span>
+          <span class="p6-chip teal">Dedup via ROW_NUMBER</span>
+        </div>
+        <div class="p6-sql">
+          <code>
+<span class="cm">-- Revenue Reconciliation · v0.1 (planned)</span>
+<span class="kw">WITH</span> <span class="st">gl_actuals</span> <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> transaction_date,
+    <span class="fn">SUM</span>(amount) <span class="kw">AS</span> <span class="st">gl_total</span>, account_code
+  <span class="kw">FROM</span> general_ledger
+  <span class="kw">WHERE</span> account_type = <span class="st">'REVENUE'</span>
+  <span class="kw">GROUP BY</span> <span class="nu">1</span>, <span class="nu">3</span>
+),
+<span class="st">source_txns</span> <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> deposit_date,
+    <span class="fn">SUM</span>(net_amount) <span class="kw">AS</span> <span class="st">src_total</span>, ledger_code
+  <span class="kw">FROM</span> source_transactions
+  <span class="kw">WHERE</span> status != <span class="st">'VOID'</span>
+  <span class="kw">GROUP BY</span> <span class="nu">1</span>, <span class="nu">3</span>
+)
+<span class="kw">SELECT</span> g.transaction_date, g.gl_total, s.src_total,
+  g.gl_total - <span class="fn">COALESCE</span>(s.src_total,<span class="nu">0</span>) <span class="kw">AS</span> <span class="st">variance</span>,
+  <span class="kw">CASE WHEN</span> <span class="fn">ABS</span>(g.gl_total - s.src_total) > <span class="nu">500</span>
+    <span class="kw">THEN</span> <span class="st">'FLAG'</span> <span class="kw">ELSE</span> <span class="st">'OK'</span> <span class="kw">END</span> <span class="kw">AS</span> <span class="st">status</span>
+<span class="kw">FROM</span> <span class="st">gl_actuals</span> g
+<span class="kw">LEFT JOIN</span> <span class="st">source_txns</span> s
+  <span class="kw">ON</span> g.account_code = s.ledger_code
+  <span class="kw">AND</span> g.transaction_date = s.deposit_date
+<span class="kw">ORDER BY</span> <span class="fn">ABS</span>(variance) <span class="kw">DESC</span>;
+          </code>
+          <div class="p6-sql-overlay">
+            <span class="p6-sql-overlay-icon">◈</span>
+            <p>Query in development</p>
+          </div>
+        </div>
+        <div class="p6-progress-row">
+          <span class="p6-progress-label">Progress</span>
+          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="10%"></div></div>
+          <span class="p6-progress-pct">10%</span>
+        </div>
+        <div class="p6-card-footer">
+          <span class="p6-card-meta">SQL training track · Q1 2025</span>
+          <a href="#" class="p6-card-link">Follow progress →</a>
+        </div>
+      </div>
+    </div>
+    <div class="p6-ghost">
+      <span class="p6-ghost-cat">SQL · Cohort Analysis</span>
+      <p class="p6-ghost-title">Churn Analysis by Cohort</p>
+      <div class="p6-ghost-line"></div>
+      <span class="p6-ghost-note">Coming as SQL training advances</span>
+    </div>
+    <div class="p6-ghost">
+      <span class="p6-ghost-cat">Financial Modeling</span>
+      <p class="p6-ghost-title">Cash Runway Model</p>
+      <div class="p6-ghost-line"></div>
+      <span class="p6-ghost-note">Anonymized case study · in design</span>
+    </div>
+  </div>
+  <div class="p6-footnote reveal delay-3">
+    <div class="p6-footnote-line"></div>
+    <span class="p6-footnote-text">Updated as work is built · All frameworks anonymized</span>
+    <div class="p6-footnote-line"></div>
+  </div>
+</section>
+
 
 <script>
 // ── CHAOS NUMBERS ──
