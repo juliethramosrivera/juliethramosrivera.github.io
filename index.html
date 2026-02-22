@@ -615,6 +615,12 @@ nav {
 .p6-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: pulse 2s ease-in-out infinite; }
 .badge-planned { color: #8B6FD4; background: rgba(139,111,212,0.1); border: 1px solid rgba(139,111,212,0.22); }
 .badge-complete { color: #4ECDC4; background: rgba(78,205,196,0.1); border: 1px solid rgba(78,205,196,0.22); }
+.accent-complete::before { background: linear-gradient(90deg, #4ECDC4, transparent); }
+.accent-planned::before { background: linear-gradient(90deg, #8B6FD4, transparent); }
+.p6-progress-fill { height: 100%; background: linear-gradient(90deg, #4ECDC4, rgba(78,205,196,0.25)); width: 0; transition: width 1.4s ease 0.6s; }
+.p6-insight-box { background: rgba(78,205,196,0.04); border-left: 2px solid rgba(78,205,196,0.3); padding: 0.8rem 1rem; margin-bottom: 1.4rem; }
+.p6-insight-label { font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); display: block; margin-bottom: 0.3rem; }
+.p6-insight-text { font-size: 0.72rem; color: var(--white-dim); line-height: 1.6; font-family: 'Syne', sans-serif; }
 .p6-cat { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white-dim); margin-bottom: 0.5rem; }
 .p6-card-title { font-family: 'DM Serif Display', serif; font-size: 1.3rem; line-height: 1.15; color: var(--white); margin-bottom: 0.75rem; }
 .p6-card-desc { font-family: 'Syne', sans-serif; font-size: 0.82rem; color: var(--white-dim); line-height: 1.8; margin-bottom: 1.5rem; }
@@ -885,7 +891,7 @@ nav {
     <div class="close-divider reveal delay-3"></div>
     <div class="close-contact reveal delay-4">
       <a class="close-link" href="https://linkedin.com/in/juliethramosrivera" target="_blank">linkedin.com/in/juliethramosrivera</a>
-      <span class="close-link">juliethramos.jr@gmail.com</span>
+      <span class="close-link"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="751f00191c10011d0714181a065b1f07351218141c195b161a18">[email&#160;protected]</a></span>
       <span class="close-location">Global operator · Open to remote &amp; hybrid (US - LATAM)</span>
     </div>
     <a class="close-cta reveal delay-5" href="https://linkedin.com/in/juliethramosrivera" target="_blank">
@@ -901,7 +907,7 @@ nav {
   <div class="reveal">
     <div class="p6-label">06 — Projects</div>
     <h2 class="p6-title">The Work, <em>Documented.</em></h2>
-    <p class="p6-subtitle">Real queries. Real frameworks. Each card is a living artifact — built as the skill is built, documented as the logic unfolds.</p>
+    <p class="p6-subtitle">Real queries. Real data. Each project is a living artifact — built to solve actual finance problems, documented as the logic unfolds. Every result is a decision that can be made.</p>
   </div>
   <div class="p6-filters reveal delay-1">
     <button class="p6-filter active">All</button>
@@ -910,13 +916,15 @@ nav {
     <button class="p6-filter">Architecture</button>
   </div>
   <div class="p6-grid-cards reveal delay-2">
-    <div class="p6-card accent-planned">
+
+    <!-- CARD 1: REVENUE RECONCILIATION — COMPLETE -->
+    <div class="p6-card accent-complete">
       <div class="p6-card-body">
         <div class="p6-badge badge-complete">Complete</div>
-        <p class="p6-cat">SQL · Finance Operations</p>
-        <h3 class="p6-card-title">Revenue Reconciliation Query</h3>
-        <p class="p6-card-desc">Built on real B2B SaaS data for Nova Analytics Inc. Joins the General Ledger (QuickBooks) against Stripe payment records, aggregates by customer, calculates variance, and flags every mismatch. Identified 2 discrepancies: a duplicate GL posting and a partial payment — $2,898 in unreconciled revenue.</p>
-        <p class="p6-chips-label">Core Logic</p>
+        <p class="p6-cat">SQL · Finance Operations · Project 01</p>
+        <h3 class="p6-card-title">Revenue Reconciliation</h3>
+        <p class="p6-card-desc">Joins the General Ledger (QuickBooks) against Stripe payment records for Nova Analytics Inc. Aggregates by customer, calculates variance, flags every mismatch. Identified 2 discrepancies totalling $2,898 — a duplicate GL posting and a partial payment.</p>
+        <p class="p6-chips-label">SQL Concepts Used</p>
         <div class="p6-chips">
           <span class="p6-chip">LEFT JOIN</span>
           <span class="p6-chip">GROUP BY</span>
@@ -928,17 +936,16 @@ nav {
         <div class="p6-sql">
           <code>
 <span class="cm">-- Revenue Reconciliation · Nova Analytics Inc. · Q4 2024</span>
-<span class="cm">-- Author: J. Ramos Rivera · Identifies GL vs Stripe variance</span>
+<span class="cm">-- Author: J. Ramos Rivera · GL vs Stripe variance flagging</span>
 <span class="kw">SELECT</span>
   gl.customer_name,
-  gl.gl_total                                    <span class="kw">AS</span> <span class="st">gl_amount</span>,
-  <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)                 <span class="kw">AS</span> <span class="st">stripe_amount</span>,
-  gl.gl_total - <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)   <span class="kw">AS</span> <span class="st">variance</span>,
+  gl.gl_total                                  <span class="kw">AS</span> <span class="st">gl_amount</span>,
+  <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)               <span class="kw">AS</span> <span class="st">stripe_amount</span>,
+  gl.gl_total - <span class="fn">COALESCE</span>(sp.stripe_total,<span class="nu">0</span>)  <span class="kw">AS</span> <span class="st">variance</span>,
   <span class="kw">CASE</span>
-    <span class="kw">WHEN</span> gl.gl_total = <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)
-    <span class="kw">THEN</span> <span class="st">'OK'</span>
-    <span class="kw">ELSE</span> <span class="st">'FLAG'</span>
-  <span class="kw">END</span>                                            <span class="kw">AS</span> <span class="st">status</span>
+    <span class="kw">WHEN</span> gl.gl_total = <span class="fn">COALESCE</span>(sp.stripe_total,<span class="nu">0</span>)
+    <span class="kw">THEN</span> <span class="st">'OK'</span> <span class="kw">ELSE</span> <span class="st">'FLAG'</span>
+  <span class="kw">END</span>                                          <span class="kw">AS</span> <span class="st">status</span>
 <span class="kw">FROM</span> (
   <span class="kw">SELECT</span> customer_name, <span class="fn">SUM</span>(amount) <span class="kw">AS</span> <span class="st">gl_total</span>
   <span class="kw">FROM</span> general_ledger
@@ -951,12 +958,12 @@ nav {
   <span class="kw">WHERE</span> status = <span class="st">'succeeded'</span>
   <span class="kw">GROUP BY</span> customer_name
 ) <span class="kw">AS</span> sp <span class="kw">ON</span> gl.customer_name = sp.customer_name
-<span class="kw">ORDER BY</span>
-  <span class="kw">CASE WHEN</span> gl.gl_total - <span class="fn">COALESCE</span>(sp.stripe_total,<span class="nu">0</span>) != <span class="nu">0</span>
-    <span class="kw">THEN</span> <span class="nu">0</span> <span class="kw">ELSE</span> <span class="nu">1</span> <span class="kw">END</span>,
-  <span class="fn">ABS</span>(gl.gl_total - <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)) <span class="kw">DESC</span>;
+<span class="kw">ORDER BY</span> <span class="fn">ABS</span>(variance) <span class="kw">DESC</span>;
           </code>
-
+        </div>
+        <div class="p6-insight-box">
+          <span class="p6-insight-label">Decision enabled</span>
+          <p class="p6-insight-text">2 flags identified: DataStream Co (duplicate GL entry, $2,499) and EchoSystems Ltd (partial payment, $399). Prevents overstated revenue on board reporting.</p>
         </div>
         <div class="p6-progress-row">
           <span class="p6-progress-label">Progress</span>
@@ -964,32 +971,153 @@ nav {
           <span class="p6-progress-pct">100%</span>
         </div>
         <div class="p6-card-footer">
-          <span class="p6-card-meta">SQL training track · Completed Feb 2026</span>
-          <a href="#" class="p6-card-link">Follow progress →</a>
+          <span class="p6-card-meta">Completed · Feb 2026</span>
+          <a href="https://github.com/juliethramosrivera/juliethramosrivera.github.io" target="_blank" class="p6-card-link">View on GitHub →</a>
         </div>
       </div>
     </div>
-    <div class="p6-ghost">
-      <span class="p6-ghost-cat">SQL · Cohort Analysis</span>
-      <p class="p6-ghost-title">Churn Analysis by Cohort</p>
-      <div class="p6-ghost-line"></div>
-      <span class="p6-ghost-note">Coming as SQL training advances</span>
+
+    <!-- CARD 2: CHURN ANALYSIS — COMPLETE -->
+    <div class="p6-card accent-complete">
+      <div class="p6-card-body">
+        <div class="p6-badge badge-complete">Complete</div>
+        <p class="p6-cat">SQL · Customer Analytics · Project 02</p>
+        <h3 class="p6-card-title">Churn Analysis by Cohort</h3>
+        <p class="p6-card-desc">Cohort retention analysis across 75 customers and 12 monthly cohorts for Nova Analytics Inc. Segments churn by plan tier and calculates 6-month retention flags — revealing that 100% of Starter customers churned vs. 0% Enterprise churn.</p>
+        <p class="p6-chips-label">SQL Concepts Used</p>
+        <div class="p6-chips">
+          <span class="p6-chip">CTEs</span>
+          <span class="p6-chip">DATE_FORMAT</span>
+          <span class="p6-chip">TIMESTAMPDIFF</span>
+          <span class="p6-chip teal">CASE WHEN</span>
+          <span class="p6-chip teal">COALESCE</span>
+          <span class="p6-chip">GROUP BY</span>
+        </div>
+        <div class="p6-sql">
+          <code>
+<span class="cm">-- 6-Month Retention Flag · Nova Analytics · Cohort Analysis</span>
+<span class="cm">-- Author: J. Ramos Rivera</span>
+<span class="kw">SELECT</span>
+  <span class="fn">DATE_FORMAT</span>(start_date, <span class="st">'%Y-%m'</span>)        <span class="kw">AS</span> <span class="st">cohort_month</span>,
+  <span class="fn">COUNT</span>(*)                                <span class="kw">AS</span> <span class="st">cohort_size</span>,
+  <span class="fn">SUM</span>(<span class="kw">CASE</span>
+    <span class="kw">WHEN</span> end_date <span class="kw">IS NULL</span>
+      <span class="kw">OR</span> <span class="fn">TIMESTAMPDIFF</span>(<span class="kw">MONTH</span>,
+         start_date, end_date) >= <span class="nu">6</span>
+    <span class="kw">THEN</span> <span class="nu">1</span> <span class="kw">ELSE</span> <span class="nu">0</span>
+  <span class="kw">END</span>)                                    <span class="kw">AS</span> <span class="st">retained_at_6m</span>,
+  <span class="fn">ROUND</span>(<span class="fn">SUM</span>(<span class="kw">CASE</span>
+    <span class="kw">WHEN</span> end_date <span class="kw">IS NULL</span>
+      <span class="kw">OR</span> <span class="fn">TIMESTAMPDIFF</span>(<span class="kw">MONTH</span>,
+         start_date, end_date) >= <span class="nu">6</span>
+    <span class="kw">THEN</span> <span class="nu">1</span> <span class="kw">ELSE</span> <span class="nu">0</span>
+  <span class="kw">END</span>) / <span class="fn">COUNT</span>(*) * <span class="nu">100.0</span>, <span class="nu">1</span>)          <span class="kw">AS</span> <span class="st">retention_6m_pct</span>
+<span class="kw">FROM</span> subscriptions
+<span class="kw">GROUP BY</span> cohort_month
+<span class="kw">ORDER BY</span> cohort_month;
+          </code>
+        </div>
+        <div class="p6-insight-box">
+          <span class="p6-insight-label">Decision enabled</span>
+          <p class="p6-insight-text">Starter plan = 100% churn (avg 3.5 months). Enterprise = 0% churn at 29 months. Triggers pricing strategy review and a Starter→Pro upgrade campaign at month 2.</p>
+        </div>
+        <div class="p6-progress-row">
+          <span class="p6-progress-label">Progress</span>
+          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="100%"></div></div>
+          <span class="p6-progress-pct">100%</span>
+        </div>
+        <div class="p6-card-footer">
+          <span class="p6-card-meta">Completed · Feb 2026</span>
+          <a href="https://github.com/juliethramosrivera/juliethramosrivera.github.io" target="_blank" class="p6-card-link">View on GitHub →</a>
+        </div>
+      </div>
     </div>
-    <div class="p6-ghost">
-      <span class="p6-ghost-cat">Financial Modeling</span>
-      <p class="p6-ghost-title">Cash Runway Model</p>
-      <div class="p6-ghost-line"></div>
-      <span class="p6-ghost-note">Anonymized case study · in design</span>
+
+    <!-- CARD 3: AI INFRASTRUCTURE COGS — PLANNED -->
+    <div class="p6-card accent-planned">
+      <div class="p6-card-body">
+        <div class="p6-badge badge-planned">Planned</div>
+        <p class="p6-cat">SQL · COGS Analysis · Project 03</p>
+        <h3 class="p6-card-title">AI Infrastructure COGS</h3>
+        <p class="p6-card-desc">Cost-per-customer analysis for an AI startup — GPU compute hours, inference costs, and margin by product tier. Answers: what does it actually cost to serve each customer, and where is the margin?</p>
+        <p class="p6-chips-label">Planned Concepts</p>
+        <div class="p6-chips">
+          <span class="p6-chip">INNER JOIN</span>
+          <span class="p6-chip">Cost per unit</span>
+          <span class="p6-chip teal">Margin analysis</span>
+          <span class="p6-chip">GROUP BY tier</span>
+        </div>
+        <div class="p6-progress-row">
+          <span class="p6-progress-label">Progress</span>
+          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="0%"></div></div>
+          <span class="p6-progress-pct" style="color:#8B6FD4">0%</span>
+        </div>
+        <div class="p6-card-footer">
+          <span class="p6-card-meta">In design · 2026</span>
+          <span class="p6-card-link" style="opacity:0.4;cursor:default">Coming soon</span>
+        </div>
+      </div>
     </div>
+
+    <!-- CARD 4: CASH RUNWAY — PLANNED -->
+    <div class="p6-card accent-planned">
+      <div class="p6-card-body">
+        <div class="p6-badge badge-planned">Planned</div>
+        <p class="p6-cat">Financial Modeling · Project 04</p>
+        <h3 class="p6-card-title">Cash Runway Model</h3>
+        <p class="p6-card-desc">Forward-looking cash model built from Projects 1–3 output. Burn rate, scenario planning, and capital allocation decisions — the CFO-level synthesis of the full data pipeline.</p>
+        <p class="p6-chips-label">Planned Concepts</p>
+        <div class="p6-chips">
+          <span class="p6-chip">Scenario modeling</span>
+          <span class="p6-chip teal">Burn rate</span>
+          <span class="p6-chip">Capital allocation</span>
+          <span class="p6-chip">Runway projection</span>
+        </div>
+        <div class="p6-progress-row">
+          <span class="p6-progress-label">Progress</span>
+          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="0%"></div></div>
+          <span class="p6-progress-pct" style="color:#8B6FD4">0%</span>
+        </div>
+        <div class="p6-card-footer">
+          <span class="p6-card-meta">In design · 2026</span>
+          <span class="p6-card-link" style="opacity:0.4;cursor:default">Coming soon</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- GHOST: MRR & ARR WATERFALL -->
+    <div class="p6-ghost">
+      <span class="p6-ghost-cat">SQL · Revenue Analytics · Future</span>
+      <p class="p6-ghost-title">MRR & ARR Waterfall</p>
+      <div class="p6-ghost-line"></div>
+      <span class="p6-ghost-note">New, Expansion, Contraction, Churn movements · LAG / LEAD window functions</span>
+    </div>
+
+    <!-- GHOST: INVOICE AGING -->
+    <div class="p6-ghost">
+      <span class="p6-ghost-cat">SQL · AR Management · Future</span>
+      <p class="p6-ghost-title">Invoice Aging Analysis</p>
+      <div class="p6-ghost-line"></div>
+      <span class="p6-ghost-note">0–30 / 31–60 / 61–90 / 90+ day buckets · DATEDIFF · CASE WHEN</span>
+    </div>
+
+    <!-- GHOST: BUDGET VS ACTUALS -->
+    <div class="p6-ghost">
+      <span class="p6-ghost-cat">SQL · FP&A · Future</span>
+      <p class="p6-ghost-title">Budget vs. Actuals Variance</p>
+      <div class="p6-ghost-line"></div>
+      <span class="p6-ghost-note">Department-level variance · INNER JOIN · ROLLUP</span>
+    </div>
+
   </div>
   <div class="p6-footnote reveal delay-3">
     <div class="p6-footnote-line"></div>
-    <span class="p6-footnote-text">Updated as work is built · All frameworks anonymized</span>
+    <span class="p6-footnote-text">Each project produces decisions, not just queries · All data anonymized · Nova Analytics Inc.</span>
     <div class="p6-footnote-line"></div>
   </div>
 </section>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── CHAOS NUMBERS ──
 const chaosField = document.getElementById('chaosField');
 const nums = ['$12,482', '34d', 'ARR', '#REF!', 'NaN', '₂₃.₄%', 'Q3', 'COGS', '—', '$0', 'ERR', 'MRR', '??', '∞', 'CAC', 'NRR'];
@@ -1080,7 +1208,7 @@ if (p6El) {
 }
 
 // ── PROJECTS FILTER TABS ──
-document.querySelectorAll('.p6-filter').forEach(btn => {
+document.querySelectAll('.p6-filter').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.p6-filter').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
