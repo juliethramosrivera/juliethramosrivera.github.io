@@ -1,0 +1,43 @@
+customer_name,gl_amount,stripe_amount,variance,status
+"DataStream Co",4998.00,2499.00,2499.00,FLAG
+"EchoSystems Ltd",799.00,400.00,399.00,FLAG
+"Acme Corp",4998.00,4998.00,0.00,OK
+"PhaseCore Co",299.00,299.00,0.00,OK
+"BrightPath LLC",1598.00,1598.00,0.00,OK
+"FinCore Partners",299.00,299.00,0.00,OK
+"Growbase Inc",2499.00,2499.00,0.00,OK
+HorizonTech,799.00,799.00,0.00,OK
+"Infralink Co",299.00,299.00,0.00,OK
+"JetMetrics LLC",2499.00,2499.00,0.00,OK
+"Keystone AI",799.00,799.00,0.00,OK
+"Luminar Data",299.00,299.00,0.00,OK
+"Meridian SaaS",2499.00,2499.00,0.00,OK
+"NorthStar Co",799.00,799.00,0.00,OK
+"Orion Platforms",299.00,299.00,0.00,OK
+"PulseData Inc",2499.00,2499.00,0.00,OK
+"Quantum Metrics",799.00,799.00,0.00,OK
+"RapidFlow Co",299.00,299.00,0.00,OK
+"SignalBase Ltd",2499.00,2499.00,0.00,OK
+"TrueLayer Inc",799.00,799.00,0.00,OK
+"Uplevel SaaS",299.00,299.00,0.00,OK
+VaultMetrics,2499.00,2499.00,0.00,OK
+"WaveLogic Co",799.00,799.00,0.00,OK
+"Xenon Data",299.00,299.00,0.00,OK
+"YieldBase Inc",2499.00,2499.00,0.00,OK
+"ZeroPoint LLC",799.00,799.00,0.00,OK
+"AlphaStack Co",299.00,299.00,0.00,OK
+"BetaSync Ltd",2499.00,2499.00,0.00,OK
+"ClearPath AI",799.00,799.00,0.00,OK
+"DeltaCore Inc",299.00,299.00,0.00,OK
+"EchoBase Co",2499.00,2499.00,0.00,OK
+"FlowState LLC",799.00,799.00,0.00,OK
+"GridLogic Inc",299.00,299.00,0.00,OK
+"HexData Co",2499.00,2499.00,0.00,OK
+"IonBase Ltd",799.00,799.00,0.00,OK
+"JumpStart AI",299.00,299.00,0.00,OK
+"KernelOps Co",2499.00,2499.00,0.00,OK
+"LinkLayer Inc",799.00,799.00,0.00,OK
+"MatrixFlow Co",299.00,299.00,0.00,OK
+"NodeBase Ltd",2499.00,2499.00,0.00,OK
+"OmegaSync Inc",799.00,799.00,0.00,OK
+"CoreLogic Inc",299.00,299.00,0.00,OK
