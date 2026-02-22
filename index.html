@@ -614,6 +614,7 @@ nav {
 .p6-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 4px 12px; margin-bottom: 1.2rem; }
 .p6-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: pulse 2s ease-in-out infinite; }
 .badge-planned { color: #8B6FD4; background: rgba(139,111,212,0.1); border: 1px solid rgba(139,111,212,0.22); }
+.badge-complete { color: #4ECDC4; background: rgba(78,205,196,0.1); border: 1px solid rgba(78,205,196,0.22); }
 .p6-cat { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white-dim); margin-bottom: 0.5rem; }
 .p6-card-title { font-family: 'DM Serif Display', serif; font-size: 1.3rem; line-height: 1.15; color: var(--white); margin-bottom: 0.75rem; }
 .p6-card-desc { font-family: 'Syne', sans-serif; font-size: 0.82rem; color: var(--white-dim); line-height: 1.8; margin-bottom: 1.5rem; }
@@ -631,7 +632,7 @@ nav {
 .p6-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.4rem; }
 .p6-progress-label { font-size: 0.58rem; color: var(--white-dim); white-space: nowrap; }
 .p6-progress-track { flex: 1; height: 2px; background: rgba(240,237,230,0.08); }
-.p6-progress-fill { height: 100%; background: linear-gradient(90deg, #8B6FD4, rgba(139,111,212,0.25)); width: 0; transition: width 1.4s ease 0.6s; }
+.p6-progress-fill { height: 100%; background: linear-gradient(90deg, #4ECDC4, rgba(78,205,196,0.25)); width: 0; transition: width 1.4s ease 0.6s; }
 .p6-progress-pct { font-size: 0.58rem; color: #8B6FD4; width: 26px; text-align: right; }
 .p6-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1.2rem; border-top: 1px solid var(--white-ghost); }
 .p6-card-meta { font-size: 0.58rem; color: var(--white-dim); }
@@ -884,7 +885,7 @@ nav {
     <div class="close-divider reveal delay-3"></div>
     <div class="close-contact reveal delay-4">
       <a class="close-link" href="https://linkedin.com/in/juliethramosrivera" target="_blank">linkedin.com/in/juliethramosrivera</a>
-      <span class="close-link">juliethramos.jr@gmail.com</span>
+      <span class="close-link"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5339263f3a36273b21323e3c207d392113343e323a3f7d303c3e">[email&#160;protected]</a></span>
       <span class="close-location">Global operator · Open to remote &amp; hybrid (US - LATAM)</span>
     </div>
     <a class="close-cta reveal delay-5" href="https://linkedin.com/in/juliethramosrivera" target="_blank">
@@ -911,7 +912,7 @@ nav {
   <div class="p6-grid-cards reveal delay-2">
     <div class="p6-card accent-planned">
       <div class="p6-card-body">
-        <div class="p6-badge badge-planned">Planned</div>
+        <div class="p6-badge badge-complete">Complete</div>
         <p class="p6-cat">SQL · Finance Operations</p>
         <h3 class="p6-card-title">Revenue Reconciliation Query</h3>
         <p class="p6-card-desc">Every month, reported revenue and actual deposits diverge. This query identifies the delta — surfacing timing gaps, duplicate entries, and missed accruals between the GL and source transactions.</p>
@@ -951,18 +952,15 @@ nav {
   <span class="kw">AND</span> g.transaction_date = s.deposit_date
 <span class="kw">ORDER BY</span> <span class="fn">ABS</span>(variance) <span class="kw">DESC</span>;
           </code>
-          <div class="p6-sql-overlay">
-            <span class="p6-sql-overlay-icon">◈</span>
-            <p>Query in development</p>
-          </div>
+
         </div>
         <div class="p6-progress-row">
           <span class="p6-progress-label">Progress</span>
-          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="10%"></div></div>
-          <span class="p6-progress-pct">10%</span>
+          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="100%"></div></div>
+          <span class="p6-progress-pct">100%</span>
         </div>
         <div class="p6-card-footer">
-          <span class="p6-card-meta">SQL training track · Q1 2025</span>
+          <span class="p6-card-meta">SQL training track · Completed Feb 2026</span>
           <a href="#" class="p6-card-link">Follow progress →</a>
         </div>
       </div>
@@ -987,7 +985,7 @@ nav {
   </div>
 </section>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── CHAOS NUMBERS ──
 const chaosField = document.getElementById('chaosField');
 const nums = ['$12,482', '34d', 'ARR', '#REF!', 'NaN', '₂₃.₄%', 'Q3', 'COGS', '—', '$0', 'ERR', 'MRR', '??', '∞', 'CAC', 'NRR'];
@@ -1078,12 +1076,4 @@ if (p6El) {
 }
 
 // ── PROJECTS FILTER TABS ──
-document.querySelectorAll('.p6-filter').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.p6-filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  });
-});
-</script>
-</body>
-</html>
+document.querySele
