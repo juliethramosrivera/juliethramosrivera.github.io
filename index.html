@@ -885,7 +885,7 @@ nav {
     <div class="close-divider reveal delay-3"></div>
     <div class="close-contact reveal delay-4">
       <a class="close-link" href="https://linkedin.com/in/juliethramosrivera" target="_blank">linkedin.com/in/juliethramosrivera</a>
-      <span class="close-link"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5339263f3a36273b21323e3c207d392113343e323a3f7d303c3e">[email&#160;protected]</a></span>
+      <span class="close-link">juliethramos.jr@gmail.com</span>
       <span class="close-location">Global operator · Open to remote &amp; hybrid (US - LATAM)</span>
     </div>
     <a class="close-cta reveal delay-5" href="https://linkedin.com/in/juliethramosrivera" target="_blank">
@@ -915,42 +915,46 @@ nav {
         <div class="p6-badge badge-complete">Complete</div>
         <p class="p6-cat">SQL · Finance Operations</p>
         <h3 class="p6-card-title">Revenue Reconciliation Query</h3>
-        <p class="p6-card-desc">Every month, reported revenue and actual deposits diverge. This query identifies the delta — surfacing timing gaps, duplicate entries, and missed accruals between the GL and source transactions.</p>
+        <p class="p6-card-desc">Built on real B2B SaaS data for Nova Analytics Inc. Joins the General Ledger (QuickBooks) against Stripe payment records, aggregates by customer, calculates variance, and flags every mismatch. Identified 2 discrepancies: a duplicate GL posting and a partial payment — $2,898 in unreconciled revenue.</p>
         <p class="p6-chips-label">Core Logic</p>
         <div class="p6-chips">
-          <span class="p6-chip">CTEs</span>
           <span class="p6-chip">LEFT JOIN</span>
-          <span class="p6-chip">CASE WHEN</span>
-          <span class="p6-chip teal">Variance flagging</span>
-          <span class="p6-chip">Date bucketing</span>
-          <span class="p6-chip teal">Dedup via ROW_NUMBER</span>
+          <span class="p6-chip">GROUP BY</span>
+          <span class="p6-chip">SUM()</span>
+          <span class="p6-chip teal">CASE WHEN</span>
+          <span class="p6-chip teal">COALESCE</span>
+          <span class="p6-chip">Subqueries</span>
         </div>
         <div class="p6-sql">
           <code>
-<span class="cm">-- Revenue Reconciliation · v0.1 (planned)</span>
-<span class="kw">WITH</span> <span class="st">gl_actuals</span> <span class="kw">AS</span> (
-  <span class="kw">SELECT</span> transaction_date,
-    <span class="fn">SUM</span>(amount) <span class="kw">AS</span> <span class="st">gl_total</span>, account_code
+<span class="cm">-- Revenue Reconciliation · Nova Analytics Inc. · Q4 2024</span>
+<span class="cm">-- Author: J. Ramos Rivera · Identifies GL vs Stripe variance</span>
+<span class="kw">SELECT</span>
+  gl.customer_name,
+  gl.gl_total                                    <span class="kw">AS</span> <span class="st">gl_amount</span>,
+  <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)                 <span class="kw">AS</span> <span class="st">stripe_amount</span>,
+  gl.gl_total - <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)   <span class="kw">AS</span> <span class="st">variance</span>,
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> gl.gl_total = <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)
+    <span class="kw">THEN</span> <span class="st">'OK'</span>
+    <span class="kw">ELSE</span> <span class="st">'FLAG'</span>
+  <span class="kw">END</span>                                            <span class="kw">AS</span> <span class="st">status</span>
+<span class="kw">FROM</span> (
+  <span class="kw">SELECT</span> customer_name, <span class="fn">SUM</span>(amount) <span class="kw">AS</span> <span class="st">gl_total</span>
   <span class="kw">FROM</span> general_ledger
-  <span class="kw">WHERE</span> account_type = <span class="st">'REVENUE'</span>
-  <span class="kw">GROUP BY</span> <span class="nu">1</span>, <span class="nu">3</span>
-),
-<span class="st">source_txns</span> <span class="kw">AS</span> (
-  <span class="kw">SELECT</span> deposit_date,
-    <span class="fn">SUM</span>(net_amount) <span class="kw">AS</span> <span class="st">src_total</span>, ledger_code
-  <span class="kw">FROM</span> source_transactions
-  <span class="kw">WHERE</span> status != <span class="st">'VOID'</span>
-  <span class="kw">GROUP BY</span> <span class="nu">1</span>, <span class="nu">3</span>
-)
-<span class="kw">SELECT</span> g.transaction_date, g.gl_total, s.src_total,
-  g.gl_total - <span class="fn">COALESCE</span>(s.src_total,<span class="nu">0</span>) <span class="kw">AS</span> <span class="st">variance</span>,
-  <span class="kw">CASE WHEN</span> <span class="fn">ABS</span>(g.gl_total - s.src_total) > <span class="nu">500</span>
-    <span class="kw">THEN</span> <span class="st">'FLAG'</span> <span class="kw">ELSE</span> <span class="st">'OK'</span> <span class="kw">END</span> <span class="kw">AS</span> <span class="st">status</span>
-<span class="kw">FROM</span> <span class="st">gl_actuals</span> g
-<span class="kw">LEFT JOIN</span> <span class="st">source_txns</span> s
-  <span class="kw">ON</span> g.account_code = s.ledger_code
-  <span class="kw">AND</span> g.transaction_date = s.deposit_date
-<span class="kw">ORDER BY</span> <span class="fn">ABS</span>(variance) <span class="kw">DESC</span>;
+  <span class="kw">WHERE</span> account_code = <span class="st">'REV-4100'</span>
+  <span class="kw">GROUP BY</span> customer_name
+) <span class="kw">AS</span> gl
+<span class="kw">LEFT JOIN</span> (
+  <span class="kw">SELECT</span> customer_name, <span class="fn">SUM</span>(amount) <span class="kw">AS</span> <span class="st">stripe_total</span>
+  <span class="kw">FROM</span> stripe_payments
+  <span class="kw">WHERE</span> status = <span class="st">'succeeded'</span>
+  <span class="kw">GROUP BY</span> customer_name
+) <span class="kw">AS</span> sp <span class="kw">ON</span> gl.customer_name = sp.customer_name
+<span class="kw">ORDER BY</span>
+  <span class="kw">CASE WHEN</span> gl.gl_total - <span class="fn">COALESCE</span>(sp.stripe_total,<span class="nu">0</span>) != <span class="nu">0</span>
+    <span class="kw">THEN</span> <span class="nu">0</span> <span class="kw">ELSE</span> <span class="nu">1</span> <span class="kw">END</span>,
+  <span class="fn">ABS</span>(gl.gl_total - <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)) <span class="kw">DESC</span>;
           </code>
 
         </div>
