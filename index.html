@@ -1076,4 +1076,12 @@ if (p6El) {
 }
 
 // ── PROJECTS FILTER TABS ──
-document.querySele
+document.querySelectorAll('.p6-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.p6-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
