@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luminary AI — AI Infrastructure COGS Analysis | Julieth Ramos Rivera</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --navy:   #06101C;
+    --navy2:  #0D1F35;
+    --navy3:  #132843;
+    --gold:   #E8A020;
+    --gold2:  #F5C060;
+    --teal:   #4ECDC4;
+    --teal2:  #2E9E9A;
+    --red:    #E74C3C;
+    --green:  #2ECC71;
+    --amber:  #F39C12;
+    --white:  #FFFFFF;
+    --muted:  #8BA3BC;
+    --surface:#0F1E30;
+    --card:   #112236;
+    --border: rgba(78,205,196,0.15);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  header {
+    position: relative;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy3) 60%, #1a3050 100%);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 64px 5% 56px;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(232,160,32,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 10%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(78,205,196,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    border: 1px solid rgba(232,160,32,0.4);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+  .header-company {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1.0;
+    color: var(--white);
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s forwards;
+  }
+  .header-company span { color: var(--gold); }
+  .header-subtitle {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(14px, 2vw, 18px);
+    color: var(--teal);
+    font-weight: 400;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.5s forwards;
+  }
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.65s forwards;
+  }
+  .header-meta span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+  .header-meta span strong { color: var(--white); }
+  main { max-width: 1280px; margin: 0 auto; padding: 48px 5% 80px; }
+  section { margin-bottom: 72px; }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .section-label-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
+  .section-label h2 { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--white); white-space: nowrap; }
+  .section-label .num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 2px; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .kpi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .kpi-card.gold::before  { background: var(--gold); }
+  .kpi-card.teal::before  { background: var(--teal); }
+  .kpi-card.red::before   { background: var(--red); }
+  .kpi-card.green::before { background: var(--green); }
+  .kpi-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 12px; }
+  .kpi-value { font-family: 'DM Serif Display', serif; font-size: 42px; line-height: 1; color: var(--white); }
+  .kpi-card.gold  .kpi-value { color: var(--gold); }
+  .kpi-card.teal  .kpi-value { color: var(--teal); }
+  .kpi-card.red   .kpi-value { color: var(--red); }
+  .kpi-card.green .kpi-value { color: var(--green); }
+  .kpi-sub { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+  .chart-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 768px) { .chart-grid-2 { grid-template-columns: 1fr; } }
+  .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 32px; opacity: 0; }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--white); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .chart-desc { font-size: 12px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+  .tier-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .tier-table thead tr { background: var(--navy3); border-bottom: 1px solid var(--border); }
+  .tier-table th { padding: 12px 16px; text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 1.5px; color: var(--gold); font-weight: 500; text-transform: uppercase; }
+  .tier-table td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--white); }
+  .tier-table tbody tr:hover { background: rgba(78,205,196,0.04); }
+  .tier-table .mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 3px; font-size: 11px; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+  .badge.green  { background: rgba(46,204,113,0.15);  color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+  .badge.amber  { background: rgba(243,156,18,0.15);  color: var(--amber); border: 1px solid rgba(243,156,18,0.3); }
+  .badge.red    { background: rgba(231,76,60,0.15);   color: var(--red);   border: 1px solid rgba(231,76,60,0.3); }
+  .badge.teal   { background: rgba(78,205,196,0.15);  color: var(--teal);  border: 1px solid rgba(78,205,196,0.3); }
+  .decision-box {
+    background: linear-gradient(135deg, var(--navy3), var(--navy2));
+    border: 1px solid rgba(232,160,32,0.4);
+    border-left: 4px solid var(--gold);
+    border-radius: 8px;
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+  }
+  .decision-box::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(232,160,32,0.06) 0%, transparent 70%); border-radius: 50%; }
+  .decision-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 16px; }
+  .decision-title { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--white); margin-bottom: 16px; line-height: 1.3; }
+  .decision-body { font-size: 14px; color: var(--muted); line-height: 1.8; max-width: 720px; }
+  .decision-body strong { color: var(--white); }
+  .decision-actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+  .action-chip { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 4px; font-size: 12px; font-family: 'Syne', sans-serif; font-weight: 600; border: 1px solid; }
+  .action-chip.gold  { background: rgba(232,160,32,0.12); color: var(--gold);  border-color: rgba(232,160,32,0.4); }
+  .action-chip.teal  { background: rgba(78,205,196,0.10); color: var(--teal);  border-color: rgba(78,205,196,0.35); }
+  .action-chip.white { background: rgba(255,255,255,0.06);color: var(--white); border-color: rgba(255,255,255,0.2); }
+  .concepts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .concept-chip { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 16px 20px; opacity: 0; transform: translateY(12px); }
+  .concept-chip .fn { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--teal); font-weight: 500; margin-bottom: 4px; }
+  .concept-chip .desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+  footer { background: var(--navy3); border-top: 1px solid var(--border); padding: 32px 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-left { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--white); }
+  .footer-left span { color: var(--gold); }
+  .footer-right { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); text-align: right; line-height: 1.8; }
+  .footer-right a { color: var(--teal); text-decoration: none; }
+  .footer-right a:hover { color: var(--gold); }
+  .footer-divider { width: 1px; height: 32px; background: var(--border); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .benchmark-note { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+  .bm-line { width: 24px; height: 2px; border-top: 2px dashed rgba(255,255,255,0.4); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Project 03 · SQL Portfolio · Julieth Ramos Rivera</div>
+  <div class="header-company">Luminary <span>AI</span></div>
+  <div class="header-subtitle">AI Infrastructure COGS Analysis · July 2024</div>
+  <div class="header-meta">
+    <span><strong>Business Question:</strong> What does it cost to serve each customer — and where is the margin?</span>
+    <span><strong>20</strong> customers</span>
+    <span><strong>3</strong> pricing tiers</span>
+    <span><strong>3</strong> months of data</span>
+    <span><strong>MySQL Workbench</strong></span>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <div class="section-label">
+      <div class="num">01</div>
+      <h2>July 2024 — Platform Snapshot</h2>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card gold" id="kpi1"><div class="kpi-label">Blended Gross Margin</div><div class="kpi-value" id="k1">0%</div><div class="kpi-sub">Platform-wide · July 2024<br>Benchmark: 65–70% for AI SaaS</div></div>
+      <div class="kpi-card teal" id="kpi2"><div class="kpi-label">Total Monthly COGS</div><div class="kpi-value" id="k2">$0</div><div class="kpi-sub">Across all 20 customers<br>GPU compute is ~65% of this</div></div>
+      <div class="kpi-card red"  id="kpi3"><div class="kpi-label">Starter Tier Margin</div><div class="kpi-value" id="k3">0%</div><div class="kpi-sub">8 customers · Highest risk<br>Near breakeven unit economics</div></div>
+      <div class="kpi-card green" id="kpi4"><div class="kpi-label">Enterprise Tier Margin</div><div class="kpi-value" id="k4">0%</div><div class="kpi-sub">5 customers · Platform anchor<br>Subsidizes blended margin</div></div>
+      <div class="kpi-card teal" id="kpi5"><div class="kpi-label">Mis-tiered Customers</div><div class="kpi-value" id="k5">0</div><div class="kpi-sub">Over usage ceiling for their tier<br>Monthly leakage: ~$96+</div></div>
+      <div class="kpi-card gold" id="kpi6"><div class="kpi-label">GPU Share of COGS</div><div class="kpi-value" id="k6">0%</div><div class="kpi-sub">Largest single cost driver<br>Advanced model inference</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">
+      <div class="num">02</div>
+      <h2>Gross Margin by Tier</h2>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="chart-grid-2">
+      <div class="chart-card" id="cc1">
+        <div class="chart-title">Gross Margin % by Tier — July 2024</div>
+        <div class="chart-desc">Challenge 03 output · Margin = (MRR − COGS) / MRR · Dashed line = 65% SaaS benchmark</div>
+        <canvas id="marginChart" height="220"></canvas>
+        <div class="benchmark-note"><div class="bm-line"></div>65% benchmark (SaaS industry standard for AI platforms)</div>
+      </div>
+      <div class="chart-card" id="cc2">
+        <div class="chart-title">COGS Breakdown by Tier</div>
+        <div class="chart-desc">Challenge 02 output · Each segment shows the cost component driving monthly COGS per tier</div>
+        <canvas id="cogsChart" height="220"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">
+      <div class="num">03</div>
+      <h2>Cumulative COGS Trend — May to July 2024</h2>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="chart-card full" id="cc3">
+      <div class="chart-title">Monthly COGS by Tier — SUM() OVER() Window Function Output</div>
+      <div class="chart-desc">Challenge 06 output · Running COGS accumulation per tier · Numbers in USD</div>
+      <canvas id="trendChart" height="120"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">
+      <div class="num">04</div>
+      <h2>Tier Fit Analysis — CASE WHEN Output</h2>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="chart-card full" id="cc4">
+      <div class="chart-title">Challenge 04 — Customer Tier Fit by Token Usage (July 2024)</div>
+      <div class="chart-desc">CASE WHEN flags mis-tiered customers based on actual token usage vs. tier ceiling.</div>
+      <div style="overflow-x:auto;">
+        <table class="tier-table">
+          <thead>
+            <tr><th>Company</th><th>Current Tier</th><th>MRR</th><th>Tokens (M)</th><th>Tier Ceiling</th><th>Tier Fit</th><th>Est. Leakage/mo</th></tr>
+          </thead>
+          <tbody id="tierTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">
+      <div class="num">05</div>
+      <h2>SQL Concepts Introduced</h2>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="concepts-grid">
+      <div class="concept-chip" id="sq1"><div class="fn">INNER JOIN</div><div class="desc">Match customers to usage — only paired rows returned</div></div>
+      <div class="concept-chip" id="sq2"><div class="fn">Cost × Rate</div><div class="desc">Dynamic COGS: usage columns × rate card via arithmetic</div></div>
+      <div class="concept-chip" id="sq3"><div class="fn">Gross Margin %</div><div class="desc">(MRR − COGS) / MRR — core SaaS unit economics formula</div></div>
+      <div class="concept-chip" id="sq4"><div class="fn">CASE WHEN</div><div class="desc">Multi-condition classification: tier fit, margin flags</div></div>
+      <div class="concept-chip" id="sq5"><div class="fn">RANK() OVER()</div><div class="desc">Window function: rank customers globally and by tier</div></div>
+      <div class="concept-chip" id="sq6"><div class="fn">SUM() OVER()</div><div class="desc">Running cumulative COGS by tier across months</div></div>
+      <div class="concept-chip" id="sq7"><div class="fn">CTE (WITH)</div><div class="desc">Multi-step logic: pre-calculate COGS before aggregating</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">
+      <div class="num">06</div>
+      <h2>Decision Enabled</h2>
+      <div class="section-label-line"></div>
+    </div>
+    <div class="decision-box" id="decisionBox">
+      <div class="decision-label">// Board-Ready Finding</div>
+      <div class="decision-title">Starter tier unit economics are broken.<br>Repricing and overage enforcement are required before next fundraise.</div>
+      <div class="decision-body">
+        SQL analysis of Luminary AI's July 2024 infrastructure data reveals a <strong>blended gross margin of ~55%</strong> — below the 65–70% benchmark for AI SaaS. The Starter tier drives this deficit: at <strong>$500–600 MRR</strong>, GPU compute and overhead consume over 70% of revenue. One Growth customer (Skyline Marketing) is processing <strong>20% above their token ceiling</strong>, generating $96/month in unrecovered COGS leakage. Enterprise customers (<strong>74% gross margin</strong>) are subsidizing platform profitability. The recommended path: reprice Starter to $750+, implement overage billing at $0.008/token above ceiling, and route ≥20% of standard inference calls away from advanced models — targeting a blended margin of 65% within two quarters.
+      </div>
+      <div class="decision-actions">
+        <div class="action-chip gold">⬆ Reprice Starter Tier to $750+/mo</div>
+        <div class="action-chip teal">⚡ Enforce Token Overage Billing</div>
+        <div class="action-chip white">🔁 Route 20% Calls to Standard Model</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-left">Julieth <span>Ramos Rivera</span></div>
+  <div class="footer-divider"></div>
+  <div class="footer-right">
+    Head of Finance · SQL Portfolio · Project 03 of 07<br>
+    <a href="https://juliethramosrivera.github.io" target="_blank">juliethramosrivera.github.io</a>
+  </div>
+</footer>
+
+<script>
+const tierData = {
+  Starter:    { totalMRR: 4300,  totalCOGS: 3096,  margin: 28.0, gpuAdv: 1580, gpuStd: 520, api: 96,   egress: 330, overhead: 570  },
+  Growth:     { totalMRR: 16000, totalCOGS: 6240,  margin: 61.0, gpuAdv: 3380, gpuStd: 710, api: 420,  egress: 750, overhead: 980  },
+  Enterprise: { totalMRR: 55500, totalCOGS: 14430, margin: 74.0, gpuAdv: 9860, gpuStd: 820, api: 1560, egress: 1140,overhead: 1050 }
+};
+const blendedCOGS = 3096 + 6240 + 14430;
+const blendedMRR  = 4300 + 16000 + 55500;
+const blendedGM   = Math.round((blendedMRR - blendedCOGS) / blendedMRR * 100);
+const totalGPU    = 1580+520+3380+710+9860+820;
+const gpuShare    = Math.round(totalGPU / blendedCOGS * 100);
+
+const tierFitData = [
+  { company:'Skyline Marketing',    tier:'Growth',     mrr:3000,  tokens:72.0,  ceiling:60,  fit:'Over Ceiling — Upgrade', leakage:96,  badgeClass:'red'   },
+  { company:'Typeset Labs',         tier:'Starter',    mrr:600,   tokens:15.0,  ceiling:15,  fit:'At Ceiling — Watch',     leakage:0,   badgeClass:'amber'  },
+  { company:'Quill Digital',        tier:'Starter',    mrr:600,   tokens:13.8,  ceiling:15,  fit:'Within Tier',            leakage:0,   badgeClass:'green'  },
+  { company:'Velocity Media',       tier:'Growth',     mrr:2500,  tokens:54.0,  ceiling:60,  fit:'Within Tier',            leakage:0,   badgeClass:'green'  },
+  { company:'Meridian Studios',     tier:'Growth',     mrr:2500,  tokens:50.0,  ceiling:60,  fit:'Within Tier',            leakage:0,   badgeClass:'green'  },
+  { company:'Orbis Communications', tier:'Enterprise', mrr:15000, tokens:274.0, ceiling:300, fit:'Within Tier',            leakage:0,   badgeClass:'green'  },
+  { company:'Centrix Financial',    tier:'Enterprise', mrr:12500, tokens:230.0, ceiling:300, fit:'Within Tier',            leakage:0,   badgeClass:'green'  },
+  { company:'Narrate AI',           tier:'Starter',    mrr:600,   tokens:11.2,  ceiling:15,  fit:'Within Tier',            leakage:0,   badgeClass:'green'  },
+  { company:'Crestline Content',    tier:'Growth',     mrr:2000,  tokens:30.0,  ceiling:60,  fit:'Under-using — Downgrade Risk', leakage:0, badgeClass:'amber'},
+  { company:'Bright Copy Co',       tier:'Starter',    mrr:500,   tokens:11.0,  ceiling:15,  fit:'Within Tier',            leakage:0,   badgeClass:'green'  },
+];
+
+function animateCounter(el, target, prefix='', suffix='', duration=1200) {
+  const start = performance.now();
+  const update = (now) => {
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    const val = Math.round(target * ease);
+    el.textContent = prefix + val + suffix;
+    if (p < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+const io = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) { x.target.style.animation = 'fadeUp 0.6s forwards'; io.unobserve(x.target); } }), { threshold: 0.1 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.kpi-card').forEach((card, i) => {
+    setTimeout(() => { card.style.opacity='1'; card.style.transform='translateY(0)'; card.style.transition='opacity 0.5s, transform 0.5s'; }, 200 + i*120);
+  });
+  setTimeout(() => {
+    animateCounter(document.getElementById('k1'), blendedGM, '', '%');
+    animateCounter(document.getElementById('k2'), Math.round(blendedCOGS/1000), '$', 'K');
+    animateCounter(document.getElementById('k3'), tierData.Starter.margin, '', '%');
+    animateCounter(document.getElementById('k4'), tierData.Enterprise.margin, '', '%');
+    animateCounter(document.getElementById('k5'), 1, '', '');
+    animateCounter(document.getElementById('k6'), gpuShare, '', '%');
+  }, 400);
+
+  ['cc1','cc2','cc3','cc4','decisionBox'].forEach(id => io.observe(document.getElementById(id)));
+  document.querySelectorAll('.concept-chip').forEach(el => io.observe(el));
+
+  new Chart(document.getElementById('marginChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Starter', 'Growth', 'Enterprise'],
+      datasets: [{ label: 'Gross Margin %', data: [28, 61, 74], backgroundColor: ['rgba(231,76,60,0.7)','rgba(78,205,196,0.7)','rgba(46,204,113,0.7)'], borderColor: ['rgba(231,76,60,1)','rgba(78,205,196,1)','rgba(46,204,113,1)'], borderWidth: 2, borderRadius: 4 }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, animation: { duration: 1200, easing: 'easeOutQuart' },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => ` ${ctx.raw}% gross margin` } } },
+      scales: {
+        x: { min:0, max:100, grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color:'#8BA3BC', font: { family:'JetBrains Mono', size:11 }, callback: v => v+'%' } },
+        y: { grid: { display:false }, ticks: { color:'#FFFFFF', font: { family:'Syne', size:13, weight:'600' } } }
+      }
+    },
+    plugins: [{ id:'benchmark', afterDraw(chart) {
+      const { ctx, chartArea, scales } = chart;
+      const x = scales.x.getPixelForValue(65);
+      ctx.save(); ctx.setLineDash([5,4]); ctx.strokeStyle='rgba(255,255,255,0.35)'; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(x, chartArea.top); ctx.lineTo(x, chartArea.bottom); ctx.stroke(); ctx.restore();
+    }}]
+  });
+
+  new Chart(document.getElementById('cogsChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Starter', 'Growth', 'Enterprise'],
+      datasets: [
+        { label: 'GPU Advanced', data: [1580, 3380, 9860],  backgroundColor: 'rgba(232,160,32,0.85)' },
+        { label: 'GPU Standard', data: [520,  710,  820],   backgroundColor: 'rgba(232,160,32,0.4)'  },
+        { label: 'API Gateway',  data: [96,   420,  1560],  backgroundColor: 'rgba(78,205,196,0.7)'  },
+        { label: 'Data Egress',  data: [330,  750,  1140],  backgroundColor: 'rgba(78,205,196,0.35)' },
+        { label: 'Overhead',     data: [570,  980,  1050],  backgroundColor: 'rgba(139,163,188,0.5)' }
+      ]
+    },
+    options: {
+      responsive: true, animation: { duration: 1200 },
+      plugins: { legend: { position:'bottom', labels: { color:'#8BA3BC', font: { family:'Syne', size:11 }, boxWidth:12, padding:12 } }, tooltip: { callbacks: { label: (ctx) => ` ${ctx.dataset.label}: $${ctx.raw.toLocaleString()}` } } },
+      scales: {
+        x: { stacked:true, grid: { display:false }, ticks: { color:'#FFFFFF', font: { family:'Syne', size:13 } } },
+        y: { stacked:true, grid: { color:'rgba(255,255,255,0.06)' }, ticks: { color:'#8BA3BC', font: { family:'JetBrains Mono', size:11 }, callback: v => '$'+(v/1000).toFixed(0)+'K' } }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('trendChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: ['May 2024', 'Jun 2024', 'Jul 2024'],
+      datasets: [
+        { label:'Enterprise', data:[4620,9490,14430], borderColor:'#2ECC71', backgroundColor:'rgba(46,204,113,0.08)', fill:true, tension:0.4, borderWidth:2.5, pointRadius:5, pointBackgroundColor:'#2ECC71' },
+        { label:'Growth',     data:[2010,4090,6240],  borderColor:'#4ECDC4', backgroundColor:'rgba(78,205,196,0.06)', fill:true, tension:0.4, borderWidth:2, pointRadius:4, pointBackgroundColor:'#4ECDC4' },
+        { label:'Starter',    data:[960,1980,3096],   borderColor:'#E74C3C', backgroundColor:'rgba(231,76,60,0.06)',  fill:true, tension:0.4, borderWidth:2, pointRadius:4, pointBackgroundColor:'#E74C3C' }
+      ]
+    },
+    options: {
+      responsive: true, animation: { duration:1400 },
+      plugins: { legend: { position:'top', labels: { color:'#8BA3BC', font: { family:'Syne', size:12 }, boxWidth:16, padding:20 } }, tooltip: { callbacks: { label: (ctx) => ` ${ctx.dataset.label} Cumulative COGS: $${ctx.raw.toLocaleString()}` } } },
+      scales: {
+        x: { grid: { color:'rgba(255,255,255,0.04)' }, ticks: { color:'#FFFFFF', font: { family:'Syne', size:13 } } },
+        y: { grid: { color:'rgba(255,255,255,0.06)' }, ticks: { color:'#8BA3BC', font: { family:'JetBrains Mono', size:11 }, callback: v => '$'+(v/1000).toFixed(0)+'K' } }
+      }
+    }
+  });
+
+  const tbody = document.getElementById('tierTableBody');
+  tierFitData.forEach(row => {
+    const tr = document.createElement('tr');
+    const tierBadge = row.tier === 'Starter' ? 'amber' : 'teal';
+    const leakage = row.leakage > 0 ? `<span style="color:#E74C3C;font-family:'JetBrains Mono',monospace;font-size:12px">−$${row.leakage}/mo</span>` : `<span style="color:#8BA3BC;font-family:'JetBrains Mono',monospace;font-size:12px">—</span>`;
+    tr.innerHTML = `<td style="font-weight:600">${row.company}</td><td><span class="badge ${tierBadge}">${row.tier}</span></td><td class="mono">$${row.mrr.toLocaleString()}</td><td class="mono">${row.tokens}M</td><td class="mono">${row.ceiling}M</td><td><span class="badge ${row.badgeClass}">${row.fit}</span></td><td>${leakage}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('decisionBox').style.animation = 'fadeUp 0.8s 0.2s forwards';
+});
+</script>
+</body>
+</html>
