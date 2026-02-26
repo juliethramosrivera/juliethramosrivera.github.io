@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1028,34 +1027,64 @@ nav {
           <span class="p6-progress-pct">100%</span>
         </div>
         <div class="p6-card-footer">
-        <span class="p6-card-meta">Completed · Feb 2026</span>
-        <a href="https://juliethramosrivera.github.io/projects/2.1churn-dashboard.html" target="_blank" class="p6-card-link">View Dashboard →</a>
+          <span class="p6-card-meta">Completed · Feb 2026</span>
+          <a href="https://github.com/juliethramosrivera/juliethramosrivera.github.io" target="_blank" class="p6-card-link">View on GitHub →</a>
         </div>
       </div>
     </div>
 
-    <!-- CARD 3: AI INFRASTRUCTURE COGS — PLANNED -->
-    <div class="p6-card accent-planned">
+    <!-- CARD 3: AI INFRASTRUCTURE COGS — COMPLETE -->
+    <div class="p6-card accent-complete">
       <div class="p6-card-body">
-        <div class="p6-badge badge-planned">Planned</div>
+        <div class="p6-badge badge-complete">Complete</div>
         <p class="p6-cat">SQL · COGS Analysis · Project 03</p>
         <h3 class="p6-card-title">AI Infrastructure COGS</h3>
-        <p class="p6-card-desc">Cost-per-customer analysis for an AI startup — GPU compute hours, inference costs, and margin by product tier. Answers: what does it actually cost to serve each customer, and where is the margin?</p>
-        <p class="p6-chips-label">Planned Concepts</p>
+        <p class="p6-card-desc">Cost-per-customer and gross margin analysis for Luminary AI — an AI content platform. GPU compute, API routing, data egress, and overhead joined dynamically against a rate card. Identified a mis-tiered customer generating $96/mo in unrecovered COGS leakage.</p>
+        <p class="p6-chips-label">SQL Concepts Used</p>
         <div class="p6-chips">
           <span class="p6-chip">INNER JOIN</span>
           <span class="p6-chip">Cost per unit</span>
           <span class="p6-chip teal">Margin analysis</span>
-          <span class="p6-chip">GROUP BY tier</span>
+          <span class="p6-chip teal">RANK() OVER()</span>
+          <span class="p6-chip">SUM() OVER()</span>
+          <span class="p6-chip">CTEs</span>
+        </div>
+        <div class="p6-sql">
+          <code>
+<span class="cm">-- AI Infrastructure COGS · Luminary AI · Jul 2024</span>
+<span class="cm">-- Author: J. Ramos Rivera · Margin by tier</span>
+<span class="kw">SELECT</span>
+  c.company_name,
+  c.tier,
+  c.mrr_usd,
+  <span class="fn">ROUND</span>(
+    (u.tokens_millions * <span class="nu">2.5</span> * (<span class="nu">1</span> - u.advanced_model_pct/<span class="nu">100</span>)) +
+    (u.tokens_millions * <span class="nu">8.0</span> * (u.advanced_model_pct/<span class="nu">100</span>)) +
+    ((u.api_calls/<span class="nu">1000</span>) * <span class="nu">0.12</span>) +
+    (u.tokens_millions * <span class="nu">0.3</span>) +
+    (u.active_users * <span class="nu">6.5</span>)
+  , <span class="nu">2</span>)                          <span class="kw">AS</span> <span class="st">total_cogs</span>,
+  <span class="fn">ROUND</span>((c.mrr_usd - total_cogs)
+    / c.mrr_usd * <span class="nu">100</span>, <span class="nu">1</span>)       <span class="kw">AS</span> <span class="st">gross_margin_pct</span>
+<span class="kw">FROM</span> customers c
+<span class="kw">INNER JOIN</span> monthly_usage u
+  <span class="kw">ON</span> c.customer_id = u.customer_id
+<span class="kw">WHERE</span> u.usage_month = <span class="st">'2024-07-01'</span>
+<span class="kw">ORDER BY</span> gross_margin_pct <span class="kw">ASC</span>;
+          </code>
+        </div>
+        <div class="p6-insight-box">
+          <span class="p6-insight-label">Decision enabled</span>
+          <p class="p6-insight-text">Blended margin of 55% — below 65% SaaS benchmark. Starter tier near breakeven. Reprice to $750+, enforce token overage billing, route 20% of calls to standard model. Target: 65% blended margin within 2 quarters.</p>
         </div>
         <div class="p6-progress-row">
           <span class="p6-progress-label">Progress</span>
-          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="0%"></div></div>
-          <span class="p6-progress-pct" style="color:#8B6FD4">0%</span>
+          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="100%"></div></div>
+          <span class="p6-progress-pct">100%</span>
         </div>
         <div class="p6-card-footer">
-          <span class="p6-card-meta">In design · 2026</span>
-          <span class="p6-card-link" style="opacity:0.4;cursor:default">Coming soon</span>
+          <span class="p6-card-meta">Completed · Feb 2026</span>
+          <a href="https://juliethramosrivera.github.io/projects/3.1cogs-dashboard.html" target="_blank" class="p6-card-link">View Dashboard →</a>
         </div>
       </div>
     </div>
@@ -1209,7 +1238,7 @@ if (p6El) {
 }
 
 // ── PROJECTS FILTER TABS ──
-document.querySelectAll('.p6-filter').forEach(btn => {
+document.querySelectorAll('.p6-filter').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.p6-filter').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
