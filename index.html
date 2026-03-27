@@ -4,1246 +4,1083 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Julieth Ramos Rivera — Head of Finance</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
 
 :root {
-  --navy: #06101C;
-  --navy-mid: #0B1B2E;
-  --navy-light: #112238;
-  --gold: #E8A020;
-  --gold-light: #F5BE5A;
-  --gold-dim: rgba(232,160,32,0.12);
-  --teal: #4ECDC4;
-  --white: #F0EDE6;
-  --white-dim: rgba(240,237,230,0.55);
-  --white-ghost: rgba(240,237,230,0.07);
+  /* Direction A palette — warm paper */
+  --bg:        #F7F4EF;
+  --surface:   #F0ECE4;
+  --surface2:  #E8E2D8;
+  --white:     #FDFBF8;
+  --border:    rgba(40,30,20,0.1);
+  --border2:   rgba(40,30,20,0.06);
+  --ink:       #1C1612;
+  --ink-dim:   rgba(28,22,18,0.5);
+  --ink-ghost: rgba(28,22,18,0.12);
+  --red:       #9B1D1D;
+  --red-dim:   rgba(155,29,29,0.07);
+  --red-border:rgba(155,29,29,0.2);
+  --teal:      #2A8A84;
+  --teal-dim:  rgba(42,138,132,0.08);
+  --code-bg:   #0E0C0A;
 }
 
-html { scroll-behavior: smooth; }
 body {
-  background: var(--navy);
-  color: var(--white);
-  font-family: 'DM Mono', monospace;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Outfit', sans-serif;
   overflow-x: hidden;
 }
 
-/* ── NOISE ── */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* ── GRID BG ── */
-.grid-bg {
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(232,160,32,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(232,160,32,0.03) 1px, transparent 1px);
-  background-size: 72px 72px;
-  pointer-events: none;
-  z-index: 0;
+/* ── GRAIN ── */
+body::before {
+  content:''; position:fixed; inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:9999;
 }
 
 /* ── PROGRESS ── */
 #progress {
-  position: fixed;
-  top: 0; left: 0;
-  height: 2px;
-  width: 0%;
-  background: linear-gradient(90deg, var(--gold), var(--teal));
-  z-index: 1000;
-  box-shadow: 0 0 12px var(--gold);
-  transition: width 0.15s;
+  position:fixed; top:0; left:0; height:1px; width:0%;
+  background: var(--red); z-index:1000;
+  box-shadow: 0 0 6px var(--red);
+  transition: width 0.1s;
 }
 
-/* ── NAV ── */
+/* ── NAV DOTS ── */
 nav {
-  position: fixed;
-  top: 50%;
-  right: 2.5rem;
-  transform: translateY(-50%);
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
+  position:fixed; right:1.8rem; top:50%;
+  transform:translateY(-50%);
+  z-index:100;
+  display:flex; flex-direction:column; gap:1rem;
 }
-
-.nav-pip {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  border: 1px solid rgba(232,160,32,0.4);
-  cursor: pointer;
-  transition: all 0.3s;
-  position: relative;
+.pip {
+  width:5px; height:5px; border-radius:50%;
+  border:1px solid rgba(155,29,29,0.3);
+  cursor:pointer; transition:all 0.3s;
+  position:relative;
 }
-
-.nav-pip::before {
-  content: attr(data-label);
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.55rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--gold);
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
+.pip::after {
+  content:attr(data-label);
+  position:absolute; right:14px; top:50%;
+  transform:translateY(-50%);
+  font-family:'DM Mono',monospace;
+  font-size:8px; letter-spacing:0.15em; text-transform:uppercase;
+  color:var(--red); white-space:nowrap;
+  opacity:0; transition:opacity 0.2s;
 }
+.pip:hover::after, .pip.active::after { opacity:1; }
+.pip.active { background:var(--red); border-color:var(--red); }
+.pip:hover  { border-color:var(--red); }
 
-.nav-pip:hover::before, .nav-pip.active::before { opacity: 1; }
-.nav-pip.active { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 8px var(--gold); }
-.nav-pip:hover { border-color: var(--gold); }
-
-/* ── PANELS ── */
-.panel {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 6rem 10vw;
-  position: relative;
-  z-index: 1;
-}
-
-/* ── PANEL 1: COLD OPEN ── */
+/* ══════════════════════════════════════
+   PANEL 1 — HERO (A layout + C stats)
+══════════════════════════════════════ */
 #p1 {
-  background: var(--navy);
-  align-items: center;
-  text-align: center;
-  overflow: hidden;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  border-bottom:1px solid var(--border);
 }
 
-.chaos-field {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  opacity: 0;
-  animation: chaosIn 1s ease forwards 0.3s;
+/* Left: statement */
+.p1-left {
+  padding: 8rem 4rem 6rem 8vw;
+  display:flex; flex-direction:column; justify-content:center;
+  border-right:1px solid var(--border);
+  position:relative;
+}
+.p1-left::after {
+  content:'';
+  position:absolute; bottom:0; left:8vw; right:4rem;
+  height:1px; background:var(--border2);
 }
 
-@keyframes chaosIn { to { opacity: 1; } }
+.p1-eyebrow {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.3em; text-transform:uppercase;
+  color:var(--ink-dim); margin-bottom:2.5rem;
+  display:flex; align-items:center; gap:1rem;
+  opacity:0; animation:fadeUp 0.7s 0.2s forwards;
+}
+.p1-eyebrow::before { content:''; width:24px; height:1px; background:var(--red); flex-shrink:0; }
 
-.chaos-num {
-  position: absolute;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  color: rgba(232,160,32,0.18);
-  animation: floatNum linear infinite;
-  user-select: none;
-  pointer-events: none;
+.p1-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.8rem,7vw,7rem);
+  font-weight:300; line-height:0.9;
+  letter-spacing:-0.01em;
+  color:var(--ink); margin-bottom:0.5rem;
+  opacity:0; animation:fadeUp 0.8s 0.35s forwards;
+}
+.p1-name em { font-style:italic; color:var(--red); }
+
+.p1-titles {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--ink-dim); margin-bottom:3.5rem;
+  opacity:0; animation:fadeUp 0.7s 0.5s forwards;
 }
 
-@keyframes floatNum {
-  0% { transform: translateY(0) scaleX(1); opacity: 0.3; }
-  50% { opacity: 0.8; }
-  100% { transform: translateY(-100vh) scaleX(-1); opacity: 0; }
+.p1-statement {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.3rem,2.2vw,1.9rem);
+  font-weight:300; line-height:1.5;
+  color:var(--ink); max-width:520px;
+  margin-bottom:1.2rem;
+  opacity:0; animation:fadeUp 0.8s 0.65s forwards;
+}
+.p1-statement strong { font-weight:600; color:var(--red); font-style:italic; }
+
+.p1-sub {
+  font-family:'Outfit',sans-serif;
+  font-size:14px; font-weight:300; line-height:1.85;
+  color:var(--ink-dim); max-width:460px;
+  margin-bottom:3rem;
+  opacity:0; animation:fadeUp 0.7s 0.8s forwards;
 }
 
-.glitch-lines {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(232,160,32,0.015) 2px,
-    rgba(232,160,32,0.015) 4px
-  );
-  pointer-events: none;
+.p1-cta {
+  display:inline-flex; align-items:center; gap:0.6rem;
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.25em; text-transform:uppercase;
+  color:var(--red); text-decoration:none;
+  border-bottom:1px solid var(--red-border);
+  padding-bottom:4px;
+  opacity:0; animation:fadeUp 0.7s 0.95s forwards;
+  transition:gap 0.25s, border-color 0.2s;
+}
+.p1-cta:hover { gap:1rem; border-color:var(--red); }
+
+/* Right: stat blocks (Direction C style) */
+.p1-right {
+  padding:8rem 8vw 6rem 4rem;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  gap:0;
+  background: var(--surface);
 }
 
-.cold-open-text {
-  position: relative;
-  z-index: 2;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 1.2s;
+.stat-block {
+  padding:2.2rem 0;
+  border-bottom:1px solid var(--border);
+  opacity:0; animation:fadeUp 0.7s forwards;
 }
-
-.cold-tag {
-  font-size: 0.6rem;
-  letter-spacing: 0.35em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-  opacity: 0;
-  animation: fadeUp 0.8s ease forwards 1s;
-}
-
-.cold-headline {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(1.8rem, 4vw, 3.2rem);
-  line-height: 1.3;
-  color: var(--white-dim);
-  max-width: 700px;
-  margin: 0 auto 3rem;
-}
-
-.cold-headline strong {
-  color: var(--white);
-  display: block;
-}
-
-.scroll-hint {
-  position: absolute;
-  bottom: 3rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  opacity: 0;
-  animation: fadeUp 1s ease forwards 2.5s;
-}
-
-.scroll-hint span {
-  font-size: 0.55rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
-.scroll-arrow {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, var(--gold), transparent);
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
-
-/* ── PANEL 2: IDENTITY ── */
-#p2 { background: var(--navy-mid); }
-
-.identity-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6rem;
-  align-items: center;
-}
-
-.identity-tag {
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.identity-tag::before {
-  content: '';
-  width: 30px;
-  height: 1px;
-  background: var(--gold);
-}
-
-.identity-name {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(3rem, 6vw, 5.5rem);
-  line-height: 0.95;
-  margin-bottom: 2rem;
-}
-
-.identity-name em { font-style: italic; color: var(--gold); }
-
-.identity-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--white-dim);
-  margin-bottom: 2.5rem;
-  border-left: 2px solid var(--gold);
-  padding-left: 1rem;
-  line-height: 2;
-}
-
-.identity-origin {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.4rem;
-  font-style: italic;
-  color: var(--white-dim);
-  line-height: 1.5;
-}
-
-.identity-origin strong { color: var(--white); font-style: normal; }
-
-.world-map {
-  position: relative;
-  width: 100%;
-  height: 340px;
-}
-
-.world-map svg { width: 100%; height: 100%; }
-
-.node-label {
-  font-size: 0.55rem;
-  letter-spacing: 0.1em;
-  fill: var(--white-dim);
-  text-transform: uppercase;
-}
-
-.node-circle {
-  fill: var(--navy);
-  stroke: var(--gold);
-  stroke-width: 1.5;
-  animation: nodePulse 2s ease-in-out infinite;
-}
-
-@keyframes nodePulse {
-  0%,100% { r: 5; opacity: 0.8; }
-  50% { r: 7; opacity: 1; }
-}
-
-.connection-line {
-  stroke: rgba(232,160,32,0.3);
-  stroke-width: 1;
-  stroke-dasharray: 4 4;
-  animation: dashMove 3s linear infinite;
-}
-
-@keyframes dashMove { to { stroke-dashoffset: -32; } }
-
-.stats-row {
-  display: flex;
-  gap: 2rem;
-  margin-top: 3rem;
-}
-
-.stat {
-  border-left: 1px solid rgba(232,160,32,0.3);
-  padding-left: 1.2rem;
-}
+.stat-block:last-child { border-bottom:none; }
+.stat-block:nth-child(1) { animation-delay:0.5s; }
+.stat-block:nth-child(2) { animation-delay:0.65s; }
+.stat-block:nth-child(3) { animation-delay:0.8s; }
 
 .stat-num {
-  font-family: 'DM Serif Display', serif;
-  font-size: 2rem;
-  color: var(--gold);
-  line-height: 1;
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,4vw,3.5rem);
+  font-weight:300; font-style:italic;
+  color:var(--red); line-height:0.95;
+  margin-bottom:0.35rem;
 }
-
 .stat-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-  color: var(--white-dim);
-  text-transform: uppercase;
-  margin-top: 0.3rem;
+  font-family:'DM Mono',monospace;
+  font-size:8px; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--ink-dim); margin-bottom:0.4rem;
+}
+.stat-story {
+  font-family:'Outfit',sans-serif;
+  font-size:12px; font-weight:300;
+  line-height:1.7; color:var(--ink-dim);
+  max-width:320px;
+}
+.stat-story em { color:var(--ink); font-style:normal; font-weight:400; }
+
+/* ══════════════════════════════════════
+   PANEL 2 — THE WORK
+══════════════════════════════════════ */
+#p2 {
+  padding:7rem 8vw;
+  background:var(--white);
+  border-bottom:1px solid var(--border);
 }
 
-/* ── PANEL 3: PUNCHES ── */
-#p3 { background: var(--navy); }
+.section-hd {
+  display:flex; align-items:baseline; gap:1.5rem;
+  margin-bottom:1.5rem;
+}
+.s-num {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.25em; text-transform:uppercase;
+  color:var(--red);
+}
+.s-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.6rem,3vw,2.6rem);
+  font-weight:300; color:var(--ink);
+}
+.s-title em { font-style:italic; color:var(--red); }
+.s-line { flex:1; height:1px; background:var(--border); }
 
-.punches-header { margin-bottom: 4rem; }
+.bridge-text {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1rem,1.6vw,1.2rem);
+  font-style:italic; font-weight:300;
+  color:var(--ink-dim); max-width:580px;
+  margin-bottom:3rem; line-height:1.7;
+  padding-left:1rem; border-left:2px solid var(--red-dim);
+}
+.bridge-text strong { color:var(--ink); font-style:normal; }
 
-.punches-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
+/* Cards */
+.cards-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));
+  gap:1px; background:var(--border);
 }
 
-.punches-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 1.1;
+.pcard {
+  background:var(--white);
+  padding:2.5rem;
+  position:relative; overflow:hidden;
+  transition:background 0.3s;
+}
+.pcard:hover { background:var(--bg); }
+.pcard::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, var(--red), transparent);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform 0.4s ease;
+}
+.pcard:hover::before { transform:scaleX(1); }
+
+.pc-badge {
+  display:inline-flex; align-items:center; gap:5px;
+  font-family:'DM Mono',monospace;
+  font-size:8px; letter-spacing:0.2em; text-transform:uppercase;
+  padding:3px 9px; margin-bottom:1.5rem;
+}
+.pc-badge::before {
+  content:''; width:4px; height:4px; border-radius:50%;
+  background:currentColor; animation:dot 2s ease-in-out infinite;
+}
+.badge-done { color:var(--teal); background:var(--teal-dim); border:1px solid rgba(42,138,132,0.2); }
+
+.pc-num {
+  font-family:'DM Mono',monospace;
+  font-size:8px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--ink-dim); margin-bottom:0.5rem;
 }
 
-.punches-title em { font-style: italic; color: var(--gold); }
-
-.punch-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: rgba(232,160,32,0.08);
+.pc-problem {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1rem,1.5vw,1.2rem);
+  font-style:italic; font-weight:300; line-height:1.35;
+  color:var(--ink); margin-bottom:0.5rem;
 }
 
-.punch-card {
-  background: var(--navy);
-  padding: 3rem 2.5rem;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.4s;
-  cursor: default;
+.pc-built {
+  font-family:'DM Mono',monospace;
+  font-size:8px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--red); margin-bottom:1rem;
 }
 
-.punch-card:hover { background: var(--navy-light); }
-
-.punch-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gold), transparent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.6s ease;
+.pc-desc {
+  font-family:'Outfit',sans-serif;
+  font-size:12px; font-weight:300; color:var(--ink-dim);
+  line-height:1.75; margin-bottom:1.4rem;
 }
 
-.punch-card:hover::before { transform: scaleX(1); }
-
-.punch-num {
-  font-size: 0.55rem;
-  letter-spacing: 0.25em;
-  color: var(--gold);
-  opacity: 0.6;
-  margin-bottom: 2rem;
+.pc-chips {
+  display:flex; flex-wrap:wrap; gap:5px; margin-bottom:1.4rem;
+}
+.chip {
+  font-family:'DM Mono',monospace; font-size:8px;
+  padding:3px 8px; letter-spacing:0.05em;
+  border:1px solid rgba(155,29,29,0.18);
+  color:var(--red); background:var(--red-dim);
+}
+.chip.teal {
+  border-color:rgba(42,138,132,0.2);
+  color:var(--teal); background:var(--teal-dim);
 }
 
-.punch-icon-line {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  display: block;
+.pc-sql {
+  background:var(--code-bg);
+  padding:1.1rem 1.3rem; margin-bottom:1.4rem;
+  position:relative; overflow:hidden;
+}
+.pc-sql::before {
+  content:'SQL · PREVIEW';
+  position:absolute; top:7px; right:10px;
+  font-family:'DM Mono',monospace; font-size:7px;
+  letter-spacing:0.15em; color:rgba(255,255,255,0.07);
+}
+.pc-sql code {
+  font-family:'DM Mono',monospace; font-size:10.5px;
+  line-height:1.85; display:block; white-space:pre; overflow-x:auto;
+}
+.kw { color:#7EB8F7; }
+.fn { color:#4ECDC4; }
+.cm { color:#3A5268; font-style:italic; }
+.st { color:#D4974F; }
+.nu { color:#F0A0C0; }
+
+.pc-insight {
+  background:var(--red-dim);
+  border-left:2px solid var(--red-border);
+  padding:0.7rem 0.9rem; margin-bottom:1.4rem;
+}
+.insight-lbl {
+  font-family:'DM Mono',monospace; font-size:7px;
+  letter-spacing:0.25em; text-transform:uppercase;
+  color:var(--red); display:block; margin-bottom:0.3rem;
+}
+.insight-txt {
+  font-family:'Outfit',sans-serif; font-size:12px;
+  font-weight:300; color:var(--ink-dim); line-height:1.65;
 }
 
-.punch-before-after {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+.pc-footer {
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:1rem; border-top:1px solid var(--border2);
+}
+.pc-meta {
+  font-family:'DM Mono',monospace; font-size:8px;
+  color:var(--ink-dim); letter-spacing:0.08em;
+}
+.pc-link {
+  font-family:'DM Mono',monospace; font-size:8px;
+  letter-spacing:0.15em; text-transform:uppercase;
+  color:var(--red); text-decoration:none;
+  display:flex; align-items:center; gap:4px;
+  transition:gap 0.2s;
+}
+.pc-link:hover { gap:8px; }
+
+/* Ghost cards */
+.pcard-ghost {
+  padding:2.5rem; background:transparent;
+  display:flex; flex-direction:column; gap:0.6rem;
+  justify-content:center; min-height:160px;
+}
+.gh-cat { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(155,29,29,0.2); }
+.gh-title { font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:rgba(28,22,18,0.15); }
+.gh-line { width:18px; height:1px; background:rgba(155,29,29,0.1); }
+.gh-note { font-family:'DM Mono',monospace; font-size:8px; letter-spacing:0.1em; color:rgba(28,22,18,0.1); }
+
+/* ══════════════════════════════════════
+   PANEL 3 — THE OPERATOR
+══════════════════════════════════════ */
+#p3 {
+  padding:7rem 8vw;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
 }
 
-.punch-before {
-  font-family: 'DM Serif Display', serif;
-  font-size: 2.2rem;
-  color: rgba(240,237,230,0.25);
-  text-decoration: line-through;
-  text-decoration-color: rgba(232,160,32,0.4);
+.op-grid {
+  display:grid; grid-template-columns:1fr 1fr 1fr;
+  gap:1px; background:var(--border);
+  margin-bottom:3.5rem;
 }
 
-.punch-arrow { color: var(--gold); font-size: 1rem; }
-
-.punch-after {
-  font-family: 'DM Serif Display', serif;
-  font-size: 2.8rem;
-  color: var(--gold);
-  line-height: 1;
+.op-cell {
+  background:var(--bg);
+  padding:2.5rem 2rem;
+  position:relative; overflow:hidden;
+  transition:background 0.3s;
+}
+.op-cell:hover { background:var(--surface); }
+.op-cell::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, var(--red), transparent);
+  opacity:0.35;
 }
 
-.punch-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--white);
+.op-num {
+  font-family:'DM Mono',monospace;
+  font-size:8px; letter-spacing:0.25em; text-transform:uppercase;
+  color:var(--red); opacity:0.55; margin-bottom:1.5rem;
 }
 
-.punch-body {
-  font-size: 0.72rem;
-  color: var(--white-dim);
-  line-height: 1.8;
+.op-hook {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.1rem,2vw,1.5rem);
+  font-style:italic; font-weight:300;
+  line-height:1.3; color:var(--ink);
+  margin-bottom:0.6rem;
+}
+.op-hook strong { font-style:normal; font-weight:600; color:var(--red); }
+
+.op-metric {
+  font-family:'DM Mono',monospace;
+  font-size:10px; letter-spacing:0.12em;
+  color:var(--red); margin-bottom:1rem;
 }
 
-.count-up { display: inline-block; }
+.op-body {
+  font-family:'Outfit',sans-serif;
+  font-size:12px; font-weight:300;
+  color:var(--ink-dim); line-height:1.8;
+}
+.op-body strong { color:var(--ink); font-weight:400; }
 
-/* ── PANEL 4: BUILDER ── */
-#p4 { background: var(--navy-mid); }
-
-.builder-layout {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 6rem;
-  align-items: center;
+/* The closing line */
+.op-closer {
+  background:var(--white);
+  border:1px solid var(--border);
+  border-left:3px solid var(--red);
+  padding:2rem 2.5rem;
+  max-width:680px;
+}
+.op-closer p {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.05rem,1.8vw,1.3rem);
+  font-weight:300; line-height:1.7; color:var(--ink);
+}
+.op-closer p strong { font-weight:600; font-style:italic; color:var(--red); }
+.op-closer cite {
+  display:block; margin-top:1rem;
+  font-family:'DM Mono',monospace; font-size:8px;
+  letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--ink-dim); font-style:normal;
 }
 
-.builder-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  color: var(--teal);
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
+/* ══════════════════════════════════════
+   PANEL 4 — CONTACT
+══════════════════════════════════════ */
+#p4 {
+  padding:5rem 8vw;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
 }
 
-.builder-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  line-height: 1.15;
-  margin-bottom: 2rem;
+.contact-wrap {
+  display:flex; align-items:center;
+  justify-content:space-between; flex-wrap:wrap; gap:2.5rem;
 }
 
-.builder-title em { font-style: italic; color: var(--gold); }
+.contact-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,4vw,3.5rem);
+  font-weight:300; line-height:1;
+}
+.contact-name em { font-style:italic; color:var(--red); }
 
-.builder-body {
-  font-family: 'Syne', sans-serif;
-  font-size: 0.95rem;
-  color: var(--white-dim);
-  line-height: 1.9;
-  margin-bottom: 2.5rem;
+.contact-div { width:1px; height:48px; background:var(--border); }
+
+.contact-loc {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.12em; color:var(--ink-dim);
+  display:flex; flex-direction:column; gap:0.3rem;
+}
+.contact-loc strong { color:var(--ink); font-size:10px; }
+
+.contact-links {
+  display:flex; flex-direction:column; gap:0.6rem; align-items:flex-end;
+}
+.c-link {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:0.08em; color:var(--ink-dim);
+  text-decoration:none; transition:color 0.2s;
+  display:flex; align-items:center; gap:0.6rem;
+}
+.c-link:hover { color:var(--red); }
+.c-link .lbl {
+  font-size:7px; letter-spacing:0.22em; text-transform:uppercase;
+  color:rgba(155,29,29,0.4); min-width:48px; text-align:right;
 }
 
-.builder-body strong { color: var(--white); }
-
-.builder-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.stack-tag {
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  border: 1px solid rgba(232,160,32,0.3);
-  color: var(--gold);
-  padding: 0.4rem 0.8rem;
-  transition: all 0.2s;
-}
-
-.stack-tag:hover { background: var(--gold-dim); border-color: var(--gold); }
-
-.pipeline { display: flex; flex-direction: column; gap: 0; }
-
-.pipe-node {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 1.5rem 2rem;
-  border: 1px solid rgba(232,160,32,0.1);
-  background: var(--navy);
-  position: relative;
-  transition: border-color 0.3s, background 0.3s;
-}
-
-.pipe-node:hover { border-color: rgba(232,160,32,0.4); background: var(--navy-light); }
-
-.pipe-node:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  bottom: -12px; left: 2.5rem;
-  width: 1px; height: 12px;
-  background: var(--gold);
-  opacity: 0.4;
-  z-index: 1;
-}
-
-.pipe-icon {
-  width: 36px; height: 36px;
-  border-radius: 4px;
-  background: var(--gold-dim);
-  border: 1px solid rgba(232,160,32,0.3);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-
-.pipe-name { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.2rem; }
-.pipe-detail { font-size: 0.65rem; color: var(--white-dim); letter-spacing: 0.05em; }
-.pipe-tools { margin-left: auto; font-size: 0.55rem; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
-
-/* ── PANEL 5: CLOSE ── */
-#p5 {
-  background: var(--navy);
-  align-items: center;
+/* ══════════════════════════════════════
+   PANEL 5 — NEWSLETTER (SCAFFOLD, HIDDEN)
+   Uncomment when ready to launch fractional
+══════════════════════════════════════ */
+/*
+#p5-newsletter {
+  padding: 5rem 8vw;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
-
-.close-orb {
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  width: 60vw; height: 60vw;
-  max-width: 700px; max-height: 700px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(232,160,32,0.07) 0%, transparent 65%);
-  animation: breathe 5s ease-in-out infinite;
-  pointer-events: none;
+.nl-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 1rem;
 }
-
-@keyframes breathe {
-  0%,100% { transform: translate(-50%,-50%) scale(1); }
-  50% { transform: translate(-50%,-50%) scale(1.08); }
+.nl-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 300; color: var(--ink);
+  margin-bottom: 0.8rem;
 }
+.nl-title em { font-style: italic; color: var(--red); }
+.nl-sub {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px; font-weight: 300; color: var(--ink-dim);
+  max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.75;
+}
+.nl-form {
+  display: flex; gap: 0; max-width: 420px; margin: 0 auto;
+  border: 1px solid var(--border);
+}
+.nl-input {
+  flex: 1; padding: 0.85rem 1.2rem;
+  font-family: 'Outfit', sans-serif; font-size: 13px;
+  background: var(--bg); border: none; color: var(--ink);
+  outline: none;
+}
+.nl-input::placeholder { color: var(--ink-dim); }
+.nl-submit {
+  padding: 0.85rem 1.5rem;
+  background: var(--red); color: white; border: none;
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.2s;
+}
+.nl-submit:hover { background: #7a1616; }
+.nl-disclaimer {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  color: var(--ink-ghost); margin-top: 1rem; letter-spacing: 0.1em;
+}
+*/
+/* END NEWSLETTER SCAFFOLD */
 
-.close-inner { position: relative; z-index: 2; }
+/* ── FOOTER STRIP ── */
+.footer-strip {
+  background:var(--ink);
+  padding:1.2rem 8vw;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:1rem;
+}
+.fs-left {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:0.15em; color:rgba(247,244,239,0.35);
+}
+.fs-right {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:0.12em; color:rgba(247,244,239,0.35);
+}
+.fs-right a { color:rgba(155,29,29,0.7); text-decoration:none; }
+.fs-right a:hover { color:#c44; }
 
-.close-tag { font-size: 0.6rem; letter-spacing: 0.35em; color: var(--gold); text-transform: uppercase; margin-bottom: 3rem; opacity: 0.7; }
-
-.close-name { font-family: 'DM Serif Display', serif; font-size: clamp(4rem, 10vw, 9rem); line-height: 0.9; margin-bottom: 2rem; }
-.close-name em { font-style: italic; color: var(--gold); }
-
-.close-roles { font-family: 'Syne', sans-serif; font-size: clamp(0.7rem, 1.2vw, 0.9rem); font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--white-dim); margin-bottom: 3rem; line-height: 2.5; }
-
-.close-divider { width: 60px; height: 1px; background: var(--gold); margin: 0 auto 3rem; opacity: 0.4; }
-
-.close-contact { display: flex; flex-direction: column; gap: 0.75rem; align-items: center; }
-
-.close-link { font-size: 0.75rem; letter-spacing: 0.15em; color: var(--gold); text-decoration: none; transition: color 0.2s; }
-.close-link:hover { color: var(--gold-light); }
-.close-location { font-size: 0.65rem; color: var(--white-dim); letter-spacing: 0.1em; }
-
-.close-cta { display: inline-flex; align-items: center; gap: 0.75rem; margin-top: 3rem; padding: 1rem 2rem; border: 1px solid rgba(232,160,32,0.4); color: var(--gold); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; transition: all 0.3s; }
-.close-cta:hover { background: var(--gold-dim); border-color: var(--gold); }
-
-/* ══ PANEL 6: PROJECTS ══ */
-#p6 { background: var(--navy-mid); overflow: hidden; }
-#p6 .p6-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(232,160,32,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(232,160,32,0.03) 1px, transparent 1px); background-size: 60px 60px; animation: gridDrift 20s linear infinite; pointer-events: none; }
-@keyframes gridDrift { 0% { transform: translate(0,0); } 100% { transform: translate(60px,60px); } }
-#p6 .p6-orb { position: absolute; right: -10vw; top: 50%; transform: translateY(-50%); width: 50vw; height: 50vw; border-radius: 50%; background: radial-gradient(circle at 40% 40%, rgba(232,160,32,0.06) 0%, rgba(78,205,196,0.04) 45%, transparent 70%); animation: breathe 6s ease-in-out infinite; pointer-events: none; }
-.p6-label { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
-.p6-label::after { content: ''; width: 60px; height: 1px; background: var(--gold); opacity: 0.4; }
-.p6-title { font-family: 'DM Serif Display', serif; font-size: clamp(2.2rem, 4vw, 3.5rem); line-height: 1.05; margin-bottom: 1rem; }
-.p6-title em { font-style: italic; color: var(--gold); }
-.p6-subtitle { font-family: 'Syne', sans-serif; font-size: 0.9rem; color: var(--white-dim); max-width: 500px; line-height: 1.75; margin-bottom: 2.5rem; }
-.p6-filters { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-.p6-filter { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 16px; border: 1px solid rgba(232,160,32,0.2); background: transparent; color: var(--white-dim); cursor: pointer; transition: all 0.2s; }
-.p6-filter:hover, .p6-filter.active { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
-.p6-grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1px; background: rgba(232,160,32,0.06); }
-.p6-card { background: var(--navy); position: relative; overflow: hidden; transition: background 0.3s; }
-.p6-card:hover { background: var(--navy-light); }
-.p6-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transform-origin: left; transition: transform 0.5s ease; }
-.p6-card:hover::before { transform: scaleX(1); }
-.accent-planned::before { background: linear-gradient(90deg, #8B6FD4, transparent); }
-.p6-card-body { padding: 2.5rem; }
-.p6-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 4px 12px; margin-bottom: 1.2rem; }
-.p6-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: pulse 2s ease-in-out infinite; }
-.badge-planned { color: #8B6FD4; background: rgba(139,111,212,0.1); border: 1px solid rgba(139,111,212,0.22); }
-.badge-complete { color: #4ECDC4; background: rgba(78,205,196,0.1); border: 1px solid rgba(78,205,196,0.22); }
-.accent-complete::before { background: linear-gradient(90deg, #4ECDC4, transparent); }
-.accent-planned::before { background: linear-gradient(90deg, #8B6FD4, transparent); }
-.p6-progress-fill { height: 100%; background: linear-gradient(90deg, #4ECDC4, rgba(78,205,196,0.25)); width: 0; transition: width 1.4s ease 0.6s; }
-.p6-insight-box { background: rgba(78,205,196,0.04); border-left: 2px solid rgba(78,205,196,0.3); padding: 0.8rem 1rem; margin-bottom: 1.4rem; }
-.p6-insight-label { font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); display: block; margin-bottom: 0.3rem; }
-.p6-insight-text { font-size: 0.72rem; color: var(--white-dim); line-height: 1.6; font-family: 'Syne', sans-serif; }
-.p6-cat { font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white-dim); margin-bottom: 0.5rem; }
-.p6-card-title { font-family: 'DM Serif Display', serif; font-size: 1.3rem; line-height: 1.15; color: var(--white); margin-bottom: 0.75rem; }
-.p6-card-desc { font-family: 'Syne', sans-serif; font-size: 0.82rem; color: var(--white-dim); line-height: 1.8; margin-bottom: 1.5rem; }
-.p6-chips-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
-.p6-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
-.p6-chip { font-size: 0.6rem; padding: 4px 10px; border: 1px solid rgba(232,160,32,0.2); color: var(--gold); background: var(--gold-dim); }
-.p6-chip.teal { border-color: rgba(78,205,196,0.2); color: var(--teal); background: rgba(78,205,196,0.06); }
-.p6-sql { background: #040C17; border: 1px solid rgba(240,237,230,0.06); padding: 1.2rem 1.4rem; margin-bottom: 1.5rem; position: relative; overflow: hidden; }
-.p6-sql::before { content: 'SQL · PREVIEW'; position: absolute; top: 10px; right: 12px; font-size: 0.52rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.12); }
-.p6-sql code { font-family: 'DM Mono', monospace; font-size: 0.7rem; line-height: 1.9; display: block; white-space: pre; overflow-x: auto; }
-.kw { color: #7EB8F7; } .fn { color: var(--teal); } .cm { color: #3A5268; font-style: italic; } .st { color: var(--gold-light); } .nu { color: #F0A0C0; }
-.p6-sql-overlay { position: absolute; inset: 0; background: rgba(4,12,23,0.82); backdrop-filter: blur(4px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; }
-.p6-sql-overlay-icon { font-size: 1rem; color: #8B6FD4; opacity: 0.45; }
-.p6-sql-overlay p { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: #8B6FD4; opacity: 0.7; }
-.p6-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.4rem; }
-.p6-progress-label { font-size: 0.58rem; color: var(--white-dim); white-space: nowrap; }
-.p6-progress-track { flex: 1; height: 2px; background: rgba(240,237,230,0.08); }
-.p6-progress-fill { height: 100%; background: linear-gradient(90deg, #4ECDC4, rgba(78,205,196,0.25)); width: 0; transition: width 1.4s ease 0.6s; }
-.p6-progress-pct { font-size: 0.58rem; color: #8B6FD4; width: 26px; text-align: right; }
-.p6-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1.2rem; border-top: 1px solid var(--white-ghost); }
-.p6-card-meta { font-size: 0.58rem; color: var(--white-dim); }
-.p6-card-link { font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: gap 0.2s, color 0.2s; }
-.p6-card-link:hover { gap: 10px; color: var(--white); }
-.p6-ghost { background: transparent; padding: 2.5rem; display: flex; flex-direction: column; gap: 0.75rem; min-height: 200px; justify-content: center; }
-.p6-ghost-cat { font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(232,160,32,0.2); }
-.p6-ghost-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: rgba(240,237,230,0.12); }
-.p6-ghost-line { width: 24px; height: 2px; background: rgba(232,160,32,0.12); }
-.p6-ghost-note { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(240,237,230,0.12); }
-.p6-footnote { margin-top: 3.5rem; display: flex; align-items: center; gap: 1.5rem; }
-.p6-footnote-line { flex: 1; height: 1px; background: rgba(232,160,32,0.1); }
-.p6-footnote-text { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-dim); white-space: nowrap; }
-
-/* ── SCROLL ANIMATIONS ── */
-.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-left { opacity: 0; transform: translateX(-32px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.reveal-left.visible { opacity: 1; transform: translateX(0); }
-.reveal-right { opacity: 0; transform: translateX(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.reveal-right.visible { opacity: 1; transform: translateX(0); }
-.delay-1 { transition-delay: 0.1s; }
-.delay-2 { transition-delay: 0.2s; }
-.delay-3 { transition-delay: 0.3s; }
-.delay-4 { transition-delay: 0.4s; }
-.delay-5 { transition-delay: 0.5s; }
-.delay-6 { transition-delay: 0.6s; }
-
+/* ── ANIMATIONS ── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
 }
+@keyframes dot {
+  0%,100% { opacity:0.7; transform:scale(1); }
+  50%     { opacity:1;   transform:scale(1.4); }
+}
+
+.reveal {
+  opacity:0; transform:translateY(22px);
+  transition:opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+.d1 { transition-delay:0.1s; }
+.d2 { transition-delay:0.2s; }
+.d3 { transition-delay:0.3s; }
+.d4 { transition-delay:0.4s; }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .identity-layout { grid-template-columns: 1fr; gap: 3rem; }
-  .punch-cards { grid-template-columns: 1fr; }
-  .builder-layout { grid-template-columns: 1fr; gap: 3rem; }
-  .p6-grid-cards { grid-template-columns: 1fr; }
-  nav { right: 1rem; }
-  .panel { padding: 5rem 6vw; }
+@media (max-width:960px) {
+  #p1 { grid-template-columns:1fr; }
+  .p1-right {
+    border-top:1px solid var(--border);
+    flex-direction:row; flex-wrap:wrap;
+    padding:3rem 8vw;
+  }
+  .stat-block { flex:1; min-width:180px; padding:1.5rem 1rem; border-bottom:none; border-right:1px solid var(--border); }
+  .stat-block:last-child { border-right:none; }
+  .op-grid { grid-template-columns:1fr; }
+  .cards-grid { grid-template-columns:1fr; }
+  .contact-wrap { flex-direction:column; align-items:flex-start; }
+  .contact-links { align-items:flex-start; }
+  nav { right:0.7rem; }
+}
+@media (max-width:600px) {
+  .p1-left { padding:5rem 6vw 4rem; }
+  .p1-right { padding:2rem 6vw; flex-direction:column; }
+  .stat-block { border-right:none; border-bottom:1px solid var(--border); }
+  #p2, #p3, #p4 { padding:4rem 6vw; }
+  .footer-strip { flex-direction:column; gap:0.5rem; }
 }
 </style>
 </head>
 <body>
 
-<div class="grid-bg"></div>
 <div id="progress"></div>
 
-<nav id="mainNav">
-  <div class="nav-pip active" data-label="Intro"    data-target="p1"></div>
-  <div class="nav-pip"        data-label="Identity" data-target="p2"></div>
-  <div class="nav-pip"        data-label="Impact"   data-target="p3"></div>
-  <div class="nav-pip"        data-label="Builder"  data-target="p4"></div>
-  <div class="nav-pip"        data-label="Connect"  data-target="p5"></div>
-  <div class="nav-pip"        data-label="Projects" data-target="p6"></div>
+<nav>
+  <div class="pip active" data-label="Statement" data-target="p1"></div>
+  <div class="pip"        data-label="Work"      data-target="p2"></div>
+  <div class="pip"        data-label="Operator"  data-target="p3"></div>
+  <div class="pip"        data-label="Contact"   data-target="p4"></div>
 </nav>
 
-<!-- ══ PANEL 1: COLD OPEN ══ -->
-<section class="panel" id="p1">
-  <div class="chaos-field" id="chaosField">
-    <div class="glitch-lines"></div>
-  </div>
-  <div class="cold-open-text">
-    <div class="cold-tag">Head of Finance · Strategic Finance Leader</div>
-    <p class="cold-headline">
-      Most companies are drowning in financial data —<br>
-      <strong>and starving for insight.</strong>
+<!-- ══════════════════════════════════════
+     PANEL 1 — HERO
+══════════════════════════════════════ -->
+<section id="p1">
+
+  <!-- Left: the statement -->
+  <div class="p1-left">
+    <div class="p1-eyebrow">Head of Finance · Global FP&amp;A · Strategic Finance Leader</div>
+
+    <h1 class="p1-name">
+      Julieth<br><em>Ramos</em><br>Rivera
+    </h1>
+
+    <div class="p1-titles">Head of Finance &nbsp;·&nbsp; Global FP&amp;A &nbsp;·&nbsp; Strategic Finance Leader</div>
+
+    <p class="p1-statement">
+      I build the financial operating system<br>
+      that gives leadership <strong>clarity on demand,<br>not on request.</strong>
     </p>
-    <div style="font-size:0.7rem; letter-spacing:0.15em; color:var(--gold); animation: fadeUp 1s ease forwards 2s;">
-      ↓ &nbsp; scroll to meet the architect
-    </div>
-  </div>
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-arrow"></div>
-  </div>
-</section>
 
-<!-- ══ PANEL 2: IDENTITY ══ -->
-<section class="panel" id="p2">
-  <div class="identity-layout">
-    <div class="identity-left">
-      <div class="identity-tag reveal">Origin Story</div>
-      <h1 class="identity-name reveal delay-1">Julieth<br><em>Ramos</em><br>Rivera</h1>
-      <div class="identity-title reveal delay-2">
-        Head of Finance<br>Systems Architect<br>Strategic Finance Leader
-      </div>
-      <p class="identity-origin reveal delay-3">
-        <strong>Born in Colombia.</strong><br>Built for the world.
+    <p class="p1-sub">
+      A forecast they trust, a variance story that points to action,
+      and scenario modeling that makes trade-offs clear
+      before committing — not after.
+    </p>
+
+    <a href="#p2" class="p1-cta">See the work &nbsp;↓</a>
+  </div>
+
+  <!-- Right: proof stats -->
+  <div class="p1-right">
+
+    <div class="stat-block">
+      <div class="stat-num">65→75%</div>
+      <div class="stat-label">Retention after commission redesign</div>
+      <p class="stat-story">
+        Cohort analysis showed commissions were funding clients
+        who churned before they paid for themselves.
+        <em>Finance changed the sales incentive structure.</em>
+        Retention climbed 10 points.
       </p>
-      <div class="stats-row reveal delay-4">
-        <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Years</div></div>
-        <div class="stat"><div class="stat-num">9</div><div class="stat-label">Countries</div></div>
-        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Continents</div></div>
-      </div>
     </div>
-    <div class="identity-right reveal-right">
-      <div class="world-map">
-        <svg viewBox="0 0 480 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line class="connection-line" x1="140" y1="240" x2="200" y2="140"/>
-          <line class="connection-line" x1="200" y1="140" x2="300" y2="110"/>
-          <line class="connection-line" x1="300" y1="110" x2="280" y2="120"/>
-          <line class="connection-line" x1="300" y1="110" x2="340" y2="105"/>
-          <line class="connection-line" x1="200" y1="140" x2="180" y2="250"/>
-          <line class="connection-line" x1="340" y1="105" x2="410" y2="155"/>
-          <line class="connection-line" x1="300" y1="110" x2="410" y2="155"/>
-          <line class="connection-line" x1="200" y1="140" x2="160" y2="100"/>
-          <line class="connection-line" x1="200" y1="140" x2="155" y2="180"/>
-          <line class="connection-line" x1="300" y1="110" x2="320" y2="80"/>
-          <circle cx="240" cy="170" r="55" stroke="rgba(232,160,32,0.06)" stroke-width="1" stroke-dasharray="4 4"/>
-          <circle cx="240" cy="170" r="90" stroke="rgba(232,160,32,0.04)" stroke-width="1" stroke-dasharray="6 6"/>
-          <circle class="node-circle" cx="140" cy="240" r="5"/>
-          <text class="node-label" x="148" y="244">Colombia</text>
-          <circle class="node-circle" cx="200" cy="140" r="7" style="animation-delay:0.3s"/>
-          <text class="node-label" x="208" y="144">USA</text>
-          <circle class="node-circle" cx="160" cy="100" r="4" style="animation-delay:0.4s"/>
-          <text class="node-label" x="168" y="104">Canada</text>
-          <circle class="node-circle" cx="155" cy="182" r="4" style="animation-delay:0.5s"/>
-          <text class="node-label" x="163" y="186">Mexico</text>
-          <circle class="node-circle" cx="320" cy="78" r="4" style="animation-delay:0.7s"/>
-          <text class="node-label" x="328" y="82">UK</text>
-          <circle class="node-circle" cx="300" cy="110" r="5" style="animation-delay:0.6s"/>
-          <text class="node-label" x="308" y="114">Germany</text>
-          <circle class="node-circle" cx="278" cy="122" r="4" style="animation-delay:0.8s"/>
-          <text class="node-label" x="252" y="136">Portugal</text>
-          <circle class="node-circle" cx="340" cy="105" r="4" style="animation-delay:1s"/>
-          <text class="node-label" x="348" y="109">Spain</text>
-          <circle class="node-circle" cx="180" cy="258" r="5" style="animation-delay:1.2s"/>
-          <text class="node-label" x="188" y="262">Brazil</text>
-          <circle class="node-circle" cx="415" cy="158" r="4" style="animation-delay:1.4s"/>
-          <text class="node-label" x="392" y="148">Philippines</text>
-          <circle cx="240" cy="170" r="8" fill="var(--gold)" opacity="0.8"/>
-          <circle cx="240" cy="170" r="14" stroke="var(--gold)" stroke-width="1" opacity="0.3" fill="none"/>
-          <text class="node-label" x="248" y="174" fill="rgba(232,160,32,0.8)">HUB</text>
-        </svg>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1rem;">
-        <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">USD</span>
-        <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">EUR</span>
-        <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">COP</span>
-        <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">BRL</span>
-        <span style="font-size:0.6rem; letter-spacing:0.1em; color:var(--gold); padding:0.3rem 0.7rem; border:1px solid rgba(232,160,32,0.2);">PEN</span>
-        <span style="font-size:0.6rem; letter-spacing:0.15em; color:var(--white-dim); padding:0.3rem 0.7rem;">Multi-currency. Multi-continent.</span>
-      </div>
+
+    <div class="stat-block">
+      <div class="stat-num">10→4</div>
+      <div class="stat-label">Days — month-end close</div>
+      <p class="stat-story">
+        Not a process tweak — a system rebuild.
+        SQL pipelines and automated reconciliation replaced
+        manual work across <em>three disconnected tools.</em>
+        Then cut by 60% further at the next role.
+      </p>
     </div>
+
+    <div class="stat-block">
+      <div class="stat-num">4 months</div>
+      <div class="stat-label">Of runway that nobody knew existed</div>
+      <p class="stat-story">
+        Every department was buying software independently.
+        Nobody had mapped real payroll timing across 8 countries.
+        <em>The cash picture was fiction.</em>
+        Connecting the real data found the runway.
+      </p>
+    </div>
+
   </div>
+
 </section>
 
-<!-- ══ PANEL 3: PROOF / PUNCHES ══ -->
-<section class="panel" id="p3">
-  <div class="punches-header">
-    <div class="punches-label reveal">The Work</div>
-    <h2 class="punches-title reveal delay-1">Systems integration.<br><em>Real results.</em></h2>
-  </div>
-  <div class="punch-cards">
-    <div class="punch-card reveal delay-2">
-      <div class="punch-num">01 — Close Cycle</div>
-      <span class="punch-icon-line">⚡</span>
-      <div class="punch-before-after">
-        <span class="punch-before">10d</span>
-        <span class="punch-arrow">→</span>
-        <span class="punch-after"><span class="count-up" data-target="4" data-suffix="d">0d</span></span>
-      </div>
-      <div class="punch-title">Month-End Close</div>
-      <div class="punch-body">Integrated QBO, Stripe, HubSpot, and SQL into a unified financial engine — replacing manual spreadsheets, eliminating reconciliation errors, and cutting the close cycle by 60%.</div>
-    </div>
-    <div class="punch-card reveal delay-3">
-      <div class="punch-num">02 — Cash Runway</div>
-      <span class="punch-icon-line">💰</span>
-      <div class="punch-before-after">
-        <span class="punch-before">2mo</span>
-        <span class="punch-arrow">→</span>
-        <span class="punch-after"><span class="count-up" data-target="6" data-suffix="mo">0mo</span></span>
-      </div>
-      <div class="punch-title">Cash Runway Extended</div>
-      <div class="punch-body">Centralized payroll and transaction flows across 8 countries. Automated pipelines for cash visibility — tripling the runway through optimized spend and capital reallocation.</div>
-    </div>
-    <div class="punch-card reveal delay-4">
-      <div class="punch-num">03 — Strategic Insight</div>
-      <span class="punch-icon-line">🧠</span>
-      <div class="punch-before-after">
-        <span class="punch-before" style="font-size:1.4rem;">Noise</span>
-        <span class="punch-arrow">→</span>
-        <span class="punch-after" style="font-size:1.8rem;">Signal</span>
-      </div>
-      <div class="punch-title">CFO-Level Intelligence</div>
-      <div class="punch-body">Deal- and transaction-level analysis of NRR, GRR, churn, CAC/LTV, and product usage — reshaping pricing strategy, retention models, and capital allocation decisions.</div>
-    </div>
-  </div>
-</section>
+<!-- ══════════════════════════════════════
+     PANEL 2 — THE WORK
+══════════════════════════════════════ -->
+<section id="p2">
 
-<!-- ══ PANEL 4: BUILDER / ARCHITECT ══ -->
-<section class="panel" id="p4">
-  <div class="builder-layout">
-    <div>
-      <div class="builder-label reveal">The Architect</div>
-      <h2 class="builder-title reveal delay-1">When the tools<br>didn't exist —<br><em>she built them.</em></h2>
-      <p class="builder-body reveal delay-2">Founder of <strong>The Monthly CFO</strong> — an AI-enabled financial advisory platform for operators who need clarity, not complexity. Automated pipelines that turn fragmented data into decision-ready intelligence in under 5 minutes.</p>
-      <div class="builder-stack reveal delay-3">
-        <span class="stack-tag">SQL / MySQL</span>
-        <span class="stack-tag">Power BI</span>
-        <span class="stack-tag">Runway AI</span>
-        <span class="stack-tag">Airtable</span>
-        <span class="stack-tag">Softr</span>
-        <span class="stack-tag">Make / n8n</span>
-        <span class="stack-tag">Sage Intacct</span>
-        <span class="stack-tag">QBO</span>
-        <span class="stack-tag">Stripe</span>
-        <span class="stack-tag">HubSpot</span>
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">Power Query</span>
+  <div class="section-hd reveal">
+    <span class="s-num">02</span>
+    <h2 class="s-title">The Work, <em>Documented.</em></h2>
+    <div class="s-line"></div>
+  </div>
+
+  <p class="bridge-text reveal d1">
+    These aren't exercises.
+    <strong>They're the same problems</strong> — rebuilt in SQL
+    so you can see exactly how I think,
+    from business question to decision.
+  </p>
+
+  <div class="cards-grid">
+
+    <!-- CARD 1 -->
+    <div class="pcard reveal d1">
+      <div class="pc-badge badge-done">Complete</div>
+      <div class="pc-num">Project 01 · SQL · Finance Operations</div>
+      <p class="pc-problem">"Our revenue reports don't match what was actually collected."</p>
+      <p class="pc-built">Built: GL vs. Stripe Reconciliation Engine</p>
+      <p class="pc-desc">$2,898 in phantom revenue on board reports — a duplicate GL posting and a partial payment that slipped through. Joined general ledger against payment processor records, flagged every mismatch.</p>
+      <div class="pc-chips">
+        <span class="chip">LEFT JOIN</span>
+        <span class="chip">GROUP BY</span>
+        <span class="chip">SUM()</span>
+        <span class="chip teal">CASE WHEN</span>
+        <span class="chip teal">COALESCE</span>
+        <span class="chip">Subqueries</span>
       </div>
-    </div>
-    <div class="reveal-right delay-2">
-      <div style="font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--teal); margin-bottom:1.5rem;">Automated Financial Pipeline</div>
-      <div class="pipeline">
-        <div class="pipe-node">
-          <div class="pipe-icon">📥</div>
-          <div class="pipe-info"><div class="pipe-name">Data Ingest</div><div class="pipe-detail">Stripe · QBO · HubSpot · Payroll</div></div>
-          <div class="pipe-tools">Raw Data</div>
-        </div>
-        <div class="pipe-node">
-          <div class="pipe-icon">⚙️</div>
-          <div class="pipe-info"><div class="pipe-name">Logic Engine</div><div class="pipe-detail">SQL · Make · n8n · Power Query</div></div>
-          <div class="pipe-tools">Transform</div>
-        </div>
-        <div class="pipe-node">
-          <div class="pipe-icon">📊</div>
-          <div class="pipe-info"><div class="pipe-name">Intelligence Layer</div><div class="pipe-detail">ARR · NRR · CAC/LTV · Runway · Churn</div></div>
-          <div class="pipe-tools">Model</div>
-        </div>
-        <div class="pipe-node">
-          <div class="pipe-icon">🎯</div>
-          <div class="pipe-info"><div class="pipe-name">Decision-Ready Output</div><div class="pipe-detail">1-page CFO summary · Board decks · Alerts</div></div>
-          <div class="pipe-tools">Deliver</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ PANEL 5: CLOSE ══ -->
-<section class="panel" id="p5">
-  <div class="close-orb"></div>
-  <div class="close-inner">
-    <div class="close-tag reveal">Ready for what's next</div>
-    <h2 class="close-name reveal delay-1">Julieth<br><em>Ramos</em><br>Rivera</h2>
-    <div class="close-roles reveal delay-2">Head of Finance · Systems Architect · Strategic Partner</div>
-    <div class="close-divider reveal delay-3"></div>
-    <div class="close-contact reveal delay-4">
-      <a class="close-link" href="https://linkedin.com/in/juliethramosrivera" target="_blank">linkedin.com/in/juliethramosrivera</a>
-      <span class="close-link" id="email-display"></span>
-      <script>document.getElementById('email-display').textContent = ['juliethramos.jr','gmail.com'].join('@');</script>
-      <span class="close-location">Global operator · Open to remote &amp; hybrid (US - LATAM)</span>
-    </div>
-    <a class="close-cta reveal delay-5" href="https://linkedin.com/in/juliethramosrivera" target="_blank">
-      <span>Let's connect</span><span>→</span>
-    </a>
-  </div>
-</section>
-
-<!-- ══ PANEL 6: PROJECTS ══ -->
-<section class="panel" id="p6">
-  <div class="p6-grid"></div>
-  <div class="p6-orb"></div>
-  <div class="reveal">
-    <div class="p6-label">06 — Projects</div>
-    <h2 class="p6-title">The Work, <em>Documented.</em></h2>
-    <p class="p6-subtitle">Real queries. Real data. Each project is a living artifact — built to solve actual finance problems, documented as the logic unfolds. Every result is a decision that can be made.</p>
-  </div>
-  <div class="p6-filters reveal delay-1">
-    <button class="p6-filter active">All</button>
-    <button class="p6-filter">SQL</button>
-    <button class="p6-filter">Financial Modeling</button>
-    <button class="p6-filter">Architecture</button>
-  </div>
-  <div class="p6-grid-cards reveal delay-2">
-
-    <!-- CARD 1: REVENUE RECONCILIATION — COMPLETE -->
-    <div class="p6-card accent-complete">
-      <div class="p6-card-body">
-        <div class="p6-badge badge-complete">Complete</div>
-        <p class="p6-cat">SQL · Finance Operations · Project 01</p>
-        <h3 class="p6-card-title">Revenue Reconciliation</h3>
-        <p class="p6-card-desc">Joins the General Ledger (QuickBooks) against Stripe payment records for Nova Analytics Inc. Aggregates by customer, calculates variance, flags every mismatch. Identified 2 discrepancies totalling $2,898 — a duplicate GL posting and a partial payment.</p>
-        <p class="p6-chips-label">SQL Concepts Used</p>
-        <div class="p6-chips">
-          <span class="p6-chip">LEFT JOIN</span>
-          <span class="p6-chip">GROUP BY</span>
-          <span class="p6-chip">SUM()</span>
-          <span class="p6-chip teal">CASE WHEN</span>
-          <span class="p6-chip teal">COALESCE</span>
-          <span class="p6-chip">Subqueries</span>
-        </div>
-        <div class="p6-sql">
-          <code>
-<span class="cm">-- Revenue Reconciliation · Nova Analytics Inc. · Q4 2024</span>
-<span class="cm">-- Author: J. Ramos Rivera · GL vs Stripe variance flagging</span>
+      <div class="pc-sql"><code>
+<span class="cm">-- GL vs Stripe · variance flagging</span>
 <span class="kw">SELECT</span>
   gl.customer_name,
-  gl.gl_total                                  <span class="kw">AS</span> <span class="st">gl_amount</span>,
-  <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)               <span class="kw">AS</span> <span class="st">stripe_amount</span>,
-  gl.gl_total - <span class="fn">COALESCE</span>(sp.stripe_total,<span class="nu">0</span>)  <span class="kw">AS</span> <span class="st">variance</span>,
-  <span class="kw">CASE</span>
-    <span class="kw">WHEN</span> gl.gl_total = <span class="fn">COALESCE</span>(sp.stripe_total,<span class="nu">0</span>)
-    <span class="kw">THEN</span> <span class="st">'OK'</span> <span class="kw">ELSE</span> <span class="st">'FLAG'</span>
-  <span class="kw">END</span>                                          <span class="kw">AS</span> <span class="st">status</span>
-<span class="kw">FROM</span> (
-  <span class="kw">SELECT</span> customer_name, <span class="fn">SUM</span>(amount) <span class="kw">AS</span> <span class="st">gl_total</span>
-  <span class="kw">FROM</span> general_ledger
-  <span class="kw">WHERE</span> account_code = <span class="st">'REV-4100'</span>
-  <span class="kw">GROUP BY</span> customer_name
-) <span class="kw">AS</span> gl
-<span class="kw">LEFT JOIN</span> (
-  <span class="kw">SELECT</span> customer_name, <span class="fn">SUM</span>(amount) <span class="kw">AS</span> <span class="st">stripe_total</span>
-  <span class="kw">FROM</span> stripe_payments
-  <span class="kw">WHERE</span> status = <span class="st">'succeeded'</span>
-  <span class="kw">GROUP BY</span> customer_name
-) <span class="kw">AS</span> sp <span class="kw">ON</span> gl.customer_name = sp.customer_name
-<span class="kw">ORDER BY</span> <span class="fn">ABS</span>(variance) <span class="kw">DESC</span>;
-          </code>
-        </div>
-        <div class="p6-insight-box">
-          <span class="p6-insight-label">Decision enabled</span>
-          <p class="p6-insight-text">2 flags identified: DataStream Co (duplicate GL entry, $2,499) and EchoSystems Ltd (partial payment, $399). Prevents overstated revenue on board reporting.</p>
-        </div>
-        <div class="p6-progress-row">
-          <span class="p6-progress-label">Progress</span>
-          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="100%"></div></div>
-          <span class="p6-progress-pct">100%</span>
-        </div>
-        <div class="p6-card-footer">
-          <span class="p6-card-meta">Completed · Feb 2026</span>
-          <a href="https://github.com/juliethramosrivera/juliethramosrivera.github.io" target="_blank" class="p6-card-link">View on GitHub →</a>
-        </div>
+  gl.gl_total                    <span class="kw">AS</span> <span class="st">gl_amount</span>,
+  <span class="fn">COALESCE</span>(sp.stripe_total, <span class="nu">0</span>)  <span class="kw">AS</span> <span class="st">stripe_amount</span>,
+  gl.gl_total - <span class="fn">COALESCE</span>(
+    sp.stripe_total, <span class="nu">0</span>)          <span class="kw">AS</span> <span class="st">variance</span>,
+  <span class="kw">CASE WHEN</span> gl.gl_total =
+    <span class="fn">COALESCE</span>(sp.stripe_total,<span class="nu">0</span>)
+  <span class="kw">THEN</span> <span class="st">'OK'</span> <span class="kw">ELSE</span> <span class="st">'FLAG'</span>
+  <span class="kw">END</span>                            <span class="kw">AS</span> <span class="st">status</span>
+<span class="kw">FROM</span> gl_totals gl
+<span class="kw">LEFT JOIN</span> stripe_totals sp
+  <span class="kw">ON</span> gl.customer_name = sp.customer_name
+<span class="kw">ORDER BY</span> <span class="fn">ABS</span>(variance) <span class="kw">DESC</span>;</code></div>
+      <div class="pc-insight">
+        <span class="insight-lbl">Decision enabled</span>
+        <p class="insight-txt">2 flags: duplicate GL entry ($2,499) and partial payment ($399). Prevents overstated revenue reaching the board.</p>
+      </div>
+      <div class="pc-footer">
+        <span class="pc-meta">Completed · Feb 2026</span>
+        <a href="https://github.com/juliethramosrivera/juliethramosrivera.github.io" target="_blank" class="pc-link">View on GitHub →</a>
       </div>
     </div>
 
-    <!-- CARD 2: CHURN ANALYSIS — COMPLETE -->
-    <div class="p6-card accent-complete">
-      <div class="p6-card-body">
-        <div class="p6-badge badge-complete">Complete</div>
-        <p class="p6-cat">SQL · Customer Analytics · Project 02</p>
-        <h3 class="p6-card-title">Churn Analysis by Cohort</h3>
-        <p class="p6-card-desc">Cohort retention analysis across 75 customers and 12 monthly cohorts for Nova Analytics Inc. Segments churn by plan tier and calculates 6-month retention flags — revealing that 100% of Starter customers churned vs. 0% Enterprise churn.</p>
-        <p class="p6-chips-label">SQL Concepts Used</p>
-        <div class="p6-chips">
-          <span class="p6-chip">CTEs</span>
-          <span class="p6-chip">DATE_FORMAT</span>
-          <span class="p6-chip">TIMESTAMPDIFF</span>
-          <span class="p6-chip teal">CASE WHEN</span>
-          <span class="p6-chip teal">COALESCE</span>
-          <span class="p6-chip">GROUP BY</span>
-        </div>
-        <div class="p6-sql">
-          <code>
-<span class="cm">-- 6-Month Retention Flag · Nova Analytics · Cohort Analysis</span>
-<span class="cm">-- Author: J. Ramos Rivera</span>
+    <!-- CARD 2 -->
+    <div class="pcard reveal d2">
+      <div class="pc-badge badge-done">Complete</div>
+      <div class="pc-num">Project 02 · SQL · Customer Analytics</div>
+      <p class="pc-problem">"We know we're churning — we just don't know why, or who."</p>
+      <p class="pc-built">Built: Cohort Retention Model by Plan Tier</p>
+      <p class="pc-desc">100% churn on the entry-level plan at 3.5 months average. 0% churn on the enterprise plan at 29 months. The data existed — nobody had connected cohort timing to tier structure until this analysis.</p>
+      <div class="pc-chips">
+        <span class="chip">CTEs</span>
+        <span class="chip">DATE_FORMAT</span>
+        <span class="chip">TIMESTAMPDIFF</span>
+        <span class="chip teal">CASE WHEN</span>
+        <span class="chip teal">COALESCE</span>
+        <span class="chip">GROUP BY</span>
+      </div>
+      <div class="pc-sql"><code>
+<span class="cm">-- 6-Month Retention by Cohort</span>
 <span class="kw">SELECT</span>
-  <span class="fn">DATE_FORMAT</span>(start_date, <span class="st">'%Y-%m'</span>)        <span class="kw">AS</span> <span class="st">cohort_month</span>,
-  <span class="fn">COUNT</span>(*)                                <span class="kw">AS</span> <span class="st">cohort_size</span>,
-  <span class="fn">SUM</span>(<span class="kw">CASE</span>
-    <span class="kw">WHEN</span> end_date <span class="kw">IS NULL</span>
-      <span class="kw">OR</span> <span class="fn">TIMESTAMPDIFF</span>(<span class="kw">MONTH</span>,
-         start_date, end_date) >= <span class="nu">6</span>
+  <span class="fn">DATE_FORMAT</span>(start_date,<span class="st">'%Y-%m'</span>) <span class="kw">AS</span> <span class="st">cohort</span>,
+  <span class="fn">COUNT</span>(*)                        <span class="kw">AS</span> <span class="st">cohort_size</span>,
+  <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> end_date <span class="kw">IS NULL</span>
+    <span class="kw">OR</span> <span class="fn">TIMESTAMPDIFF</span>(<span class="kw">MONTH</span>,
+      start_date, end_date) >= <span class="nu">6</span>
     <span class="kw">THEN</span> <span class="nu">1</span> <span class="kw">ELSE</span> <span class="nu">0</span>
-  <span class="kw">END</span>)                                    <span class="kw">AS</span> <span class="st">retained_at_6m</span>,
-  <span class="fn">ROUND</span>(<span class="fn">SUM</span>(<span class="kw">CASE</span>
-    <span class="kw">WHEN</span> end_date <span class="kw">IS NULL</span>
-      <span class="kw">OR</span> <span class="fn">TIMESTAMPDIFF</span>(<span class="kw">MONTH</span>,
-         start_date, end_date) >= <span class="nu">6</span>
-    <span class="kw">THEN</span> <span class="nu">1</span> <span class="kw">ELSE</span> <span class="nu">0</span>
-  <span class="kw">END</span>) / <span class="fn">COUNT</span>(*) * <span class="nu">100.0</span>, <span class="nu">1</span>)          <span class="kw">AS</span> <span class="st">retention_6m_pct</span>
+  <span class="kw">END</span>)                             <span class="kw">AS</span> <span class="st">retained_6m</span>
 <span class="kw">FROM</span> subscriptions
-<span class="kw">GROUP BY</span> cohort_month
-<span class="kw">ORDER BY</span> cohort_month;
-          </code>
-        </div>
-        <div class="p6-insight-box">
-          <span class="p6-insight-label">Decision enabled</span>
-          <p class="p6-insight-text">Starter plan = 100% churn (avg 3.5 months). Enterprise = 0% churn at 29 months. Triggers pricing strategy review and a Starter→Pro upgrade campaign at month 2.</p>
-        </div>
-        <div class="p6-progress-row">
-          <span class="p6-progress-label">Progress</span>
-          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="100%"></div></div>
-          <span class="p6-progress-pct">100%</span>
-        </div>
-        <div class="p6-card-footer">
-        <span class="p6-card-meta">Completed · Feb 2026</span>
-        <a href="https://juliethramosrivera.github.io/projects/2.1churn-dashboard.html" target="_blank" class="p6-card-link">View Dashboard →</a>
-  </div>
+<span class="kw">GROUP BY</span> cohort
+<span class="kw">ORDER BY</span> cohort;</code></div>
+      <div class="pc-insight">
+        <span class="insight-lbl">Decision enabled</span>
+        <p class="insight-txt">Entry-level plan = 100% churn. Triggers upgrade campaign at month 2 — before the typical churn window opens.</p>
+      </div>
+      <div class="pc-footer">
+        <span class="pc-meta">Completed · Feb 2026</span>
+        <a href="https://juliethramosrivera.github.io/projects/2.1churn-dashboard.html" target="_blank" class="pc-link">View Dashboard →</a>
       </div>
     </div>
 
-    <!-- CARD 3: AI INFRASTRUCTURE COGS — COMPLETE -->
-    <div class="p6-card accent-complete">
-      <div class="p6-card-body">
-        <div class="p6-badge badge-complete">Complete</div>
-        <p class="p6-cat">SQL · COGS Analysis · Project 03</p>
-        <h3 class="p6-card-title">AI Infrastructure COGS</h3>
-        <p class="p6-card-desc">Cost-per-customer and gross margin analysis for Luminary AI — an AI content platform. GPU compute, API routing, data egress, and overhead joined dynamically against a rate card. Identified a mis-tiered customer generating $96/mo in unrecovered COGS leakage.</p>
-        <p class="p6-chips-label">SQL Concepts Used</p>
-        <div class="p6-chips">
-          <span class="p6-chip">INNER JOIN</span>
-          <span class="p6-chip">Cost per unit</span>
-          <span class="p6-chip teal">Margin analysis</span>
-          <span class="p6-chip teal">RANK() OVER()</span>
-          <span class="p6-chip">SUM() OVER()</span>
-          <span class="p6-chip">CTEs</span>
-        </div>
-        <div class="p6-sql">
-          <code>
-<span class="cm">-- AI Infrastructure COGS · Luminary AI · Jul 2024</span>
-<span class="cm">-- Author: J. Ramos Rivera · Margin by tier</span>
+    <!-- CARD 3 -->
+    <div class="pcard reveal d3">
+      <div class="pc-badge badge-done">Complete</div>
+      <div class="pc-num">Project 03 · SQL · COGS Analysis</div>
+      <p class="pc-problem">"Revenue is growing — but margin keeps compressing and nobody knows where the cost is going."</p>
+      <p class="pc-built">Built: Cost-per-Customer Infrastructure Model</p>
+      <p class="pc-desc">The entry-level tier was consuming 70%+ of its own revenue in infrastructure costs. One mid-tier customer was $96/month over their usage ceiling — unrecovered, unnoticed. Blended margin: 55% vs. 65% benchmark.</p>
+      <div class="pc-chips">
+        <span class="chip">INNER JOIN</span>
+        <span class="chip">Cost per unit</span>
+        <span class="chip teal">Margin analysis</span>
+        <span class="chip teal">RANK() OVER()</span>
+        <span class="chip">SUM() OVER()</span>
+        <span class="chip">CTEs</span>
+      </div>
+      <div class="pc-sql"><code>
+<span class="cm">-- COGS per customer · margin by tier</span>
 <span class="kw">SELECT</span>
-  c.company_name,
-  c.tier,
-  c.mrr_usd,
+  c.company_name, c.tier, c.mrr_usd,
   <span class="fn">ROUND</span>(
-    (u.tokens_millions * <span class="nu">2.5</span> * (<span class="nu">1</span> - u.advanced_model_pct/<span class="nu">100</span>)) +
-    (u.tokens_millions * <span class="nu">8.0</span> * (u.advanced_model_pct/<span class="nu">100</span>)) +
-    ((u.api_calls/<span class="nu">1000</span>) * <span class="nu">0.12</span>) +
-    (u.tokens_millions * <span class="nu">0.3</span>) +
+    (u.tokens_millions * <span class="nu">2.5</span>
+      * (<span class="nu">1</span> - u.advanced_model_pct/<span class="nu">100</span>)) +
+    (u.tokens_millions * <span class="nu">8.0</span>
+      * (u.advanced_model_pct/<span class="nu">100</span>)) +
     (u.active_users * <span class="nu">6.5</span>)
-  , <span class="nu">2</span>)                          <span class="kw">AS</span> <span class="st">total_cogs</span>,
-  <span class="fn">ROUND</span>((c.mrr_usd - total_cogs)
-    / c.mrr_usd * <span class="nu">100</span>, <span class="nu">1</span>)       <span class="kw">AS</span> <span class="st">gross_margin_pct</span>
+  , <span class="nu">2</span>)              <span class="kw">AS</span> <span class="st">total_cogs</span>
 <span class="kw">FROM</span> customers c
 <span class="kw">INNER JOIN</span> monthly_usage u
   <span class="kw">ON</span> c.customer_id = u.customer_id
-<span class="kw">WHERE</span> u.usage_month = <span class="st">'2024-07-01'</span>
-<span class="kw">ORDER BY</span> gross_margin_pct <span class="kw">ASC</span>;
-          </code>
-        </div>
-        <div class="p6-insight-box">
-          <span class="p6-insight-label">Decision enabled</span>
-          <p class="p6-insight-text">Blended margin of 55% — below 65% SaaS benchmark. Starter tier near breakeven. Reprice to $750+, enforce token overage billing, route 20% of calls to standard model. Target: 65% blended margin within 2 quarters.</p>
-        </div>
-        <div class="p6-progress-row">
-          <span class="p6-progress-label">Progress</span>
-          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="100%"></div></div>
-          <span class="p6-progress-pct">100%</span>
-        </div>
-        <div class="p6-card-footer">
-          <span class="p6-card-meta">Completed · Feb 2026</span>
-          <a href="https://juliethramosrivera.github.io/projects/3.1cogs-dashboard.html" target="_blank" class="p6-card-link">View Dashboard →</a>
-        </div>
+<span class="kw">ORDER BY</span> total_cogs <span class="kw">DESC</span>;</code></div>
+      <div class="pc-insight">
+        <span class="insight-lbl">Decision enabled</span>
+        <p class="insight-txt">Reprice entry tier, enforce overage billing, route 20% of calls to standard model. Target: 65% blended margin within two quarters.</p>
+      </div>
+      <div class="pc-footer">
+        <span class="pc-meta">Completed · Feb 2026</span>
+        <a href="https://juliethramosrivera.github.io/projects/3.1cogs-dashboard.html" target="_blank" class="pc-link">View Dashboard →</a>
       </div>
     </div>
 
-    <!-- CARD 4: CASH RUNWAY — PLANNED -->
-    <div class="p6-card accent-planned">
-      <div class="p6-card-body">
-        <div class="p6-badge badge-planned">Planned</div>
-        <p class="p6-cat">Financial Modeling · Project 04</p>
-        <h3 class="p6-card-title">Cash Runway Model</h3>
-        <p class="p6-card-desc">Forward-looking cash model built from Projects 1–3 output. Burn rate, scenario planning, and capital allocation decisions — the CFO-level synthesis of the full data pipeline.</p>
-        <p class="p6-chips-label">Planned Concepts</p>
-        <div class="p6-chips">
-          <span class="p6-chip">Scenario modeling</span>
-          <span class="p6-chip teal">Burn rate</span>
-          <span class="p6-chip">Capital allocation</span>
-          <span class="p6-chip">Runway projection</span>
-        </div>
-        <div class="p6-progress-row">
-          <span class="p6-progress-label">Progress</span>
-          <div class="p6-progress-track"><div class="p6-progress-fill" data-width="0%"></div></div>
-          <span class="p6-progress-pct" style="color:#8B6FD4">0%</span>
-        </div>
-        <div class="p6-card-footer">
-          <span class="p6-card-meta">In design · 2026</span>
-          <span class="p6-card-link" style="opacity:0.4;cursor:default">Coming soon</span>
-        </div>
+    <!-- CARD 4 -->
+    <div class="pcard reveal d4">
+      <div class="pc-badge badge-done">Complete</div>
+      <div class="pc-num">Project 04 · Financial Modeling · SQL</div>
+      <p class="pc-problem">"We raised a seed round. Now — how long does it last, and what does it take to get to Series A?"</p>
+      <p class="pc-built">Built: Three-Statement Model with Scenario Toggle</p>
+      <p class="pc-desc">18-month connected P&L → Balance Sheet → Cash Flow. Three scenarios (6%, 14%, 22% MoM growth). The gap between conservative and aggressive reaches $25M by Month 18. The pivotal window is Months 7–10.</p>
+      <div class="pc-chips">
+        <span class="chip">SUM() OVER()</span>
+        <span class="chip teal">UNION ALL</span>
+        <span class="chip">Correlated Subqueries</span>
+        <span class="chip teal">RANK() OVER()</span>
+        <span class="chip">MIN() inflection</span>
+      </div>
+      <div class="pc-sql"><code>
+<span class="cm">-- Cash runway · 18-month · 3 scenarios</span>
+<span class="kw">SELECT</span>
+  month_num, scenario, mrr, ebitda,
+  <span class="fn">SUM</span>(net_cash_flow) <span class="kw">OVER</span> (
+    <span class="kw">PARTITION BY</span> scenario
+    <span class="kw">ORDER BY</span> month_num
+    <span class="kw">ROWS BETWEEN</span>
+      <span class="kw">UNBOUNDED PRECEDING</span>
+      <span class="kw">AND CURRENT ROW</span>
+  ) + seed_capital  <span class="kw">AS</span> <span class="st">cash_balance</span>,
+  <span class="fn">MIN</span>(<span class="kw">CASE WHEN</span> ebitda > <span class="nu">0</span>
+    <span class="kw">THEN</span> month_num <span class="kw">END</span>) <span class="kw">OVER</span> (
+    <span class="kw">PARTITION BY</span> scenario
+  )                 <span class="kw">AS</span> <span class="st">breakeven_month</span>
+<span class="kw">FROM</span> forecast_model
+<span class="kw">ORDER BY</span> scenario, month_num;</code></div>
+      <div class="pc-insight">
+        <span class="insight-lbl">Decision enabled</span>
+        <p class="insight-txt">Base case: EBITDA breakeven Month 7. Gate headcount on 12% MoM ARR growth. Trigger Series A process no later than Month 12 — funded close takes 4–6 months.</p>
+      </div>
+      <div class="pc-footer">
+        <span class="pc-meta">Completed · Mar 2026</span>
+        <a href="https://juliethramosrivera.github.io/projects/4.1cashflow-dashboard.html" target="_blank" class="pc-link">View Dashboard →</a>
       </div>
     </div>
 
-    <!-- GHOST: MRR & ARR WATERFALL -->
-    <div class="p6-ghost">
-      <span class="p6-ghost-cat">SQL · Revenue Analytics · Future</span>
-      <p class="p6-ghost-title">MRR & ARR Waterfall</p>
-      <div class="p6-ghost-line"></div>
-      <span class="p6-ghost-note">New, Expansion, Contraction, Churn movements · LAG / LEAD window functions</span>
+    <!-- GHOST 1 -->
+    <div class="pcard-ghost">
+      <span class="gh-cat">SQL · Revenue Analytics · Next</span>
+      <p class="gh-title">MRR &amp; ARR Waterfall</p>
+      <div class="gh-line"></div>
+      <span class="gh-note">New, Expansion, Contraction, Churn · LAG / LEAD window functions</span>
     </div>
 
-    <!-- GHOST: INVOICE AGING -->
-    <div class="p6-ghost">
-      <span class="p6-ghost-cat">SQL · AR Management · Future</span>
-      <p class="p6-ghost-title">Invoice Aging Analysis</p>
-      <div class="p6-ghost-line"></div>
-      <span class="p6-ghost-note">0–30 / 31–60 / 61–90 / 90+ day buckets · DATEDIFF · CASE WHEN</span>
+    <!-- GHOST 2 -->
+    <div class="pcard-ghost">
+      <span class="gh-cat">SQL · AR Management · Next</span>
+      <p class="gh-title">Invoice Aging Analysis</p>
+      <div class="gh-line"></div>
+      <span class="gh-note">0–30 / 31–60 / 61–90 / 90+ day buckets · DATEDIFF · CASE WHEN</span>
     </div>
 
-    <!-- GHOST: BUDGET VS ACTUALS -->
-    <div class="p6-ghost">
-      <span class="p6-ghost-cat">SQL · FP&A · Future</span>
-      <p class="p6-ghost-title">Budget vs. Actuals Variance</p>
-      <div class="p6-ghost-line"></div>
-      <span class="p6-ghost-note">Department-level variance · INNER JOIN · ROLLUP</span>
+    <!-- GHOST 3 -->
+    <div class="pcard-ghost">
+      <span class="gh-cat">SQL · FP&amp;A · Next</span>
+      <p class="gh-title">Budget vs. Actuals Variance</p>
+      <div class="gh-line"></div>
+      <span class="gh-note">Department-level variance · INNER JOIN · ROLLUP</span>
     </div>
 
-  </div>
-  <div class="p6-footnote reveal delay-3">
-    <div class="p6-footnote-line"></div>
-    <span class="p6-footnote-text">Each project produces decisions, not just queries · All data anonymized · Nova Analytics Inc.</span>
-    <div class="p6-footnote-line"></div>
   </div>
 </section>
 
-<script>
-// ── CHAOS NUMBERS ──
-const chaosField = document.getElementById('chaosField');
-const nums = ['$12,482', '34d', 'ARR', '#REF!', 'NaN', '₂₃.₄%', 'Q3', 'COGS', '—', '$0', 'ERR', 'MRR', '??', '∞', 'CAC', 'NRR'];
-for (let i = 0; i < 40; i++) {
-  const el = document.createElement('div');
-  el.className = 'chaos-num';
-  el.textContent = nums[Math.floor(Math.random() * nums.length)];
-  el.style.left = Math.random() * 100 + 'vw';
-  el.style.top = Math.random() * 100 + 'vh';
-  el.style.animationDuration = (6 + Math.random() * 12) + 's';
-  el.style.animationDelay = (Math.random() * 8) + 's';
-  el.style.fontSize = (0.5 + Math.random() * 0.8) + 'rem';
-  chaosField.appendChild(el);
-}
+<!-- ══════════════════════════════════════
+     PANEL 3 — THE OPERATOR
+══════════════════════════════════════ -->
+<section id="p3">
 
-// ── PROGRESS BAR ──
+  <div class="section-hd reveal">
+    <span class="s-num">03</span>
+    <h2 class="s-title">The <em>Operator.</em></h2>
+    <div class="s-line"></div>
+  </div>
+
+  <div class="op-grid">
+
+    <div class="op-cell reveal d1">
+      <div class="op-num">01 — Clarity on demand</div>
+      <p class="op-hook">The CEO stopped building reports.<br><strong>He started reviewing them.</strong></p>
+      <div class="op-metric">Monthly exec package · by the 15th · every month without exception</div>
+      <p class="op-body">
+        Built the automation so data flowed in without anyone pulling numbers manually.
+        <strong>First time leadership had real-time visibility</strong> into MRR, ARR, NRR,
+        cash runway, and budget vs. actuals — all connected, all in one place.
+        The goal: finance as an operating rhythm, not rearview-mirror reporting.
+      </p>
+    </div>
+
+    <div class="op-cell reveal d2">
+      <div class="op-num">02 — Finance informs sales</div>
+      <p class="op-hook">Retention improved<br><strong>when commissions changed.</strong></p>
+      <div class="op-metric">65% → 75% retention · MRR-aligned model · incentives realigned</div>
+      <p class="op-body">
+        Cohort analysis revealed the commission structure was paying Sales on deals
+        that churned before they paid for themselves.
+        <strong>Sat down with Sales, CS, Ops, HR, and Engineering</strong> — rebuilt the
+        entire framework. Payouts tracked actual revenue over time, not deal closure.
+        Aligned everyone's incentives with client quality.
+      </p>
+    </div>
+
+    <div class="op-cell reveal d3">
+      <div class="op-num">03 — The inflection point</div>
+      <p class="op-hook">I've seen this before.<br><strong>I know what's broken.</strong></p>
+      <div class="op-metric">3 consecutive clean audits · cross-border acquisition · close: 10 days → 4</div>
+      <p class="op-body">
+        The accounting infrastructure exists externally.
+        <strong>The internal financial operating system doesn't yet.</strong>
+        That's the moment I've walked into — in a cross-border acquisition,
+        in a dual-model SaaS+staffing company across 8 countries,
+        in a portfolio of high-growth clients simultaneously.
+        Built from scratch every time.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="op-closer reveal d4">
+    <p>
+      <strong>I've seen this before. I know what's broken. And I know how to fix it.</strong>
+      Not because I work with the numbers — because I take the time to understand
+      how the business actually operates, the layers behind the data,
+      and then build the systems that make it trustworthy.
+    </p>
+    <cite>Julieth Ramos Rivera · Head of Finance · Colombia, available US Eastern hours</cite>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     PANEL 4 — CONTACT
+══════════════════════════════════════ -->
+<section id="p4">
+  <div class="contact-wrap">
+
+    <div class="contact-name reveal">
+      Julieth<br><em>Ramos</em><br>Rivera
+    </div>
+
+    <div class="contact-div"></div>
+
+    <div class="contact-loc reveal d1">
+      <strong>Location</strong>
+      Colombia — Available PST · EST hours
+      <span style="color:var(--ink-dim);font-size:8px;margin-top:2px">Open to remote · US and LATAM</span>
+    </div>
+
+    <div class="contact-div"></div>
+
+    <div class="contact-links reveal d2">
+      <a class="c-link" href="https://juliethramosrivera.github.io" target="_blank">
+        <span class="lbl">Portfolio</span>
+        juliethramosrivera.github.io
+      </a>
+      <a class="c-link" href="https://linkedin.com/in/juliethramosrivera" target="_blank">
+        <span class="lbl">LinkedIn</span>
+        in/juliethramosrivera
+      </a>
+      <span class="c-link">
+        <span class="lbl">Email</span>
+        <span id="email-out"></span>
+      </span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     PANEL 5 — NEWSLETTER SCAFFOLD
+     Hidden. Uncomment the CSS and this
+     section when ready to launch fractional.
+══════════════════════════════════════ -->
+<!--
+<section id="p5-newsletter">
+  <div class="nl-eyebrow">The Monthly CFO</div>
+  <h2 class="nl-title">Finance clarity, <em>once a month.</em></h2>
+  <p class="nl-sub">
+    One real financial scenario, one decision framework,
+    one thing you can act on. For operators who want
+    their finance function to actually work.
+  </p>
+  <form class="nl-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <input class="nl-input" type="email" name="email" placeholder="your@email.com" required>
+    <button class="nl-submit" type="submit">Subscribe →</button>
+  </form>
+  <p class="nl-disclaimer">No frequency, no fluff. Unsubscribe anytime.</p>
+</section>
+-->
+
+<footer class="footer-strip">
+  <span class="fs-left">Julieth Ramos Rivera · Head of Finance · Global FP&amp;A</span>
+  <span class="fs-right">
+    <a href="https://juliethramosrivera.github.io">juliethramosrivera.github.io</a>
+    &nbsp;·&nbsp; Colombia · US Eastern hours
+  </span>
+</footer>
+
+<script>
+// Email
+document.getElementById('email-out').textContent = ['juliethramos.jr','gmail.com'].join('@');
+
+// Progress
 window.addEventListener('scroll', () => {
   const d = document.documentElement;
-  const pct = d.scrollTop / (d.scrollHeight - d.clientHeight) * 100;
-  document.getElementById('progress').style.width = pct + '%';
+  document.getElementById('progress').style.width =
+    (d.scrollTop / (d.scrollHeight - d.clientHeight) * 100) + '%';
 });
 
-// ── NAV PIPS ──
-const panels = document.querySelectorAll('.panel');
-const pips = document.querySelectorAll('.nav-pip');
+// Nav pips
+const panels = document.querySelectorAll('#p1,#p2,#p3,#p4');
+const pips = document.querySelectorAll('.pip');
+const targets = ['p1','p2','p3','p4'];
 
-pips.forEach(pip => {
-  pip.addEventListener('click', () => {
-    document.getElementById(pip.dataset.target).scrollIntoView({ behavior: 'smooth' });
-  });
-});
+pips.forEach(p => p.addEventListener('click', () => {
+  document.getElementById(p.dataset.target)
+    .scrollIntoView({ behavior:'smooth' });
+}));
 
-const panelObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.id;
+new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
       pips.forEach(p => p.classList.toggle('active', p.dataset.target === id));
     }
   });
-}, { threshold: 0.3 });
+}, { threshold: 0.35 }).observe(document.getElementById('p1'));
 
-panels.forEach(p => panelObserver.observe(p));
-
-// ── SCROLL REVEAL ──
-const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, { threshold: 0.15 });
-
-reveals.forEach(el => revealObserver.observe(el));
-
-// ── COUNT UP ANIMATION ──
-function animateCount(el) {
-  const target = parseInt(el.dataset.target);
-  const suffix = el.dataset.suffix || '';
-  let current = 0;
-  const steps = 40;
-  const increment = target / steps;
-  const timer = setInterval(() => {
-    current = Math.min(current + increment, target);
-    el.textContent = Math.round(current) + suffix;
-    if (current >= target) clearInterval(timer);
-  }, 1200 / steps);
-}
-
-const countEls = document.querySelectorAll('.count-up');
-const countObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      animateCount(entry.target);
-      countObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.5 });
-
-countEls.forEach(el => countObserver.observe(el));
-
-// ── PROJECTS PROGRESS BAR ──
-const p6El = document.getElementById('p6');
-if (p6El) {
+panels.forEach(p => {
   new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting) e.target.querySelectorAll('.p6-progress-fill').forEach(b => b.style.width = b.dataset.width);
+      if (e.isIntersecting)
+        pips.forEach(pip => pip.classList.toggle('active', pip.dataset.target === e.target.id));
     });
-  }, { threshold: 0.3 }).observe(p6El);
-}
+  }, { threshold:0.35 }).observe(p);
+});
 
-// ── PROJECTS FILTER TABS ──
-document.querySelectorAll('.p6-filter').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.p6-filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  });
+// Scroll reveals
+new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.08 }).observe(document.body);
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.08 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// CTA smooth scroll
+document.querySelector('.p1-cta').addEventListener('click', e => {
+  e.preventDefault();
+  document.getElementById('p2').scrollIntoView({ behavior:'smooth' });
 });
 </script>
+
 </body>
 </html>
