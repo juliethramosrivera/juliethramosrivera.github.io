@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project 04 — Three-Statement Model | Luminary AI | Julieth Ramos Rivera</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --navy: #06101C;
+    --navy2: #0D1E35;
+    --navy3: #142840;
+    --gold: #E8A020;
+    --gold2: #F5BE5A;
+    --teal: #4ECDC4;
+    --teal2: #7EDDD7;
+    --white: #FFFFFF;
+    --gray1: #F5F6F8;
+    --gray2: #8A9BB0;
+    --gray3: #3D5166;
+    --green: #10B981;
+    --red: #EF4444;
+    --orange: #F59E0B;
+    --conservative: #4ECDC4;
+    --base: #E8A020;
+    --aggressive: #10B981;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─────────────────────────────────────── */
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, #081828 60%, #0A2240 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 48px 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(232,160,32,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  header::after {
+    content: '';
+    position: absolute; bottom: -40px; left: 30%;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(78,205,196,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-top {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+  }
+  .project-badge {
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    padding: 5px 12px; border-radius: 4px;
+    letter-spacing: 0.08em;
+  }
+  .series-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gray2);
+    letter-spacing: 0.06em;
+    padding: 5px 12px;
+    border: 1px solid var(--gray3);
+    border-radius: 4px;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4vw, 46px);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  header h1 span { color: var(--gold); }
+  .header-sub {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px; color: var(--gray2);
+    margin-bottom: 24px;
+  }
+  .header-sub strong { color: var(--teal); }
+  .header-meta {
+    display: flex; flex-wrap: wrap; gap: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gray2);
+  }
+  .header-meta span { display: flex; align-items: center; gap: 6px; }
+  .header-meta span::before { content: '▸'; color: var(--gold); }
+
+  /* ─── SCENARIO TOGGLE ─────────────────────────────── */
+  .scenario-bar {
+    background: var(--navy2);
+    border-bottom: 1px solid var(--navy3);
+    padding: 16px 60px;
+    display: flex; align-items: center; gap: 16px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .scenario-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gray2);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .scenario-toggle {
+    display: flex; gap: 8px;
+  }
+  .scenario-btn {
+    padding: 8px 20px;
+    border: 1px solid var(--gray3);
+    background: transparent;
+    border-radius: 6px;
+    font-family: 'Syne', sans-serif;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--gray2);
+  }
+  .scenario-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .scenario-btn.active-conservative { background: rgba(78,205,196,0.15); border-color: var(--conservative); color: var(--conservative); }
+  .scenario-btn.active-base { background: rgba(232,160,32,0.15); border-color: var(--base); color: var(--base); }
+  .scenario-btn.active-aggressive { background: rgba(16,185,129,0.15); border-color: var(--aggressive); color: var(--aggressive); }
+  .scenario-btn.active-all { background: rgba(255,255,255,0.08); border-color: var(--white); color: var(--white); }
+  .scenario-desc {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--gray2);
+    max-width: 380px; text-align: right;
+  }
+
+  /* ─── MAIN LAYOUT ─────────────────────────────────── */
+  main { padding: 48px 60px; max-width: 1400px; margin: 0 auto; }
+  section { margin-bottom: 56px; }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; color: var(--white);
+    margin-bottom: 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--navy3);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-title::before {
+    content: attr(data-num);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gold);
+    background: rgba(232,160,32,0.1);
+    border: 1px solid rgba(232,160,32,0.3);
+    border-radius: 4px; padding: 2px 8px;
+  }
+
+  /* ─── KPI CARDS ───────────────────────────────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .kpi-card {
+    background: var(--navy2);
+    border: 1px solid var(--navy3);
+    border-radius: 10px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .kpi-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .kpi-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  }
+  .kpi-card.gold::before { background: var(--gold); }
+  .kpi-card.teal::before { background: var(--teal); }
+  .kpi-card.green::before { background: var(--green); }
+  .kpi-card.orange::before { background: var(--orange); }
+  .kpi-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--gray2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .kpi-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px; color: var(--white);
+    line-height: 1;
+    margin-bottom: 4px;
+    transition: all 0.4s;
+  }
+  .kpi-sub {
+    font-size: 11px; color: var(--gray2);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .kpi-badge {
+    display: inline-block;
+    font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 6px;
+  }
+  .badge-safe { background: rgba(16,185,129,0.2); color: var(--green); }
+  .badge-warn { background: rgba(245,158,11,0.2); color: var(--orange); }
+  .badge-crit { background: rgba(239,68,68,0.2); color: var(--red); }
+
+  /* ─── CHARTS ──────────────────────────────────────── */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .chart-grid.full { grid-template-columns: 1fr; }
+  .chart-card {
+    background: var(--navy2);
+    border: 1px solid var(--navy3);
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .chart-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--white); margin-bottom: 6px;
+  }
+  .chart-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--gray2);
+    margin-bottom: 18px;
+  }
+  .chart-container { position: relative; height: 240px; }
+  .chart-container.tall { height: 300px; }
+  .chart-container.runway { height: 340px; }
+
+  /* ─── WATERFALL ───────────────────────────────────── */
+  .waterfall-grid {
+    display: grid; gap: 8px;
+    margin-top: 12px;
+  }
+  .wf-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 80px;
+    align-items: center; gap: 12px;
+  }
+  .wf-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--gray2);
+    text-align: right;
+  }
+  .wf-label.total { color: var(--white); font-weight: 700; }
+  .wf-bar-wrap { height: 24px; position: relative; }
+  .wf-bar {
+    height: 100%; border-radius: 3px;
+    position: absolute;
+    transition: width 0.8s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .wf-bar.pos { background: linear-gradient(90deg, var(--green), rgba(16,185,129,0.6)); }
+  .wf-bar.neg { background: linear-gradient(90deg, var(--red), rgba(239,68,68,0.6)); }
+  .wf-bar.total { background: linear-gradient(90deg, var(--gold), var(--gold2)); }
+  .wf-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    text-align: right;
+  }
+  .wf-val.pos { color: var(--green); }
+  .wf-val.neg { color: var(--red); }
+  .wf-val.tot { color: var(--gold); }
+
+  /* ─── DATA TABLE ──────────────────────────────────── */
+  .table-wrap {
+    background: var(--navy2);
+    border: 1px solid var(--navy3);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .table-header-row {
+    display: grid;
+    background: var(--navy3);
+    padding: 10px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--gray2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .table-row {
+    display: grid;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    transition: background 0.15s;
+  }
+  .table-row:hover { background: rgba(255,255,255,0.03); }
+  .table-row.group-header {
+    background: rgba(232,160,32,0.06);
+    border-top: 1px solid rgba(232,160,32,0.2);
+  }
+  .table-row.group-header td, .table-row.group-header div { color: var(--gold); font-weight: 700; }
+  .t-muted { color: var(--gray2); }
+  .t-gold { color: var(--gold); font-weight: 600; }
+  .t-teal { color: var(--teal); }
+  .t-green { color: var(--green); }
+  .t-red { color: var(--red); }
+
+  /* ─── SCENARIO COMPARISON TABLE ──────────────────── */
+  .scenario-table .table-header-row { grid-template-columns: 1.2fr 1fr 1fr 1fr 1.4fr; }
+  .scenario-table .table-row       { grid-template-columns: 1.2fr 1fr 1fr 1fr 1.4fr; }
+
+  /* ─── SQL CONCEPTS ────────────────────────────────── */
+  .concepts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .concept-card {
+    background: var(--navy2);
+    border: 1px solid var(--navy3);
+    border-radius: 10px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .concept-card:hover { border-color: var(--teal); }
+  .concept-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700;
+    color: var(--teal); margin-bottom: 8px;
+  }
+  .concept-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; font-weight: 700;
+    color: var(--white); margin-bottom: 6px;
+    background: rgba(78,205,196,0.08);
+    padding: 4px 8px; border-radius: 4px;
+    border-left: 2px solid var(--teal);
+  }
+  .concept-desc { font-size: 12px; color: var(--gray2); margin-bottom: 8px; }
+  .concept-excel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--gold);
+  }
+  .concept-excel::before { content: 'Excel: '; color: var(--gray2); }
+
+  /* ─── KEY FINDINGS ────────────────────────────────── */
+  .findings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .finding-card {
+    background: var(--navy2);
+    border: 1px solid var(--navy3);
+    border-radius: 10px;
+    padding: 22px;
+    position: relative;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .finding-card:hover { transform: translateY(-2px); border-color: var(--gold); }
+  .finding-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px; color: rgba(232,160,32,0.15);
+    position: absolute; top: 12px; right: 18px;
+    line-height: 1;
+  }
+  .finding-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px; font-weight: 700; color: var(--gold);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .finding-text { font-size: 13px; color: var(--gray2); line-height: 1.65; }
+  .finding-text strong { color: var(--white); }
+
+  /* ─── DECISION BOX ────────────────────────────────── */
+  .decision-box {
+    background: linear-gradient(135deg, var(--navy2) 0%, #0A1F35 100%);
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    padding: 32px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .decision-box::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--teal), var(--green));
+  }
+  .decision-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700; color: var(--gold);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  }
+  .decision-label::before { content: '●'; font-size: 8px; }
+  .decision-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px; color: var(--white);
+    line-height: 1.7; margin-bottom: 20px;
+  }
+  .action-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    cursor: default; letter-spacing: 0.04em;
+  }
+  .chip-gold { background: rgba(232,160,32,0.15); color: var(--gold); border: 1px solid rgba(232,160,32,0.3); }
+  .chip-teal { background: rgba(78,205,196,0.12); color: var(--teal); border: 1px solid rgba(78,205,196,0.25); }
+  .chip-green { background: rgba(16,185,129,0.12); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+  .chip-gray { background: rgba(255,255,255,0.05); color: var(--gray2); border: 1px solid rgba(255,255,255,0.1); }
+
+  /* ─── PORTFOLIO CARD ──────────────────────────────── */
+  .portfolio-card {
+    background: var(--navy2);
+    border: 1px solid var(--navy3);
+    border-radius: 12px;
+    padding: 28px 32px;
+  }
+  .portfolio-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px; color: var(--gold); margin-bottom: 8px;
+  }
+  .portfolio-card .bq {
+    font-size: 13px; color: var(--gray2); margin-bottom: 16px;
+    font-style: italic;
+  }
+  .portfolio-card ul { list-style: none; padding: 0; margin-bottom: 16px; }
+  .portfolio-card ul li {
+    font-size: 13px; color: var(--gray2); padding: 4px 0;
+    padding-left: 16px; position: relative;
+  }
+  .portfolio-card ul li::before { content: '▸'; color: var(--teal); position: absolute; left: 0; }
+  .portfolio-card ul li strong { color: var(--white); }
+  .portfolio-card .concepts-inline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--teal);
+    margin-bottom: 12px;
+  }
+  .portfolio-card .decision-inline {
+    font-size: 13px; color: var(--gray2); font-style: italic;
+    border-left: 2px solid var(--gold); padding-left: 12px;
+  }
+
+  /* ─── FOOTER ──────────────────────────────────────── */
+  footer {
+    background: var(--navy2);
+    border-top: 1px solid var(--navy3);
+    padding: 24px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  footer .foot-left {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px; color: var(--white);
+  }
+  footer .foot-left span { color: var(--gold); }
+  footer a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--teal); text-decoration: none;
+  }
+  footer a:hover { color: var(--gold); }
+  footer .foot-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--gray2);
+  }
+
+  @media (max-width: 900px) {
+    header, main, footer { padding-left: 24px; padding-right: 24px; }
+    .scenario-bar { padding-left: 24px; padding-right: 24px; flex-wrap: wrap; }
+    .chart-grid { grid-template-columns: 1fr; }
+    .scenario-desc { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ──────────────────────────────────────────── -->
+<header>
+  <div class="header-top">
+    <span class="project-badge">PROJECT 04</span>
+    <span class="series-badge">SQL & Finance Analytics Portfolio</span>
+  </div>
+  <h1>Three-Statement Financial Model<br><span>&amp; Cash Flow Forecast</span></h1>
+  <p class="header-sub">
+    <strong>Luminary AI</strong> — B2B SaaS, AI Infrastructure Platform &nbsp;|&nbsp;
+    $4M Seed Round, 18-Month Model, 3 Scenarios
+  </p>
+  <div class="header-meta">
+    <span>MySQL 8.0+ Compatible</span>
+    <span>5 Guided Challenges</span>
+    <span>Window Functions · UNION ALL · Correlated Subqueries</span>
+    <span>Connected P&L → Balance Sheet → Cash Flow</span>
+  </div>
+</header>
+
+<!-- ─── SCENARIO TOGGLE ─────────────────────────────────── -->
+<div class="scenario-bar">
+  <span class="scenario-label">SCENARIO VIEW:</span>
+  <div class="scenario-toggle">
+    <button class="scenario-btn active-all" onclick="setScenario('all')" id="btn-all">All Three</button>
+    <button class="scenario-btn" onclick="setScenario('conservative')" id="btn-conservative">Conservative · 6% MoM</button>
+    <button class="scenario-btn" onclick="setScenario('base')" id="btn-base">Base · 14% MoM</button>
+    <button class="scenario-btn" onclick="setScenario('aggressive')" id="btn-aggressive">Aggressive · 22% MoM</button>
+  </div>
+  <span class="scenario-desc" id="scenario-desc">Compare all three growth scenarios side by side — toggle to isolate a single scenario</span>
+</div>
+
+<main>
+
+  <!-- ─── KPI CARDS ────────────────────────────────────── -->
+  <section>
+    <div class="section-title" data-num="KPI">Key Metrics</div>
+    <div class="kpi-grid">
+      <div class="kpi-card gold">
+        <div class="kpi-label">Starting MRR</div>
+        <div class="kpi-value">$285K</div>
+        <div class="kpi-sub">Jan 2024 (seed close)</div>
+      </div>
+      <div class="kpi-card gold">
+        <div class="kpi-label" id="kpi1-label">Month 18 MRR (Base)</div>
+        <div class="kpi-value" id="kpi1-val">$2.6M</div>
+        <div class="kpi-sub" id="kpi1-sub">14% MoM growth</div>
+      </div>
+      <div class="kpi-card teal">
+        <div class="kpi-label" id="kpi2-label">EBITDA Breakeven (Base)</div>
+        <div class="kpi-value" id="kpi2-val">Month 7</div>
+        <div class="kpi-sub" id="kpi2-sub">Jul 2024</div>
+        <div class="kpi-badge badge-safe" id="kpi2-badge">ON TRACK</div>
+      </div>
+      <div class="kpi-card teal">
+        <div class="kpi-label" id="kpi3-label">Cash at Month 18 (Base)</div>
+        <div class="kpi-value" id="kpi3-val">$13.1M</div>
+        <div class="kpi-sub" id="kpi3-sub">Never drops below $4M</div>
+        <div class="kpi-badge badge-safe" id="kpi3-badge">SAFE</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Blended Gross Margin</div>
+        <div class="kpi-value">65%</div>
+        <div class="kpi-sub">Benchmark reached Month 12 (base)</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label" id="kpi4-label">Cumulative EBITDA 18mo (Base)</div>
+        <div class="kpi-value" id="kpi4-val">$8.5M</div>
+        <div class="kpi-sub" id="kpi4-sub">Series A path clear</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── RUNWAY CHART ─────────────────────────────────── -->
+  <section>
+    <div class="section-title" data-num="01">Cash Runway — All Scenarios</div>
+    <div class="chart-card">
+      <div class="chart-title">18-Month Cash Balance by Growth Scenario</div>
+      <div class="chart-subtitle">$4M seed round closes Month 1 · Critical threshold: $500K · Series A trigger line shown</div>
+      <div class="chart-container runway">
+        <canvas id="runwayChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── P&L + EBITDA CHARTS ──────────────────────────── -->
+  <section>
+    <div class="section-title" data-num="02">P&L Analysis</div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-title">Monthly Revenue vs COGS vs OpEx</div>
+        <div class="chart-subtitle" id="pnl-subtitle">Base scenario — see toggle for others</div>
+        <div class="chart-container tall">
+          <canvas id="pnlChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">EBITDA Margin % Over Time</div>
+        <div class="chart-subtitle">All scenarios — convergence toward profitability</div>
+        <div class="chart-container tall">
+          <canvas id="ebitdaChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WATERFALL ────────────────────────────────────── -->
+  <section>
+    <div class="section-title" data-num="03">Month 12 Cash Flow Waterfall</div>
+    <div class="chart-card">
+      <div class="chart-title">Cash Flow Components at Fiscal Year-End (Month 12)</div>
+      <div class="chart-subtitle" id="wf-subtitle">Base scenario · Values in $000s</div>
+      <div class="waterfall-grid" id="waterfallGrid"></div>
+    </div>
+  </section>
+
+  <!-- ─── SCENARIO COMPARISON TABLE ───────────────────── -->
+  <section>
+    <div class="section-title" data-num="04">Scenario Comparison — Milestone Months</div>
+    <div class="table-wrap scenario-table">
+      <div class="table-header-row">
+        <div>Month / Period</div>
+        <div>Cash — Conservative</div>
+        <div>Cash — Base</div>
+        <div>Cash — Aggressive</div>
+        <div>Divergence Note</div>
+      </div>
+      <div id="scenarioTableBody"></div>
+    </div>
+  </section>
+
+  <!-- ─── SQL CONCEPTS ─────────────────────────────────── -->
+  <section>
+    <div class="section-title" data-num="SQL">New SQL Concepts</div>
+    <div class="concepts-grid">
+      <div class="concept-card">
+        <div class="concept-tag">CHALLENGE 1</div>
+        <div class="concept-name">SUM() OVER (PARTITION BY)</div>
+        <div class="concept-desc">Window aggregate that computes a running total without collapsing rows — produces a cumulative value alongside every individual record.</div>
+        <div class="concept-excel">SUM($C$2:C2) copied down</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-tag">CHALLENGE 2</div>
+        <div class="concept-name">ROWS UNBOUNDED PRECEDING</div>
+        <div class="concept-desc">Frame clause telling the window function to accumulate from the very first row up to and including the current row — the cash runway builder.</div>
+        <div class="concept-excel">Opening balance + cumulative column</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-tag">CHALLENGE 3</div>
+        <div class="concept-name">UNION ALL</div>
+        <div class="concept-desc">Stacks rows from multiple SELECT statements vertically. Assembles the three-statement model (P&L + BS + CF) into one executive-summary result set.</div>
+        <div class="concept-excel">Manual copy-paste across 3 tabs</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-tag">CHALLENGE 4</div>
+        <div class="concept-name">Correlated Subquery</div>
+        <div class="concept-desc">A subquery that references outer query values, running once per row. Used to pivot scenario values into side-by-side comparison columns.</div>
+        <div class="concept-excel">Excel Scenario Manager / Data Table</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-tag">CHALLENGE 5A</div>
+        <div class="concept-name">MIN() with GROUP BY filter</div>
+        <div class="concept-desc">Finds the first month where a condition is true (EBITDA > 0) per group — the inflection point detector.</div>
+        <div class="concept-excel">MATCH + MIN across conditional range</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-tag">CHALLENGE 5B</div>
+        <div class="concept-name">RANK() OVER()</div>
+        <div class="concept-desc">Assigns a competitive rank to each row based on an ORDER BY expression, without collapsing grouped data. Used to rank scenarios by total EBITDA.</div>
+        <div class="concept-excel">=RANK(value, range, 0) — but across grouped results</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── KEY FINDINGS ─────────────────────────────────── -->
+  <section>
+    <div class="section-title" data-num="05">Key Findings</div>
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-num">01</div>
+        <div class="finding-title">Base Scenario — Series A Path Clear</div>
+        <div class="finding-text">EBITDA breakeven at <strong>Month 7</strong>. Cash never approaches the $500K critical threshold. 18-month cumulative EBITDA of <strong>$8.5M</strong> positions Luminary AI for a Series A at standard 10× ARR multiples.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">02</div>
+        <div class="finding-title">Conservative — Bridge Round Story</div>
+        <div class="finding-text">Seed buffer holds cash above $4M throughout, but cumulative EBITDA of <strong>only $1.6M</strong> is insufficient for Series A. A <strong>$1.5M bridge or 30% OpEx cut</strong> is required if conservative trend persists past Month 12.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">03</div>
+        <div class="finding-title">Aggressive — Before the Trigger</div>
+        <div class="finding-text">EBITDA positive from <strong>Month 2</strong>. Operating cash flow breakeven by Month 7. <strong>$8.4M ARR</strong> run rate by Month 18 implies ~$84M Series A valuation — a 21× return on seed.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">04</div>
+        <div class="finding-title">COGS Benchmark Gap Persists</div>
+        <div class="finding-text">Even in the aggressive scenario, blended gross margin only reaches the <strong>65% benchmark at Month 12</strong>. Infrastructure cost (GPU/cloud) remains the bottleneck — consistent with Project 03 findings.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">05</div>
+        <div class="finding-title">Scenario Divergence Is the Real Risk</div>
+        <div class="finding-text">Conservative vs. aggressive cash gap grows from <strong>$0 at Month 1 to $25M at Month 18</strong>. GTM execution in <strong>Months 7–10</strong> is the most consequential period — it's when the trajectories permanently split.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── DECISION BOX ──────────────────────────────────── -->
+  <section>
+    <div class="section-title" data-num="⬡">Decision Enabled</div>
+    <div class="decision-box">
+      <div class="decision-label">Board-Ready Recommendation</div>
+      <div class="decision-text">
+        Three-statement model reveals a 14-month base-case runway post-seed, with EBITDA breakeven at Month 7 and cash inflection at Month 10 under conservative growth. The aggressive scenario achieves operating cash flow breakeven before the Series A trigger, reaching $8.4M ARR run rate by Month 18. Board recommendation: maintain base hiring plan through Month 6, then gate headcount additions on MoM ARR growth exceeding 12%. Trigger Series A process no later than Month 12 regardless of scenario — lead time for a funded close is 4–6 months.
+      </div>
+      <div class="action-chips">
+        <span class="chip chip-gold">Gate headcount on 12% MoM ARR</span>
+        <span class="chip chip-teal">Series A process → Month 12</span>
+        <span class="chip chip-green">Aggressive: $84M implied valuation</span>
+        <span class="chip chip-gray">Conservative: bridge needed by Month 12</span>
+        <span class="chip chip-gold">COGS optimization → target 65% by Month 8</span>
+        <span class="chip chip-teal">Months 7–10: critical GTM window</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PORTFOLIO CARD ────────────────────────────────── -->
+  <section>
+    <div class="section-title" data-num="◈">Portfolio Card</div>
+    <div class="portfolio-card">
+      <h3>PROJECT 04 — Three-Statement Financial Model &amp; Cash Flow Forecast</h3>
+      <div class="bq">Business Question: Given current revenue, COGS, and burn, what is the realistic cash runway under Conservative, Base, and Aggressive growth scenarios — and where are the inflection points?</div>
+      <ul>
+        <li><strong>Base scenario:</strong> EBITDA breakeven Month 7, cash never at risk — Series A path clear at 10× ARR</li>
+        <li><strong>Conservative scenario:</strong> Seed buffer holds, but cumulative EBITDA insufficient without $1.5M bridge or 30% OpEx cut post-Month 12</li>
+        <li><strong>Aggressive scenario:</strong> Operating breakeven Month 7, $84M implied Series A valuation at Month 18 (21× seed return)</li>
+        <li><strong>Scenario divergence:</strong> Conservative vs. aggressive cash gap reaches $25M by Month 18 — GTM execution in Months 7–10 is the pivotal window</li>
+      </ul>
+      <div class="concepts-inline">SQL: SUM() OVER (running totals) · UNION ALL (three-statement assembly) · Correlated subqueries (scenario switcher) · MIN() + RANK() OVER() (inflection points) · CASE WHEN · JOIN</div>
+      <div class="decision-inline">Decision Enabled: Three-statement model reveals a 14-month base-case runway post-seed. Aggressive scenario achieves breakeven before Series A trigger. Board recommendation: gate headcount additions on MoM ARR growth exceeding 12%; trigger Series A process by Month 12.</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot-left">Julieth Ramos Rivera &nbsp;·&nbsp; <span>Head of Finance Portfolio</span></div>
+  <a href="https://juliethramosrivera.github.io" target="_blank">juliethramosrivera.github.io ↗</a>
+  <div class="foot-meta">Project 04 of 5 · MySQL 8.0+ · Chart.js 4.4</div>
+</footer>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────
+const months = ['Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24',
+                'Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24',
+                'Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25'];
+
+const data = {
+  conservative: {
+    mrr:          [285,302,320,339,360,381,404,429,454,482,511,541,574,608,645,683,724,768],
+    revenue:      [314,329,353,369,393,411,438,466,489,524,551,589,617,658,694,742,780,833],
+    cogs:         [111,118,125,132,140,148,157,167,177,187,199,210,223,237,251,266,282,299],
+    opex:         [196,204,207,215,218,226,229,239,242,252,255,266,269,280,284,296,301,313],
+    grossProfit:  [203,211,228,237,253,263,281,299,312,337,352,379,394,421,443,476,498,534],
+    ebitda:       [7,7,22,22,35,36,52,61,71,85,97,113,124,142,159,180,198,222],
+    cash:         [4057,4064,4086,4108,4143,4180,4231,4292,4363,4448,4545,4659,4783,4925,5084,5263,5461,5683],
+    cfo:          [-3964,11,27,26,40,42,57,67,78,92,106,122,134,152,170,192,211,236],
+  },
+  base: {
+    mrr:          [285,325,370,422,481,549,625,713,813,927,1056,1204,1373,1565,1784,2034,2318,2643],
+    revenue:      [315,354,408,458,523,590,674,770,872,999,1133,1296,1468,1678,1908,2179,2477,2829],
+    cogs:         [111,125,142,160,182,206,233,264,300,340,386,438,497,564,640,726,824,936],
+    opex:         [194,198,206,210,218,222,237,240,256,261,277,284,306,314,337,346,370,380],
+    grossProfit:  [204,229,266,298,342,385,441,506,572,659,747,859,972,1114,1268,1453,1653,1893],
+    ebitda:       [10,31,60,88,124,163,205,266,317,398,470,575,666,800,931,1108,1283,1514],
+    cash:         [4105,4136,4195,4284,4407,4570,4775,5041,5357,5755,6226,6801,7467,8267,9198,10306,11589,13103],
+    cfo:          [-4019,38,70,97,133,174,217,282,334,419,494,603,695,834,968,1151,1331,1569],
+  },
+  aggressive: {
+    mrr:          [285,348,424,518,631,770,940,1146,1399,1706,2081,2539,3098,3779,4611,5626,6864,8374],
+    revenue:      [315,378,465,560,683,827,1009,1232,1496,1829,2225,2718,3305,4035,4917,6003,7315,8929],
+    cogs:         [111,134,161,194,234,282,341,412,498,603,730,884,1072,1300,1578,1915,2325,2824],
+    opex:         [205,211,228,235,255,262,285,293,318,328,356,368,399,412,448,463,503,521],
+    grossProfit:  [204,244,305,366,449,545,668,820,998,1226,1495,1834,2234,2735,3340,4088,4990,6106],
+    ebitda:       [-1,34,76,131,195,282,384,527,680,898,1139,1466,1834,2323,2892,3625,4487,5585],
+    cash:         [3995,4030,4106,4237,4431,4713,5097,5624,6304,7202,8341,9807,11641,13964,16856,20481,24969,30553],
+    cfo:          [-3858,44,90,149,219,311,419,571,732,963,1218,1562,1951,2464,3063,3832,4738,5885],
+  }
+};
+
+const kpiData = {
+  conservative: { mrr18: '$768K', breakeven: 'Month 8', be_sub: 'Aug 2024', cash18: '$5.7M', cash_sub: 'Seed buffer intact', badge: 'badge-warn', badge_text: 'WATCH', cumEbitda: '$1.6M', cum_sub: 'Bridge may be needed' },
+  base:         { mrr18: '$2.6M', breakeven: 'Month 7', be_sub: 'Jul 2024', cash18: '$13.1M', cash_sub: 'Never drops below $4M', badge: 'badge-safe', badge_text: 'ON TRACK', cumEbitda: '$8.5M', cum_sub: 'Series A path clear' },
+  aggressive:   { mrr18: '$8.4M', breakeven: 'Month 2', be_sub: 'Feb 2024', cash18: '$30.6M', cash_sub: 'Strong cash generation', badge: 'badge-safe', badge_text: 'STRONG', cumEbitda: '$28.8M', cum_sub: '$84M Series A implied' },
+};
+
+const scenarioCompare = [
+  { month: 6, label: 'Month 6 — Jun 2024', con: 4180, base: 4570, agg: 4713, note: 'Scenarios converging — near-term outlook similar' },
+  { month: 10, label: 'Month 10 — Oct 2024', con: 4448, base: 5755, agg: 7202, note: 'Divergence begins — GTM execution starting to matter' },
+  { month: 12, label: 'Month 12 — Dec 2024 ★', con: 4659, base: 6801, agg: 9807, note: 'High divergence — fiscal year-end decision point' },
+  { month: 14, label: 'Month 14 — Feb 2025', con: 4925, base: 8267, agg: 13964, note: 'High scenario divergence — execution risk dominates' },
+  { month: 18, label: 'Month 18 — Jun 2025', con: 5683, base: 13103, agg: 30553, note: 'Maximum divergence — $25M gap: conservative vs aggressive' },
+];
+
+const waterfallData = {
+  conservative: [
+    { label: 'Net Income', val: 113, type: 'pos' },
+    { label: 'Change in AR', val: -35, type: 'neg' },
+    { label: 'Change in Def. Rev', val: 98, type: 'pos' },
+    { label: 'Change in AP', val: 24, type: 'pos' },
+    { label: 'CapEx', val: 0, type: 'neg' },
+    { label: 'NET CASH CHANGE', val: 122, type: 'total' },
+  ],
+  base: [
+    { label: 'Net Income', val: 575, type: 'pos' },
+    { label: 'Change in AR', val: -163, type: 'neg' },
+    { label: 'Change in Def. Rev', val: 360, type: 'pos' },
+    { label: 'Change in AP', val: 80, type: 'pos' },
+    { label: 'CapEx', val: 0, type: 'neg' },
+    { label: 'NET CASH CHANGE', val: 603, type: 'total' },
+  ],
+  aggressive: [
+    { label: 'Net Income', val: 1466, type: 'pos' },
+    { label: 'Change in AR', val: -489, type: 'neg' },
+    { label: 'Change in Def. Rev', val: 1257, type: 'pos' },
+    { label: 'Change in AP', val: 195, type: 'pos' },
+    { label: 'CapEx', val: 0, type: 'neg' },
+    { label: 'NET CASH CHANGE', val: 1562, type: 'total' },
+  ],
+};
+
+// ── STATE ────────────────────────────────────────────────────────
+let currentScenario = 'all';
+
+// ── CHART REFS ───────────────────────────────────────────────────
+let runwayChart, pnlChart, ebitdaChart;
+
+const COLORS = {
+  conservative: '#4ECDC4',
+  base: '#E8A020',
+  aggressive: '#10B981',
+};
+
+// ── INIT CHARTS ──────────────────────────────────────────────────
+function initCharts() {
+  // Runway chart
+  runwayChart = new Chart(document.getElementById('runwayChart'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'Conservative (6% MoM)', data: data.conservative.cash, borderColor: COLORS.conservative, backgroundColor: 'rgba(78,205,196,0.05)', borderWidth: 2, pointRadius: 0, tension: 0.4 },
+        { label: 'Base (14% MoM)', data: data.base.cash, borderColor: COLORS.base, backgroundColor: 'rgba(232,160,32,0.07)', borderWidth: 2.5, pointRadius: 0, tension: 0.4 },
+        { label: 'Aggressive (22% MoM)', data: data.aggressive.cash, borderColor: COLORS.aggressive, backgroundColor: 'rgba(16,185,129,0.06)', borderWidth: 2, pointRadius: 0, tension: 0.4 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: '#8A9BB0', font: { family: 'JetBrains Mono', size: 11 } } },
+        tooltip: {
+          backgroundColor: '#0D1E35', borderColor: '#3D5166', borderWidth: 1,
+          titleFont: { family: 'JetBrains Mono', size: 11 },
+          bodyFont: { family: 'JetBrains Mono', size: 11 },
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}K` }
+        },
+        annotation: { annotations: {} }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#8A9BB0', font: { family: 'JetBrains Mono', size: 10 } } },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          ticks: { color: '#8A9BB0', font: { family: 'JetBrains Mono', size: 10 },
+            callback: v => '$' + (v >= 1000 ? (v/1000).toFixed(1) + 'M' : v + 'K') }
+        }
+      }
+    }
+  });
+
+  // P&L chart (base default)
+  pnlChart = new Chart(document.getElementById('pnlChart'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'COGS', data: data.base.cogs, backgroundColor: 'rgba(239,68,68,0.5)', stack: 'stack0' },
+        { label: 'OpEx', data: data.base.opex, backgroundColor: 'rgba(245,158,11,0.5)', stack: 'stack0' },
+        { label: 'Revenue', data: data.base.revenue, backgroundColor: 'rgba(232,160,32,0.8)', stack: 'stack1', type: 'line', borderColor: '#E8A020', borderWidth: 2, pointRadius: 0, fill: false, tension: 0.4 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#8A9BB0', font: { family: 'JetBrains Mono', size: 11 } } },
+        tooltip: { backgroundColor: '#0D1E35', borderColor: '#3D5166', borderWidth: 1, bodyFont: { family: 'JetBrains Mono', size: 11 } }
+      },
+      scales: {
+        x: { stacked: true, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#8A9BB0', font: { family: 'JetBrains Mono', size: 9 } } },
+        y: { stacked: false, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8A9BB0', font: { family: 'JetBrains Mono', size: 10 }, callback: v => '$' + v + 'K' } }
+      }
+    }
+  });
+
+  // EBITDA margin chart
+  const ebitdaMargins = {
+    conservative: data.conservative.ebitda.map((e,i) => (e / data.conservative.revenue[i] * 100).toFixed(1)),
+    base: data.base.ebitda.map((e,i) => (e / data.base.revenue[i] * 100).toFixed(1)),
+    aggressive: data.aggressive.ebitda.map((e,i) => (e / data.aggressive.revenue[i] * 100).toFixed(1)),
+  };
+
+  ebitdaChart = new Chart(document.getElementById('ebitdaChart'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'Conservative', data: ebitdaMargins.conservative, borderColor: COLORS.conservative, borderWidth: 2, pointRadius: 0, tension: 0.4, borderDash: [4,3] },
+        { label: 'Base', data: ebitdaMargins.base, borderColor: COLORS.base, borderWidth: 2.5, pointRadius: 0, tension: 0.4 },
+        { label: 'Aggressive', data: ebitdaMargins.aggressive, borderColor: COLORS.aggressive, borderWidth: 2, pointRadius: 0, tension: 0.4 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#8A9BB0', font: { family: 'JetBrains Mono', size: 11 } } },
+        tooltip: { backgroundColor: '#0D1E35', borderColor: '#3D5166', borderWidth: 1, bodyFont: { family: 'JetBrains Mono', size: 11 }, callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y}%` } }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#8A9BB0', font: { family: 'JetBrains Mono', size: 9 } } },
+        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8A9BB0', font: { family: 'JetBrains Mono', size: 10 }, callback: v => v + '%' } }
+      }
+    }
+  });
+}
+
+// ── WATERFALL ────────────────────────────────────────────────────
+function renderWaterfall(scenario) {
+  const wfData = scenario === 'all' ? waterfallData.base : waterfallData[scenario];
+  const maxAbs = Math.max(...wfData.map(d => Math.abs(d.val)));
+  const grid = document.getElementById('waterfallGrid');
+  grid.innerHTML = wfData.map(item => {
+    const pct = (Math.abs(item.val) / maxAbs * 80).toFixed(1);
+    const valClass = item.type === 'total' ? 'tot' : item.type === 'pos' ? 'pos' : 'neg';
+    const barClass = item.type;
+    const labelClass = item.type === 'total' ? 'total' : '';
+    const sign = item.val >= 0 ? '+' : '';
+    return `<div class="wf-row">
+      <div class="wf-label ${labelClass}">${item.label}</div>
+      <div class="wf-bar-wrap">
+        <div class="wf-bar ${barClass}" style="width:${pct}%; left:${item.type === 'neg' ? (100 - parseFloat(pct)).toFixed(1) + '%' : '0'}"></div>
+      </div>
+      <div class="wf-val ${valClass}">${sign}$${Math.abs(item.val).toLocaleString()}K</div>
+    </div>`;
+  }).join('');
+}
+
+// ── SCENARIO TABLE ───────────────────────────────────────────────
+function renderScenarioTable() {
+  const body = document.getElementById('scenarioTableBody');
+  body.innerHTML = scenarioCompare.map(row => {
+    const gap = row.agg - row.con;
+    const gapStr = '$' + (gap/1000).toFixed(1) + 'M gap';
+    const isHighDiv = gap > 3000;
+    return `<div class="table-row scenario-table" style="grid-template-columns:1.2fr 1fr 1fr 1fr 1.4fr">
+      <div class="t-gold" style="font-weight:600">${row.label}</div>
+      <div style="color:var(--conservative)">$${(row.con/1000).toFixed(1)}M</div>
+      <div style="color:var(--base)">$${(row.base/1000).toFixed(1)}M</div>
+      <div style="color:var(--aggressive)">$${(row.agg/1000).toFixed(1)}M</div>
+      <div style="font-size:11px;color:${isHighDiv ? 'var(--orange)' : 'var(--gray2)'}">${row.note} <span style="color:var(--teal);font-weight:600">(${gapStr})</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ── SET SCENARIO ─────────────────────────────────────────────────
+function setScenario(sc) {
+  currentScenario = sc;
+  // buttons
+  ['all','conservative','base','aggressive'].forEach(s => {
+    const btn = document.getElementById('btn-' + s);
+    btn.className = 'scenario-btn';
+    if (s === sc) btn.classList.add('active-' + s);
+  });
+
+  const descs = {
+    all: 'Compare all three growth scenarios side by side — toggle to isolate a single scenario',
+    conservative: '6% MoM MRR growth · Hiring 1 quarter behind plan · Churn elevated at 3%/mo',
+    base: '14% MoM MRR growth · Headcount plan on track · Churn stable at 1.5%/mo — Series A pitch case',
+    aggressive: '22% MoM MRR growth · 2 enterprise deals close early · Operating breakeven Month 7',
+  };
+  document.getElementById('scenario-desc').textContent = descs[sc];
+
+  // KPI cards
+  const k = sc === 'all' ? kpiData.base : kpiData[sc];
+  document.getElementById('kpi1-label').textContent = sc === 'all' ? 'Month 18 MRR (Base)' : `Month 18 MRR (${sc.charAt(0).toUpperCase()+sc.slice(1)})`;
+  document.getElementById('kpi1-val').textContent = k.mrr18;
+  document.getElementById('kpi1-sub').textContent = { conservative:'6% MoM growth', base:'14% MoM growth', aggressive:'22% MoM growth' }[sc === 'all' ? 'base' : sc];
+  document.getElementById('kpi2-label').textContent = 'EBITDA Breakeven';
+  document.getElementById('kpi2-val').textContent = k.breakeven;
+  document.getElementById('kpi2-sub').textContent = k.be_sub;
+  document.getElementById('kpi2-badge').className = 'kpi-badge ' + k.badge;
+  document.getElementById('kpi2-badge').textContent = k.badge_text;
+  document.getElementById('kpi3-label').textContent = 'Cash at Month 18';
+  document.getElementById('kpi3-val').textContent = k.cash18;
+  document.getElementById('kpi3-sub').textContent = k.cash_sub;
+  document.getElementById('kpi4-label').textContent = 'Cumulative EBITDA 18mo';
+  document.getElementById('kpi4-val').textContent = k.cumEbitda;
+  document.getElementById('kpi4-sub').textContent = k.cum_sub;
+
+  // Runway chart visibility
+  runwayChart.data.datasets.forEach((ds, i) => {
+    const scenNames = ['conservative','base','aggressive'];
+    if (sc === 'all') { ds.hidden = false; ds.borderWidth = [2, 2.5, 2][i]; }
+    else {
+      ds.hidden = scenNames[i] !== sc;
+      ds.borderWidth = 3;
+    }
+  });
+  runwayChart.update('active');
+
+  // P&L chart
+  const pnlSc = sc === 'all' ? 'base' : sc;
+  pnlChart.data.datasets[0].data = data[pnlSc].cogs;
+  pnlChart.data.datasets[1].data = data[pnlSc].opex;
+  pnlChart.data.datasets[2].data = data[pnlSc].revenue;
+  const c = COLORS[pnlSc];
+  pnlChart.data.datasets[2].borderColor = c;
+  pnlChart.data.datasets[2].backgroundColor = c + '20';
+  pnlChart.update('active');
+  document.getElementById('pnl-subtitle').textContent = (sc === 'all' ? 'Base' : sc.charAt(0).toUpperCase()+sc.slice(1)) + ' scenario — see toggle for others';
+
+  // EBITDA chart visibility
+  ebitdaChart.data.datasets.forEach((ds, i) => {
+    const scenNames = ['conservative','base','aggressive'];
+    ds.hidden = sc !== 'all' && scenNames[i] !== sc;
+  });
+  ebitdaChart.update('active');
+
+  // Waterfall
+  renderWaterfall(sc);
+  document.getElementById('wf-subtitle').textContent = (sc === 'all' ? 'Base' : sc.charAt(0).toUpperCase()+sc.slice(1)) + ' scenario · Values in $000s';
+}
+
+// ── BOOT ─────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initCharts();
+  renderWaterfall('all');
+  renderScenarioTable();
+});
+</script>
+</body>
+</html>
